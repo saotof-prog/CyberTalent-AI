@@ -1,0 +1,725 @@
+// ============================================================
+//  CyberTalent AI — Prisma Schema
+//  Stack: PostgreSQL + Prisma ORM + Clerk Auth
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+//  ENUMS
+// ============================================================
+
+enum Role {
+  CANDIDATE
+  RECRUITER
+  ADMIN
+}
+
+enum CertificationStatus {
+  PENDING       // Uploadée, pas encore vérifiée
+  VERIFYING     // En cours de vérification IA
+  VERIFIED      // Vérifiée et validée
+  REJECTED      // Rejetée (fausse ou expirée)
+  EXPIRED       // Expirée
+}
+
+enum LabPlatform {
+  HACKTHEBOX
+  TRYHACKME
+  VULNHUB
+  PWNEDLABS
+  OFFENSIVESECURITY
+  PORTSWIGGER
+  CUSTOM
+}
+
+enum LabDifficulty {
+  EASY
+  MEDIUM
+  HARD
+  INSANE
+}
+
+enum SkillLevel {
+  BEGINNER      // 0–25
+  INTERMEDIATE  // 26–50
+  ADVANCED      // 51–75
+  EXPERT        // 76–100
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  FREELANCE
+  INTERNSHIP
+}
+
+enum JobMode {
+  REMOTE
+  ONSITE
+  HYBRID
+}
+
+enum ApplicationStatus {
+  PENDING
+  VIEWED
+  SHORTLISTED
+  INTERVIEW
+  OFFER
+  REJECTED
+  WITHDRAWN
+}
+
+enum InterviewQuestionDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum AuditAction {
+  PROFILE_UPDATED
+  CERT_UPLOADED
+  CERT_VERIFIED
+  LAB_ADDED
+  GITHUB_SYNCED
+  SCORE_RECALCULATED
+  APPLICATION_SUBMITTED
+  JOB_POSTED
+  LOGIN
+  FAKE_SKILL_FLAGGED
+}
+
+// ============================================================
+//  USER — Table principale (liée à Clerk)
+// ============================================================
+
+model User {
+  id            String   @id @default(cuid())
+  clerkId       String   @unique               // ID Clerk
+  email         String   @unique
+  username      String   @unique
+  role          Role     @default(CANDIDATE)
+  avatarUrl     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastLoginAt   DateTime?
+  isActive      Boolean  @default(true)
+  isBanned      Boolean  @default(false)
+
+  // Relations
+  candidateProfile  CandidateProfile?
+  recruiterProfile  RecruiterProfile?
+  notifications     Notification[]
+  auditLogs         AuditLog[]
+  sessions          UserSession[]
+
+  @@index([email])
+  @@index([clerkId])
+  @@map("users")
+}
+
+// ============================================================
+//  CANDIDATE PROFILE
+// ============================================================
+
+model CandidateProfile {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Infos de base
+  firstName       String
+  lastName        String
+  headline        String?                       // "Penetration Tester | OSCP"
+  bio             String?
+  location        String?
+  country         String?
+  timezone        String?
+  phoneNumber     String?
+  website         String?
+  linkedinUrl     String?
+  twitterUrl      String?
+  resumeUrl       String?                       // Upload via UploadThing
+
+  // Disponibilité
+  isAvailable     Boolean   @default(true)
+  availableFrom   DateTime?
+  salaryMin       Int?                          // en USD/mois
+  salaryMax       Int?
+  jobTypes        JobType[]
+  jobModes        JobMode[]
+
+  // Score IA global (0–100)
+  cyberScore      Int       @default(0)
+  scoreLevel      SkillLevel @default(BEGINNER)
+  scoreUpdatedAt  DateTime?
+  globalRank      Int?                          // rang parmi tous les candidats
+
+  // GitHub
+  githubUsername  String?
+  githubSyncedAt  DateTime?
+  githubStats     Json?                         // { repos, commits, stars, languages }
+
+  // Métadonnées IA
+  aiSummary       String?                       // résumé généré par IA
+  aiFlags         String[]                      // alertes détectées par IA
+  profileComplete Int       @default(0)         // % complétion du profil
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  certifications  Certification[]
+  skills          CandidateSkill[]
+  labs            LabCompletion[]
+  projects        Project[]
+  experiences     WorkExperience[]
+  educations      Education[]
+  scoreHistory    ScoreHistory[]
+  applications    Application[]
+  interviewSets   InterviewQuestionSet[]
+  githubRepos     GithubRepo[]
+  ctfResults      CTFResult[]
+
+  @@index([cyberScore])
+  @@index([country])
+  @@index([isAvailable])
+  @@map("candidate_profiles")
+}
+
+// ============================================================
+//  RECRUITER PROFILE
+// ============================================================
+
+model RecruiterProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  firstName     String
+  lastName      String
+  jobTitle      String?
+  bio           String?
+  phoneNumber   String?
+  linkedinUrl   String?
+
+  // Entreprise
+  companyId     String?
+  company       Company? @relation(fields: [companyId], references: [id])
+
+  // Stats recruteur
+  totalSearches Int      @default(0)
+  totalViews    Int      @default(0)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  jobs          Job[]
+  savedCandidates SavedCandidate[]
+  searches      RecruiterSearch[]
+
+  @@map("recruiter_profiles")
+}
+
+// ============================================================
+//  COMPANY
+// ============================================================
+
+model Company {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  logoUrl       String?
+  website       String?
+  industry      String?
+  size          String?                         // "1-10", "11-50", "51-200", etc.
+  description   String?
+  country       String?
+  isVerified    Boolean  @default(false)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  recruiters    RecruiterProfile[]
+  jobs          Job[]
+
+  @@map("companies")
+}
+
+// ============================================================
+//  CERTIFICATION
+// ============================================================
+
+model Certification {
+  id                String              @id @default(cuid())
+  candidateId       String
+  candidate         CandidateProfile    @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  name              String                                   // "OSCP"
+  fullName          String?                                  // "Offensive Security Certified Professional"
+  issuer            String                                   // "Offensive Security"
+  credentialId      String?                                  // ID fourni par l'organisme
+  credentialUrl     String?                                  // Lien de vérification officiel
+  fileUrl           String?                                  // PDF uploadé via UploadThing
+  issuedAt          DateTime
+  expiresAt         DateTime?
+  hasExpiry         Boolean             @default(false)
+
+  // Vérification IA
+  status            CertificationStatus @default(PENDING)
+  aiVerifiedAt      DateTime?
+  aiConfidence      Float?                                   // 0.0 à 1.0
+  aiNotes           String?                                  // Remarques de l'IA
+  scoreImpact       Int                 @default(0)         // Points ajoutés au cyberScore
+
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@index([candidateId])
+  @@index([status])
+  @@map("certifications")
+}
+
+// ============================================================
+//  SKILL & CANDIDATE SKILL
+// ============================================================
+
+model Skill {
+  id          String           @id @default(cuid())
+  name        String           @unique                       // "Penetration Testing"
+  slug        String           @unique
+  category    String                                         // "Offensive Security", "Network", etc.
+  description String?
+  iconUrl     String?
+
+  candidates  CandidateSkill[]
+  jobSkills   JobSkill[]
+
+  @@map("skills")
+}
+
+model CandidateSkill {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  skillId       String
+  skill         Skill            @relation(fields: [skillId], references: [id])
+
+  level         SkillLevel       @default(BEGINNER)
+  score         Int              @default(0)                 // 0–100 calculé par IA
+  yearsExp      Float?
+  isSelfRated   Boolean          @default(true)
+  isAiVerified  Boolean          @default(false)
+  aiVerifiedAt  DateTime?
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@unique([candidateId, skillId])
+  @@map("candidate_skills")
+}
+
+// ============================================================
+//  LAB COMPLETION (HackTheBox, TryHackMe, etc.)
+// ============================================================
+
+model LabCompletion {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  platform      LabPlatform
+  labName       String
+  labId         String?                                      // ID de la plateforme
+  difficulty    LabDifficulty
+  category      String?                                      // "Web", "Pwn", "Crypto", etc.
+  completedAt   DateTime
+  proofUrl      String?                                      // Screenshot ou lien
+  isFirstBlood  Boolean          @default(false)
+  points        Int              @default(0)
+  writeupUrl    String?
+
+  // Vérification
+  isVerified    Boolean          @default(false)
+  scoreImpact   Int              @default(0)
+
+  createdAt     DateTime         @default(now())
+
+  @@index([candidateId])
+  @@index([platform])
+  @@map("lab_completions")
+}
+
+// ============================================================
+//  CTF RESULTS
+// ============================================================
+
+model CTFResult {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  ctfName       String                                       // "HTB Cyber Apocalypse 2024"
+  teamName      String?
+  rank          Int?                                         // classement final
+  totalTeams    Int?
+  score         Int?
+  challenges    Int?                                         // nombre de challenges résolus
+  completedAt   DateTime
+  proofUrl      String?
+  categories    String[]                                     // ["Web", "Pwn", "Crypto"]
+  scoreImpact   Int              @default(0)
+
+  createdAt     DateTime         @default(now())
+
+  @@index([candidateId])
+  @@map("ctf_results")
+}
+
+// ============================================================
+//  PROJECT
+// ============================================================
+
+model Project {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  title         String
+  description   String
+  repoUrl       String?
+  demoUrl       String?
+  imageUrl      String?
+  tags          String[]                                     // ["Python", "Burp Suite", "CVE"]
+  isFeatured    Boolean          @default(false)
+  startedAt     DateTime?
+  completedAt   DateTime?
+
+  // IA
+  aiSummary     String?
+  scoreImpact   Int              @default(0)
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([candidateId])
+  @@map("projects")
+}
+
+// ============================================================
+//  GITHUB REPOS (sync automatique)
+// ============================================================
+
+model GithubRepo {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  repoId        Int                                          // GitHub repo ID
+  name          String
+  fullName      String
+  description   String?
+  url           String
+  isPrivate     Boolean          @default(false)
+  stars         Int              @default(0)
+  forks         Int              @default(0)
+  language      String?
+  topics        String[]
+  pushedAt      DateTime?
+  createdAt     DateTime         @default(now())
+
+  // Analyse IA
+  aiSecurityScore   Int?                                     // pertinence cyber 0–100
+  aiSummary         String?
+
+  @@unique([candidateId, repoId])
+  @@map("github_repos")
+}
+
+// ============================================================
+//  WORK EXPERIENCE
+// ============================================================
+
+model WorkExperience {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  company       String
+  title         String
+  location      String?
+  description   String?
+  startedAt     DateTime
+  endedAt       DateTime?
+  isCurrent     Boolean          @default(false)
+  skills        String[]
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([candidateId])
+  @@map("work_experiences")
+}
+
+// ============================================================
+//  EDUCATION
+// ============================================================
+
+model Education {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  institution   String
+  degree        String?
+  field         String?
+  startedAt     DateTime
+  endedAt       DateTime?
+  isCurrent     Boolean          @default(false)
+  grade         String?
+  description   String?
+
+  createdAt     DateTime         @default(now())
+
+  @@map("educations")
+}
+
+// ============================================================
+//  SCORE HISTORY (traçabilité du score IA)
+// ============================================================
+
+model ScoreHistory {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  scoreBefore   Int
+  scoreAfter    Int
+  delta         Int                                          // scoreAfter - scoreBefore
+  reason        String                                       // "CERT_VERIFIED: OSCP"
+  breakdown     Json                                         // { certs: 30, labs: 25, github: 20, ... }
+
+  createdAt     DateTime         @default(now())
+
+  @@index([candidateId])
+  @@index([createdAt])
+  @@map("score_histories")
+}
+
+// ============================================================
+//  JOB POSTING
+// ============================================================
+
+model Job {
+  id              String           @id @default(cuid())
+  recruiterId     String
+  recruiter       RecruiterProfile @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  companyId       String?
+  company         Company?         @relation(fields: [companyId], references: [id])
+
+  title           String
+  slug            String           @unique
+  description     String
+  requirements    String?
+  responsibilities String?
+  location        String?
+  country         String?
+  type            JobType
+  mode            JobMode
+  salaryMin       Int?
+  salaryMax       Int?
+  currency        String           @default("USD")
+  minScore        Int?                                       // score IA minimum requis
+  isActive        Boolean          @default(true)
+  isUrgent        Boolean          @default(false)
+  expiresAt       DateTime?
+  viewCount       Int              @default(0)
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  // Relations
+  requiredSkills  JobSkill[]
+  applications    Application[]
+  tags            String[]
+
+  @@index([isActive])
+  @@index([country])
+  @@map("jobs")
+}
+
+model JobSkill {
+  id          String   @id @default(cuid())
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  skillId     String
+  skill       Skill    @relation(fields: [skillId], references: [id])
+  isRequired  Boolean  @default(true)
+  minLevel    SkillLevel @default(BEGINNER)
+
+  @@unique([jobId, skillId])
+  @@map("job_skills")
+}
+
+// ============================================================
+//  APPLICATION
+// ============================================================
+
+model Application {
+  id            String            @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile  @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  jobId         String
+  job           Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  status        ApplicationStatus @default(PENDING)
+  coverLetter   String?
+  resumeUrl     String?
+  aiMatchScore  Int?                                         // 0–100, compatibilité IA poste/candidat
+  aiMatchNotes  String?
+  recruiterNote String?
+  appliedAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@unique([candidateId, jobId])
+  @@index([status])
+  @@index([jobId])
+  @@map("applications")
+}
+
+// ============================================================
+//  SAVED CANDIDATES (recruteur bookmark)
+// ============================================================
+
+model SavedCandidate {
+  id            String           @id @default(cuid())
+  recruiterId   String
+  recruiter     RecruiterProfile @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  candidateId   String
+  note          String?
+  savedAt       DateTime         @default(now())
+
+  @@unique([recruiterId, candidateId])
+  @@map("saved_candidates")
+}
+
+// ============================================================
+//  RECRUITER SEARCH (historique des recherches)
+// ============================================================
+
+model RecruiterSearch {
+  id            String           @id @default(cuid())
+  recruiterId   String
+  recruiter     RecruiterProfile @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+
+  query         String?                                      // recherche en texte libre
+  filters       Json                                         // { skills, certs, minScore, ... }
+  resultCount   Int              @default(0)
+  searchedAt    DateTime         @default(now())
+
+  @@map("recruiter_searches")
+}
+
+// ============================================================
+//  AI — INTERVIEW QUESTION SET
+// ============================================================
+
+model InterviewQuestionSet {
+  id            String           @id @default(cuid())
+  candidateId   String
+  candidate     CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  jobTitle      String?                                      // poste ciblé
+  generatedAt   DateTime         @default(now())
+  model         String           @default("gpt-4o")
+  questions     InterviewQuestion[]
+
+  @@index([candidateId])
+  @@map("interview_question_sets")
+}
+
+model InterviewQuestion {
+  id          String                      @id @default(cuid())
+  setId       String
+  set         InterviewQuestionSet        @relation(fields: [setId], references: [id], onDelete: Cascade)
+
+  question    String
+  category    String                                         // "Network", "Web App", "OSINT", etc.
+  difficulty  InterviewQuestionDifficulty @default(MEDIUM)
+  hint        String?
+  answer      String?                                        // réponse de référence (non montrée au candidat)
+
+  @@map("interview_questions")
+}
+
+// ============================================================
+//  NOTIFICATION
+// ============================================================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title     String
+  body      String
+  type      String                                           // "CERT_VERIFIED", "APPLICATION_UPDATE", etc.
+  link      String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+// ============================================================
+//  AUDIT LOG
+// ============================================================
+
+model AuditLog {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  action    AuditAction
+  entity    String?                                          // "Certification", "Job", etc.
+  entityId  String?
+  metadata  Json?                                            // données contextuelles
+  ip        String?
+  userAgent String?
+  createdAt DateTime    @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ============================================================
+//  USER SESSION
+// ============================================================
+
+model UserSession {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  clerkSessionId String @unique
+  ip          String?
+  userAgent   String?
+  country     String?
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime?
+
+  @@index([userId])
+  @@map("user_sessions")
+}
