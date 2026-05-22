@@ -76,7 +76,7 @@ export default async function LandingPage() {
       {/* FEATURES CANDIDAT */}
       <section className="relative z-10 px-8 py-20 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <div className="font-mono text-xs text-[#00c896] mb-4">// POUR LES CANDIDATS</div>
+          <div className="font-mono text-xs text-[#00c896] mb-4">/ POUR LES CANDIDATS</div>
           <h2 className="font-mono text-3xl font-bold text-white">Prouve tes vraies compétences</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -101,7 +101,7 @@ export default async function LandingPage() {
       <section className="relative z-10 px-8 py-20 bg-[#0d1520]/50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="font-mono text-xs text-[#ff4060] mb-4">// POUR LES RECRUTEURS</div>
+            <div className="font-mono text-xs text-[#ff4060] mb-4"> / POUR LES RECRUTEURS</div>
             <h2 className="font-mono text-3xl font-bold text-white">Trouve le bon talent en secondes</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -124,7 +124,7 @@ export default async function LandingPage() {
       {/* HOW IT WORKS */}
       <section className="relative z-10 px-8 py-20 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <div className="font-mono text-xs text-[#00c896] mb-4">// COMMENT ÇA MARCHE</div>
+          <div className="font-mono text-xs text-[#00c896] mb-4">/ COMMENT ÇA MARCHE</div>
           <h2 className="font-mono text-3xl font-bold text-white">3 étapes simples</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

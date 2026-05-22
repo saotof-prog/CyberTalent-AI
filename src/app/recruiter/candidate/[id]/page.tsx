@@ -115,7 +115,7 @@ export default async function CandidateProfilePage({
               <div className="flex flex-wrap gap-2">
                 {candidate.skills.map((skill) => (
                   <span key={skill.id} className="font-mono text-xs px-3 py-1 rounded-full bg-[#ff4060]/10 border border-[#ff4060]/20 text-[#ff4060]">
-                    {skill.name}
+                    {skill.skillId}
                   </span>
                 ))}
               </div>
