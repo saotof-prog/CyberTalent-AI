@@ -54,10 +54,10 @@ export default function CreateJobPage() {
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
           <h1 className="font-mono text-2xl font-bold text-white mb-1">
-            Publier une <span className="text-[#ff4060]">offre d'emploi</span>
+            Publier une <span className="text-[#ff4060]">offre demploi</span>
           </h1>
           <p className="font-mono text-xs text-gray-400">
-            L'IA matchera automatiquement les meilleurs candidats
+            L IA matchera automatiquement les meilleurs candidats
           </p>
         </div>
 
