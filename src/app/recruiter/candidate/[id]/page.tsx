@@ -133,7 +133,7 @@ export default async function CandidateProfilePage({
               <div className="grid grid-cols-3 gap-3">
                 {candidate.labs.map((lab) => (
                   <div key={lab.id} className="bg-[#111d2e] rounded-lg px-4 py-3 border border-gray-800">
-                    <div className="font-mono text-sm text-white mb-1">{lab.name}</div>
+                    <div className="font-mono text-sm text-white mb-1">{lab.labName}</div>
                     {lab.platform && (
                       <div className="font-mono text-xs text-gray-500">{lab.platform}</div>
                     )}
