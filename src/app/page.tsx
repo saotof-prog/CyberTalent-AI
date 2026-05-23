@@ -158,7 +158,7 @@ export default async function LandingPage() {
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-[#00c896]/10 px-8 py-8 text-center">
         <div className="font-mono text-xs text-gray-600">
-          © 2026 CyberTalent AI · Propulsé par Google Gemini · Fait avec ❤️ pour la communauté cyber africaine
+          © Mouhamed Dia 2026 CyberTalent AI · Propulsé par Google Gemini · Fait avec ❤️ pour la communauté cyber africaine
         </div>
       </footer>
 
