@@ -20,7 +20,7 @@ export default function ChooseRolePage() {
     if (selected === "CANDIDATE") {
       router.push("/onboarding");
     } else {
-      router.push("/recruiter/setup");
+      router.push("/onboarding/recruiter");
     }
     setLoading(false);
   }
