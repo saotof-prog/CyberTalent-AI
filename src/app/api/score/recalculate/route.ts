@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { PrismaClient } from "@prisma/client";
-import { calculateCyberScore } from "@/lib/score";
+import { calculateCyberScore, analyzeProfileWithAI } from "@/lib/score";
 
 const prisma = new PrismaClient();
 
@@ -9,33 +9,93 @@ export async function POST() {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
-  const candidates = await prisma.candidateProfile.findMany({
-    include: {
-      certifications: true,
-      labs: true,
-      skills: true,
-    },
-  });
-
-  const updates = candidates.map((candidate) => {
-    const newScore = calculateCyberScore({
-      certifications: candidate.certifications,
-      labs: candidate.labs,
-      skills: candidate.skills,
-      githubUsername: candidate.githubUsername,
-      githubStats: candidate.githubStats,
+  try {
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      include: {
+        candidateProfile: {
+          include: {
+            certifications: true,
+            labs: true,
+            skills: true,
+          },
+        },
+      },
     });
 
-    return prisma.candidateProfile.update({
-      where: { id: candidate.id },
+    if (!user?.candidateProfile) {
+      return NextResponse.json({ error: "Profil introuvable" }, { status: 404 });
+    }
+
+    const profile = user.candidateProfile;
+
+    // 1. Calcul du score
+    const newScore = calculateCyberScore({
+      certifications: profile.certifications,
+      labs: profile.labs,
+      skills: profile.skills,
+      githubUsername: profile.githubUsername,
+      githubStats: profile.githubStats,
+    });
+
+    // 2. Analyse IA avec Gemini
+    const aiAnalysis = await analyzeProfileWithAI({
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      headline: profile.headline,
+      bio: profile.bio,
+      githubUsername: profile.githubUsername,
+      certifications: profile.certifications,
+      labs: profile.labs,
+      skills: profile.skills,
+    });
+
+    const oldScore = profile.cyberScore;
+
+    // 3. Sauvegarder en base
+    await prisma.candidateProfile.update({
+      where: { id: profile.id },
       data: {
         cyberScore: newScore,
+        aiSummary: aiAnalysis.summary,
+        aiFlags: [
+          ...(aiAnalysis.fakeSkillsDetected ? ["FAKE_SKILLS_DETECTED"] : []),
+          ...(aiAnalysis.strengths ?? []).map((s: string) => `STRENGTH:${s}`),
+          ...(aiAnalysis.improvements ?? []).map((i: string) => `IMPROVE:${i}`),
+          ...(aiAnalysis.interviewQuestions ?? []).map((q: string) => `QUESTION:${q}`),
+        ],
         scoreUpdatedAt: new Date(),
       },
     });
-  });
 
-  await Promise.all(updates);
+    // 4. Historique
+    await prisma.scoreHistory.create({
+      data: {
+        candidateId: profile.id,
+        scoreBefore: oldScore,
+        scoreAfter: newScore,
+        delta: newScore - oldScore,
+        reason: "AI_RECALCULATION",
+        breakdown: {
+          certifications: Math.min(profile.certifications.filter(c => c.status === "VERIFIED").length * 10, 40),
+          labs: Math.min(profile.labs.length * 3, 25),
+          skills: Math.min(profile.skills.length * 2, 15),
+          github: profile.githubUsername ? 5 : 0,
+        },
+      },
+    });
 
-  return NextResponse.json({ updated: candidates.length });
+    return NextResponse.json({
+      success: true,
+      score: newScore,
+      summary: aiAnalysis.summary,
+      strengths: aiAnalysis.strengths,
+      improvements: aiAnalysis.improvements,
+      interviewQuestions: aiAnalysis.interviewQuestions,
+    });
+
+  } catch (error) {
+    console.error("ERREUR SCORING:", error);
+    return NextResponse.json({ error: "Erreur scoring" }, { status: 500 });
+  }
 }
