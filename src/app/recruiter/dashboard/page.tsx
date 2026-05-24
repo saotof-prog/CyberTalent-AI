@@ -1,4 +1,3 @@
-import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
@@ -62,15 +61,17 @@ export default async function RecruiterDashboard({
   });
 
   return (
-      <div className="min-h-screen bg-[#080c14]">
-      <div className="p-6 max-w-7xl mx-auto">
-        <div className="mb-8 flex items-end justify-between">
+    <div className="min-h-screen bg-[#080c14]">
+      <div className="p-4 md:p-6 max-w-7xl mx-auto">
+
+        {/* HEADER */}
+        <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h1 className="font-mono text-3xl font-bold text-white mb-2">
+            <h1 className="font-mono text-2xl md:text-3xl font-bold text-white mb-2">
               Recherche de{" "}
               <span className="text-[#ff4060]">Talents Cyber</span> 🎯
             </h1>
-            <p className="text-gray-400 font-mono text-sm">
+            <p className="text-gray-400 font-mono text-xs md:text-sm">
               {candidates.length} candidats disponibles · Classés par score
             </p>
           </div>
@@ -78,6 +79,7 @@ export default async function RecruiterDashboard({
         </div>
 
         <RecruiterDashboardClient initialCandidates={candidates} />
+
       </div>
     </div>
   );
