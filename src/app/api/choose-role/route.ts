@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
@@ -11,6 +11,7 @@ export async function POST(req: Request) {
   const { role } = await req.json();
 
   try {
+    // 1. Sauvegarder en base
     await prisma.user.upsert({
       where: { clerkId: userId },
       update: { role },
@@ -20,6 +21,12 @@ export async function POST(req: Request) {
         username: userId + Date.now(),
         role,
       },
+    });
+
+    // 2. Sauvegarder le rôle dans les metadata Clerk
+    const client = await clerkClient();
+    await client.users.updateUserMetadata(userId, {
+      publicMetadata: { role },
     });
 
     return NextResponse.json({ success: true });
