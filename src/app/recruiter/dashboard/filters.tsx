@@ -71,7 +71,7 @@ export default function RecruiterFilters({ onAiResults }: Props) {
       </div>
 
       {/* Barre de recherche par matching */}
-      <div className="flex flex-col sm:flex-row sm:items-stretch gap-3 mb-4">
+      <div className="flex gap-3 mb-4">
         <input
           placeholder='Ex: "Pentester OSCP avec expérience réseau"'
           value={query}
@@ -91,7 +91,7 @@ export default function RecruiterFilters({ onAiResults }: Props) {
       </div>
 
       {/* Filtres classiques */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-4 gap-4">
         <input
           placeholder="Rechercher..."
           defaultValue={searchParams.get("search") ?? ""}

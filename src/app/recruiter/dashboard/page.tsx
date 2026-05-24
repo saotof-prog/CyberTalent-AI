@@ -62,7 +62,7 @@ export default async function RecruiterDashboard({
 
   return (
     <div className="min-h-screen bg-[#080c14]">
-      <div className="p-4 md:p-6 max-w-7xl mx-auto">
+      <div className="p-4 md:p-6 md:max-w-7xl mx-auto">
 
         {/* HEADER */}
         <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">

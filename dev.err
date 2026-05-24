@@ -1,0 +1,55 @@
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\My-PC\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\My-PC\cybertech-ai\package-lock.json
+
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://popular-gannet-59.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js:12:3216)
+[browser] ⨯ unhandledRejection: Error: 
+Clerk: The <SignIn/> component is not configured correctly. The most likely reasons for this error are:
+
+1. The "/sign-in" route is not a catch-all route.
+It is recommended to convert this route to a catch-all route, eg: "/sign-in/[[...rest]]/page.tsx". Alternatively, you can update the <SignIn/> component to use hash-based routing by setting the "routing" prop to "hash".
+
+2. The <SignIn/> component is mounted in a catch-all route, but all routes under "/sign-in" are protected by the middleware.
+To resolve this, ensure that the middleware does not protect the catch-all route or any of its children. If you are using the "createRouteMatcher" helper, consider adding "(.*)" to the end of the route pattern, eg: "/sign-in(.*)". For more information, see: https://clerk.com/docs/reference/nextjs/clerk-middleware#create-route-matcher
+
+    at useEnforceCatchAllRoute.useEffect.error (file://C:/Users/My-PC/cybertech-ai/.next/dev/static/chunks/051u_0itoxm1._.js:14836:27)
+    at useEnforceCatchAllRoute.useEffect.check (file://C:/Users/My-PC/cybertech-ai/.next/dev/static/chunks/051u_0itoxm1._.js:14866:29)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://popular-gannet-59.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js:12:3216)
+ERREUR SCORING: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (C:\Users\My-PC\cybertech-ai\.next\dev\server\chunks\[root-of-the-server]__0ggoqb0._.js:5020:11)
+    at async makeRequest (C:\Users\My-PC\cybertech-ai\.next\dev\server\chunks\[root-of-the-server]__0ggoqb0._.js:4992:9)
+    at async generateContent (C:\Users\My-PC\cybertech-ai\.next\dev\server\chunks\[root-of-the-server]__0ggoqb0._.js:5434:22)
+    at async analyzeProfileWithAI (src\lib\score.ts:84:18)
+    at async POST (src\app\api\score\recalculate\route.ts:42:24)
+  82 | `;
+  83 |
+> 84 |   const result = await model.generateContent(prompt);
+     |                  ^
+  85 |   const text = result.response.text();
+  86 |   const clean = text.replace(/```json|```/g, "").trim();
+  87 |   return JSON.parse(clean); {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://popular-gannet-59.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js:12:3216)
+ERREUR SCORING: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods.
+    at handleResponseNotOk (C:\Users\My-PC\cybertech-ai\.next\dev\server\chunks\[root-of-the-server]__0ggoqb0._.js:5020:11)
+    at async makeRequest (C:\Users\My-PC\cybertech-ai\.next\dev\server\chunks\[root-of-the-server]__0ggoqb0._.js:4992:9)
+    at async generateContent (C:\Users\My-PC\cybertech-ai\.next\dev\server\chunks\[root-of-the-server]__0ggoqb0._.js:5434:22)
+    at async analyzeProfileWithAI (src\lib\score.ts:84:18)
+    at async POST (src\app\api\score\recalculate\route.ts:42:24)
+  82 | `;
+  83 |
+> 84 |   const result = await model.generateContent(prompt);
+     |                  ^
+  85 |   const text = result.response.text();
+  86 |   const clean = text.replace(/```json|```/g, "").trim();
+  87 |   return JSON.parse(clean); {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}

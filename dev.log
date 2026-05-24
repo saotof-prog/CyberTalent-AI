@@ -1,0 +1,27 @@
+
+> cybertech-ai@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.56.1:3000
+- Environments: .env.local
+✓ Ready in 649ms
+
+ GET /sign-in 200 in 706ms (next.js: 154ms, proxy.ts: 27ms, application-code: 525ms)
+ GET /sign-in/SignIn_clerk_catchall_check_1779659311408 404 in 99ms (next.js: 37ms, proxy.ts: 12ms, application-code: 50ms)
+ GET / 307 in 331ms (next.js: 42ms, proxy.ts: 12ms, application-code: 277ms)
+ GET /dashboard 200 in 4.1s (next.js: 46ms, proxy.ts: 10ms, application-code: 4.0s)
+ GET /api/candidate/skills 200 in 2.5s (next.js: 122ms, proxy.ts: 18ms, application-code: 2.4s)
+ GET /api/candidate/recommendations 200 in 2.8s (next.js: 176ms, proxy.ts: 21ms, application-code: 2.6s)
+ GET /dashboard/score 200 in 2.4s (next.js: 39ms, proxy.ts: 22ms, application-code: 2.3s)
+ POST /api/score/recalculate 500 in 3.9s (next.js: 64ms, proxy.ts: 25ms, application-code: 3.8s)
+ GET /dashboard/score 200 in 585ms (next.js: 5ms, proxy.ts: 17ms, application-code: 563ms)
+ GET /recruiter/dashboard 200 in 3.5s (next.js: 42ms, proxy.ts: 19ms, application-code: 3.5s)
+ POST /api/score/recalculate 500 in 1732ms (next.js: 5ms, proxy.ts: 20ms, application-code: 1707ms)
+ GET /recruiter/dashboard 200 in 1123ms (next.js: 7ms, proxy.ts: 15ms, application-code: 1101ms)
+ GET /recruiter/search 200 in 101ms (next.js: 39ms, proxy.ts: 21ms, application-code: 41ms)
+ GET /recruiter/saved 200 in 1685ms (next.js: 38ms, proxy.ts: 21ms, application-code: 1626ms)
+ GET /recruiter/dashboard 200 in 1826ms (next.js: 4ms, proxy.ts: 14ms, application-code: 1808ms)
+ GET /recruiter/dashboard 200 in 4.2s (next.js: 4ms, proxy.ts: 18ms, application-code: 4.2s)
+ GET /recruiter/candidate/cmpkajfk90002jr04q37lpii1 200 in 3.7s (next.js: 651ms, proxy.ts: 11ms, application-code: 3.0s)
