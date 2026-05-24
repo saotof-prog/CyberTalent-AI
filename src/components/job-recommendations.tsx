@@ -69,7 +69,7 @@ export default function JobRecommendations() {
           Aucune offre compatible pour l'instant. Complete ton profil et ajoute des skills.
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {jobs.map((job) => (
             <div key={job.id} className="bg-[#111d2e] border border-gray-800 hover:border-[#0084ff]/40 rounded-xl p-4 transition">
               <div className="flex items-start justify-between gap-4">

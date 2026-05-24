@@ -101,7 +101,7 @@ export default async function ScorePage() {
 
       {/* Points forts + Améliorations */}
       {(strengths.length > 0 || improvements.length > 0) && (
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid gap-4 sm:grid-cols-2 mb-6">
           {/* Points forts */}
           {strengths.length > 0 && (
             <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">

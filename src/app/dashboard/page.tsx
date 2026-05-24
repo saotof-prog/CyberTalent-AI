@@ -47,27 +47,27 @@ export default async function DashboardPage() {
         </div>
 
         {/* STATS */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-6 md:mb-8">
           {/* SCORE */}
-          <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4 md:p-6">
+          <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-5">
             <div className="font-mono text-xs text-gray-400 mb-2">CYBER SCORE</div>
-            <div className="font-mono text-5xl md:text-6xl font-bold text-[#00c896]">{score}</div>
+            <div className="font-mono text-4xl font-bold text-[#00c896]">{score}</div>
             <div className="font-mono text-xs text-gray-500 mt-2">
               {score === 0 ? "Complete ton profil pour scorer" : "Top " + (100 - score) + "%"}
             </div>
-            <div className="mt-4 h-2 bg-[#111d2e] rounded-full overflow-hidden">
+            <div className="mt-4 h-2.5 bg-[#111d2e] rounded-full overflow-hidden">
               <div className="h-full bg-[#00c896] rounded-full" style={{ width: score + "%" }} />
             </div>
           </div>
 
           {/* CERTIFICATIONS */}
-          <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4 md:p-6">
+          <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-5">
             <div className="font-mono text-xs text-gray-400 mb-2">CERTIFICATIONS</div>
-            <div className="font-mono text-4xl font-bold text-white mb-4">{totalCerts}</div>
+            <div className="font-mono text-3xl font-bold text-white mb-3">{totalCerts}</div>
             {totalCerts > 0 && (
               <div className="flex flex-col gap-2">
                 {profile.certifications.slice(0, 3).map((cert: any) => (
-                  <div key={cert.id} className="flex items-center justify-between p-2 bg-[#111d2e] rounded-lg">
+                  <div key={cert.id} className="flex items-center justify-between p-3 bg-[#111d2e] rounded-lg">
                     <div>
                       <div className="font-mono text-xs text-white">{cert.name}</div>
                       <div className="font-mono text-xs text-gray-400">{cert.issuer}</div>
@@ -86,9 +86,9 @@ export default async function DashboardPage() {
           </div>
 
           {/* LABS */}
-          <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4 md:p-6">
+          <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-5">
             <div className="font-mono text-xs text-gray-400 mb-2">LABS COMPLÉTÉS</div>
-            <div className="font-mono text-4xl font-bold text-white">{totalLabs}</div>
+            <div className="font-mono text-3xl font-bold text-white">{totalLabs}</div>
             <div className="font-mono text-xs text-gray-500 mt-2">HackTheBox, TryHackMe...</div>
           </div>
         </div>

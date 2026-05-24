@@ -126,8 +126,8 @@ export default function SkillsManager() {
       <div className="border-t border-gray-800 pt-4">
         <p className="font-mono text-xs text-gray-500 mb-3">Ajouter un skill</p>
 
-        <div className="flex gap-3 mb-3">
-          <div className="flex-1 relative">
+        <div className="flex flex-col sm:flex-row sm:items-stretch gap-3 mb-3">
+          <div className="flex-1 min-w-0 relative">
             <input
               ref={searchRef}
               value={search}
@@ -151,33 +151,35 @@ export default function SkillsManager() {
             )}
           </div>
 
-          <select
-            value={selectedLevel}
-            onChange={(e) => setSelectedLevel(e.target.value)}
-            className="bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
-          >
-            {LEVELS.map((l) => (
-              <option key={l} value={l}>{l}</option>
-            ))}
-          </select>
-
-          <input
-            type="number"
-            value={yearsExp}
-            onChange={(e) => setYearsExp(e.target.value)}
-            placeholder="Années"
-            className="w-24 bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
-          />
-
-          {search.trim() && (
-            <button
-              onClick={() => addSkill(search.trim())}
-              disabled={adding}
-              className="font-mono text-xs px-4 py-2 bg-[#00c896] hover:bg-[#00c896]/80 text-black rounded-lg transition disabled:opacity-50 font-bold"
+          <div className="flex flex-col sm:flex-row sm:gap-3 w-full sm:w-auto">
+            <select
+              value={selectedLevel}
+              onChange={(e) => setSelectedLevel(e.target.value)}
+              className="bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-auto"
             >
-              {adding ? "..." : "+ Ajouter"}
-            </button>
-          )}
+              {LEVELS.map((l) => (
+                <option key={l} value={l}>{l}</option>
+              ))}
+            </select>
+
+            <input
+              type="number"
+              value={yearsExp}
+              onChange={(e) => setYearsExp(e.target.value)}
+              placeholder="Années"
+              className="w-24 bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-24"
+            />
+
+            {search.trim() && (
+              <button
+                onClick={() => addSkill(search.trim())}
+                disabled={adding}
+                className="font-mono text-xs px-4 py-2 bg-[#00c896] hover:bg-[#00c896]/80 text-black rounded-lg transition disabled:opacity-50 font-bold w-full sm:w-auto"
+              >
+                {adding ? "..." : "+ Ajouter"}
+              </button>
+            )}
+          </div>
         </div>
 
         {/* SUGGESTIONS */}

@@ -60,7 +60,7 @@ export default function RecruiterDashboardClient({
         {aiRanked ? " · classés par pertinence" : " · classés par score"}
       </p>
 
-      <div className="flex flex-col gap-3">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {displayCandidates.map((candidate, idx) => (
           <Link key={candidate.id} href={`/recruiter/candidate/${candidate.id}`}>
             <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5 hover:border-[#ff4060] transition cursor-pointer">
