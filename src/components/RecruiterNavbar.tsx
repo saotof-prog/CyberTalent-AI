@@ -22,12 +22,6 @@ export default function RecruiterNavbar({ email }: { email?: string }) {
           <span className="font-mono text-[#ff4060] font-bold text-sm">CYBERTALENT_RECRUITER</span>
         </div>
         <div className="flex items-center gap-4">
-          <Link
-            href="/dashboard"
-            className="font-mono text-xs px-3 py-1 border border-[#00c896]/30 text-[#00c896] rounded-lg hover:bg-[#00c896]/10 transition"
-          >
-            ⚡ Espace Candidat
-          </Link>
           <span className="font-mono text-xs text-gray-400">{email}</span>
           <UserButton />
         </div>
