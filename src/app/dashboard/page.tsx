@@ -25,8 +25,29 @@ export default async function DashboardPage() {
     },
   });
 
+  // Redirect based on user role
+  if (user?.role === "RECRUITER") {
+    // For recruiters, check if they have a recruiter profile or redirect to recruiter onboarding
+    // Since we don't fetch recruiter profile in this query, we'll check if they have any candidate data
+    // As a fallback, if they have no candidate data, send them to recruiter onboarding
+    const hasCandidateData = user.candidateProfile &&
+      (user.candidateProfile.certifications.length > 0 ||
+       user.candidateProfile.skills.length > 0 ||
+       user.candidateProfile.labs.length > 0);
+
+    if (!hasCandidateData) {
+      redirect("/onboarding/recruiter");
+    }
+    // If they have candidate data, they might be both roles - continue to candidate dashboard
+    // (or we could show a role selector - but for now, let them access candidate dashboard)
+  } else {
+    // Default to candidate logic
+    const profile = user?.candidateProfile;
+    if (!profile) redirect("/onboarding");
+  }
+
   const profile = user?.candidateProfile;
-  if (!profile) redirect("/onboarding");
+  if (!profile) redirect("/onboarding"); // This line is now redundant but kept for safety
 
   const totalCerts = profile.certifications.length;
   const totalLabs = profile.labs.length;

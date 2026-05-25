@@ -19,6 +19,33 @@ export default async function RecruiterDashboard({
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
+  // Check if the user is actually a recruiter
+  const user = await prisma.user.findUnique({
+    where: { clerkId: userId },
+    select: { role: true }
+  });
+
+  // If user is not a recruiter, redirect them to the appropriate dashboard
+  if (user?.role !== "RECRUITER") {
+    // If they're a candidate, send them to candidate dashboard
+    if (user?.role === "CANDIDATE") {
+      redirect("/dashboard");
+    } else {
+      // If no role is set, check if they have candidate data
+      const candidateProfile = await prisma.candidateProfile.findUnique({
+        where: { userId },
+        select: { id: true }
+      });
+
+      if (candidateProfile) {
+        redirect("/dashboard");
+      } else {
+        // No candidate data, assume they need to set up as recruiter
+        redirect("/onboarding/recruiter");
+      }
+    }
+  }
+
   const filters = await searchParams;
 
   const candidates = await prisma.candidateProfile.findMany({

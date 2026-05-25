@@ -4,7 +4,19 @@ import { redirect } from "next/navigation";
 
 export default async function LandingPage() {
   const { userId } = await auth();
-  if (userId) redirect("/dashboard");
+  if (userId) {
+    // Check user role to redirect to appropriate dashboard
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      select: { role: true }
+    });
+
+    if (user?.role === "RECRUITER") {
+      redirect("/recruiter/dashboard");
+    } else {
+      redirect("/dashboard");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#080c14] text-white overflow-x-hidden">
