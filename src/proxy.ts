@@ -14,6 +14,7 @@ const isPublicRoute = createRouteMatcher([
 
 const isCandidateRoute = createRouteMatcher(["/dashboard(.*)"]);
 const isRecruiterRoute = createRouteMatcher(["/recruiter(.*)"]);
+const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 
 export default clerkMiddleware(async (auth, request) => {
   const { userId } = await auth();
@@ -26,8 +27,16 @@ export default clerkMiddleware(async (auth, request) => {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  // Admin — accès total
-  if (userId === ADMIN_ID) return NextResponse.next();
+  // Admin — accès total sauf /admin qui est réservé
+  if (userId === ADMIN_ID) {
+    if (isAdminRoute(request)) return NextResponse.next();
+    return NextResponse.next();
+  }
+
+  // Non-admin qui essaie d'accéder à /admin
+  if (isAdminRoute(request)) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
 
   // Récupérer le rôle depuis la DB
   const user = await prisma.user.findUnique({
