@@ -45,7 +45,7 @@ export default function RecruiterFilters({ onAiResults }: Props) {
     if (!query.trim()) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/candidates/search", {
+      const res = await fetch("/api/candidate/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

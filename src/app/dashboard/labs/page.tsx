@@ -31,7 +31,17 @@ export default async function LabsPage() {
         <p className="font-mono text-xs text-gray-400">{labs.length} lab(s) complété(s)</p>
       </div>
 
-      {labs.length > 0 && (
+      {labs.length === 0 ? (
+        <div className="text-center py-12 bg-[#0d1520] border border-[#0084ff]/20 rounded-xl mb-8">
+          <div className="text-4xl mb-3">🧪</div>
+          <p className="font-mono text-sm text-gray-500">
+            Aucun lab complété pour l&apos;instant.
+          </p>
+          <p className="font-mono text-xs text-gray-600 mt-1">
+            Ajoute tes labs HackTheBox, TryHackMe, etc. ci-dessous
+          </p>
+        </div>
+      ) : (
         <div className="grid grid-cols-2 gap-3 mb-8">
           {labs.map((lab) => (
             <div key={lab.id} className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4">

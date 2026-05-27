@@ -40,6 +40,27 @@ export async function POST(req: Request) {
       },
     });
 
+    // Notifier le recruteur
+    const job = await prisma.job.findUnique({
+      where: { id: jobId },
+      select: {
+        title: true,
+        recruiter: { select: { userId: true } },
+      },
+    });
+
+    if (job?.recruiter?.userId) {
+      await prisma.notification.create({
+        data: {
+          userId: job.recruiter.userId,
+          title: "Nouvelle candidature",
+          body: `${user.candidateProfile.firstName} ${user.candidateProfile.lastName} a postulé à « ${job.title} »`,
+          type: "APPLICATION_SUBMITTED",
+          link: `/recruiter/jobs/${jobId}/applications`,
+        },
+      });
+    }
+
     return NextResponse.json({ success: true, application });
   } catch (error) {
     console.error("ERREUR APPLICATION:", error);

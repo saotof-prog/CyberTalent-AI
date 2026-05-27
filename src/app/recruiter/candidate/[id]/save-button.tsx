@@ -14,7 +14,7 @@ export default function SaveButton({
   async function handleToggle() {
     setLoading(true);
     try {
-      const res = await fetch("/api/recruiter/save", {
+      const res = await fetch("/recruiter/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ candidateId }),

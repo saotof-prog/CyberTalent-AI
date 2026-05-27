@@ -1,5 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import CertificationUpload from "@/components/CertificationUpload";
 import LabUpload from "@/components/LabUpload";
@@ -93,11 +94,19 @@ export default async function DashboardPage() {
         </div>
 
         {/* PROFIL INFO */}
-        <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4 md:p-6 mb-6 md:mb-8">
+          <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4 md:p-6 mb-6 md:mb-8">
           <div className="flex items-center gap-2 mb-4 md:mb-6">
             <div className="w-1 h-4 bg-[#00c896] rounded" />
             <span className="font-mono text-sm text-[#00c896]">MON PROFIL</span>
-            <span className="ml-auto font-mono text-xs text-gray-400">{profile.profileComplete}% complété</span>
+            <div className="ml-auto flex items-center gap-3">
+              <span className="font-mono text-xs text-gray-400">{profile.profileComplete}% complété</span>
+              <Link
+                href="/dashboard/edit"
+                className="font-mono text-xs px-3 py-1 rounded border border-[#00c896]/30 text-[#00c896] hover:bg-[#00c896]/10 transition"
+              >
+                ✎ Modifier
+              </Link>
+            </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             <div>

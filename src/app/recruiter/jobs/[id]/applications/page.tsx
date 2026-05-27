@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import ApplicationStatusSelect from "@/components/ApplicationStatusSelect";
 
 export default async function JobApplicationsPage({
   params,
@@ -33,16 +34,6 @@ export default async function JobApplicationsPage({
   });
 
   if (!job) redirect("/recruiter/jobs");
-
-  const statusColor: Record<string, string> = {
-    PENDING: "text-yellow-400 border-yellow-600",
-    VIEWED: "text-blue-400 border-blue-600",
-    SHORTLISTED: "text-[#00c896] border-[#00c896]",
-    INTERVIEW: "text-[#0084ff] border-[#0084ff]",
-    OFFER: "text-purple-400 border-purple-400",
-    REJECTED: "text-[#ff4060] border-[#ff4060]",
-    WITHDRAWN: "text-gray-500 border-gray-700",
-  };
 
   return (
     <div className="min-h-screen bg-[#080c14] text-white p-6">
@@ -113,11 +104,10 @@ export default async function JobApplicationsPage({
                         <span className="font-mono text-xs text-gray-500">
                           ⚡ {c.skills.length} skills
                         </span>
-                        <span
-                          className={`font-mono text-xs px-2 py-0.5 rounded border ${statusColor[app.status] ?? "text-gray-500 border-gray-700"}`}
-                        >
-                          {app.status}
-                        </span>
+                        <ApplicationStatusSelect
+                          applicationId={app.id}
+                          initialStatus={app.status}
+                        />
                         <span className="font-mono text-xs text-gray-600">
                           {new Date(app.appliedAt).toLocaleDateString("fr-FR")}
                         </span>

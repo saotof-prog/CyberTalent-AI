@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
 import { useState } from "react";
+import NotificationsBell from "@/components/NotificationsBell";
 
 const links = [
   { href: "/recruiter/dashboard", label: "Candidats", icon: "👥" },
@@ -24,6 +25,7 @@ export default function RecruiterNavbar({ email }: { email?: string }) {
           <span className="font-mono text-[#ff4060] font-bold text-sm">CYBERTALENT_RECRUITER</span>
         </div>
         <div className="flex items-center gap-3">
+          <NotificationsBell />
           <span className="hidden md:block font-mono text-xs text-gray-400">{email}</span>
           <UserButton />
           <button
