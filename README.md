@@ -10,13 +10,13 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Prisma](https://img.shields.io/badge/Prisma-6.x-2D3748?style=flat-square&logo=prisma)](https://www.prisma.io)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-336791?style=flat-square&logo=postgresql)](https://neon.tech)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.x-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
 [![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?style=flat-square)](https://clerk.com)
 [![Gemini AI](https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=flat-square&logo=google)](https://ai.google.dev)
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-[🚀 Demo Live](https://cyber-talent-fmufnb9yq-saotof-progs-projects.vercel.app) · [🐛 Signaler un bug](https://github.com/saotof-prog/CyberTech-AI/issues) · [💡 Demander une feature](https://github.com/saotof-prog/CyberTech-AI/issues)
+[🚀 Demo Live](https://cybertech-ai.vercel.app) · [🐛 Signaler un bug](https://github.com/saotof-prog/CyberTech-AI/issues) · [💡 Demander une feature](https://github.com/saotof-prog/CyberTech-AI/issues)
 
 </div>
 
@@ -65,9 +65,11 @@ Recruteur recherche via IA → Trouve les meilleurs matchs
 ### 👨‍💻 Espace Candidat
 
 | Fonctionnalité | Description |
-|---|---|
+|---|---|---|
 | **Profil tech complet** | Headline, bio, localisation, GitHub, disponibilité |
+| **Édition du profil** | Modification du profil après onboarding (prénom, nom, headline, bio, localisation, GitHub, salaire, disponibilité) |
 | **Certifications** | Upload OSCP, CEH, CISSP, eJPT, etc. avec lien de vérification |
+| **Vérification IA des certs** | Google Gemini vérifie l'authenticité des certifications → statut VERIFIED/REJECTED |
 | **Labs complétés** | HackTheBox, TryHackMe, VulnHub, PortSwigger, etc. |
 | **Skills techniques** | Compétences avec niveaux (Beginner → Expert) |
 | **CyberScore IA** | Score 0-100 calculé par Google Gemini + algorithme |
@@ -78,13 +80,16 @@ Recruteur recherche via IA → Trouve les meilleurs matchs
 ### 🎯 Espace Recruteur
 
 | Fonctionnalité | Description |
-|---|---|
+|---|---|---|
 | **Dashboard candidats** | Liste classée par CyberScore avec filtres avancés |
+| **Pagination** | Navigation 20 candidats/page avec conservation des filtres |
 | **Recherche IA naturelle** | "Pentester senior OSCP avec expérience cloud" |
 | **Filtres avancés** | Score minimum, certification, pays, disponibilité |
 | **Page profil candidat** | Vue détaillée avec toutes les preuves de compétences |
+| **Gestion des candidatures** | Suivi des candidatures avec changement de statut (PENDING → VIEWED → SHORTLISTED → INTERVIEW → OFFER → REJECTED) |
 | **Candidats sauvegardés** | Bookmarks avec notes personnelles |
 | **Offres d'emploi** | Publication, gestion et désactivation des offres |
+| **Notifications temps réel** | 🔔 Cloche avec badge de notifications à la soumission d'une candidature |
 | **Recalcul des scores** | Mise à jour en masse des CyberScores |
 
 ### 🤖 Intelligence Artificielle
@@ -132,12 +137,18 @@ cybertalent-ai/
 │   ├── app/                          # Next.js App Router
 │   │   ├── api/                      # API Routes serverless
 │   │   │   ├── certifications/       # CRUD certifications
+│   │   │   ├── certifications/[id]/verify/ # Vérification IA Gemini
 │   │   │   ├── labs/                 # CRUD labs
 │   │   │   ├── jobs/                 # CRUD offres d'emploi
+│   │   │   ├── applications/         # CRUD candidatures
+│   │   │   ├── applications/[id]/    # PATCH statut candidature
+│   │   │   ├── github/sync/          # Sync repos GitHub
+│   │   │   ├── candidate/profile/    # GET/PATCH profil candidat
+│   │   │   ├── candidate/search/     # Recherche IA recruteur
+│   │   │   ├── notifications/        # GET notifications + PATCH lu
 │   │   │   ├── score/recalculate/    # Scoring IA (Gemini)
 │   │   │   ├── onboarding/           # Création de profil
 │   │   │   ├── choose-role/          # Sélection candidat/recruteur
-│   │   │   ├── candidates/search/    # Recherche IA recruteur
 │   │   │   └── uploadthing/          # Upload fichiers
 │   │   ├── choose-role/              # Page sélection de rôle
 │   │   ├── onboarding/               # Setup profil candidat
@@ -145,6 +156,7 @@ cybertalent-ai/
 │   │   │   ├── layout.tsx            # Layout avec Navbar
 │   │   │   ├── page.tsx              # Dashboard principal
 │   │   │   ├── certifications/
+│   │   │   ├── edit/                 # Édition profil
 │   │   │   ├── labs/
 │   │   │   ├── skills/
 │   │   │   ├── score/
@@ -153,14 +165,21 @@ cybertalent-ai/
 │   │   │   ├── layout.tsx            # Layout avec RecruiterNavbar
 │   │   │   ├── dashboard/
 │   │   │   ├── candidate/[id]/
+│   │   │   ├── jobs/[id]/applications/ # Candidatures par offre
 │   │   │   ├── jobs/create/
 │   │   │   ├── search/
 │   │   │   └── saved/
 │   │   ├── sign-in/ & sign-up/       # Pages auth Clerk
-│   │   └── page.tsx                  # Landing page publique
+│   │   ├── page.tsx                  # Landing page publique
+│   │   ├── sitemap.ts                # Sitemap SEO
+│   │   └── robots.ts                 # Robots SEO
 │   ├── components/
-│   │   ├── Navbar.tsx                # Navigation candidat
-│   │   ├── RecruiterNavbar.tsx       # Navigation recruteur
+│   │   ├── Navbar.tsx                # Navigation candidat + 🔔 notifications
+│   │   ├── RecruiterNavbar.tsx       # Navigation recruteur + 🔔 notifications
+│   │   ├── NotificationsBell.tsx     # Dropdown notifications en direct
+│   │   ├── ApplicationStatusSelect.tsx # Changement de statut candidature
+│   │   ├── GithubSync.tsx            # Sync GitHub bouton
+│   │   ├── CertVerifyButton.tsx      # Vérification IA certification
 │   │   ├── CertificationUpload.tsx   # Formulaire certification
 │   │   └── LabUpload.tsx             # Formulaire lab
 │   └── lib/
@@ -302,16 +321,26 @@ Toutes les routes nécessitent une authentification Clerk via `auth()`.
 | Méthode | Route | Description |
 |---------|-------|-------------|
 | `POST` | `/api/onboarding` | Créer/mettre à jour le profil candidat |
+| `POST` | `/api/onboarding/recruiter` | Créer le profil recruteur |
 | `POST` | `/api/certifications` | Ajouter une certification |
 | `GET` | `/api/certifications` | Lister ses certifications |
+| `POST` | `/api/certifications/[id]/verify` | Vérifier une certification via Gemini IA |
 | `POST` | `/api/labs` | Ajouter un lab complété |
 | `POST` | `/api/score/recalculate` | Recalculer le CyberScore avec Gemini |
 | `POST` | `/api/jobs` | Publier une offre d'emploi |
 | `PATCH` | `/api/jobs/[id]` | Activer/désactiver une offre |
 | `DELETE` | `/api/jobs/[id]` | Supprimer une offre |
-| `POST` | `/api/candidates/search` | Recherche IA de candidats |
-| `POST` | `/api/recruiter/save` | Sauvegarder/désauvegarder un candidat |
+| `POST` | `/api/applications` | Postuler à une offre |
+| `PATCH` | `/api/applications/[id]` | Mettre à jour le statut d'une candidature |
+| `POST` | `/api/candidate/search` | Recherche IA de candidats |
+| `GET/PATCH` | `/api/candidate/profile` | Consulter/modifier son profil candidat |
+| `POST` | `/api/github/sync` | Synchroniser les repos GitHub |
+| `GET` | `/api/notifications` | Lister les notifications |
+| `PATCH` | `/api/notifications` | Marquer une notification comme lue |
+| `POST` | `/recruiter/save` | Sauvegarder/désauvegarder un candidat |
 | `POST` | `/api/choose-role` | Définir le rôle utilisateur |
+| `GET` | `/sitemap.xml` | Sitemap SEO |
+| `GET` | `/robots.txt` | Instructions robots SEO |
 
 ### Exemple — Recalcul du CyberScore
 
