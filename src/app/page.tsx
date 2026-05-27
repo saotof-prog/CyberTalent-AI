@@ -64,7 +64,7 @@ export default async function LandingPage() {
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <Link href="/sign-up" className="font-mono text-sm px-8 py-4 bg-[#00c896] text-black font-bold rounded-xl hover:bg-[#00ff9d] transition w-full sm:w-auto text-center">
-            Créer mon profil gratuitement
+            Créer mon profil 👨‍💻
           </Link>
           <Link href="/sign-up" className="font-mono text-sm px-8 py-4 border border-[#ff4060]/30 text-[#ff4060] rounded-xl hover:bg-[#ff4060]/10 transition w-full sm:w-auto text-center">
             Espace recruteur 🎯
@@ -165,7 +165,7 @@ export default async function LandingPage() {
             Rejoins CyberTalent AI et laisse tes vraies competences parler pour toi.
           </p>
           <Link href="/sign-up" className="font-mono text-sm px-10 py-4 bg-[#00c896] text-black font-bold rounded-xl hover:bg-[#00ff9d] transition inline-block">
-            Creer mon profil gratuitement
+            Creer mon profil
           </Link>
         </div>
       </section>
