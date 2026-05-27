@@ -12,6 +12,7 @@ export default async function RecruiterDashboard({
     score?: string;
     cert?: string;
     country?: string;
+    page?: string;
   }>;
 }) {
   const { userId } = await auth();
@@ -46,44 +47,48 @@ export default async function RecruiterDashboard({
 
   const filters = await searchParams;
 
-  const candidates = await prisma.candidateProfile.findMany({
-    where: {
-      AND: [
-        filters.search
-          ? {
-              OR: [
-                { firstName: { contains: filters.search, mode: "insensitive" } },
-                { lastName: { contains: filters.search, mode: "insensitive" } },
-                { headline: { contains: filters.search, mode: "insensitive" } },
-              ],
-            }
-          : {},
-        filters.score
-          ? { cyberScore: { gte: parseInt(filters.score) } }
-          : {},
-        filters.country
-          ? { country: { equals: filters.country, mode: "insensitive" } }
-          : {},
-        filters.cert
-          ? {
-              certifications: {
-                some: {
-                  name: { contains: filters.cert, mode: "insensitive" },
-                },
-              },
-            }
-          : {},
+  const page = Math.max(1, parseInt(filters.page ?? "1"));
+  const limit = 20;
+  const skip = (page - 1) * limit;
+
+  const and: Record<string, unknown>[] = [];
+  if (filters.search) {
+    and.push({
+      OR: [
+        { firstName: { contains: filters.search, mode: "insensitive" } },
+        { lastName: { contains: filters.search, mode: "insensitive" } },
+        { headline: { contains: filters.search, mode: "insensitive" } },
       ],
-    },
-    include: {
-      user: true,
-      certifications: { where: { status: "VERIFIED" } },
-      labs: true,
-      skills: { include: { skill: true } },
-    },
-    orderBy: { cyberScore: "desc" },
-    take: 50,
-  });
+    });
+  }
+  if (filters.score) and.push({ cyberScore: { gte: parseInt(filters.score) } });
+  if (filters.country) and.push({ country: { equals: filters.country, mode: "insensitive" } });
+  if (filters.cert) {
+    and.push({
+      certifications: {
+        some: { name: { contains: filters.cert, mode: "insensitive" } },
+      },
+    });
+  }
+  const where = { AND: and.length > 0 ? and : undefined };
+
+  const [candidates, totalCount] = await Promise.all([
+    prisma.candidateProfile.findMany({
+      where,
+      include: {
+        user: true,
+        certifications: { where: { status: "VERIFIED" } },
+        labs: true,
+        skills: { include: { skill: true } },
+      },
+      orderBy: { cyberScore: "desc" },
+      skip,
+      take: limit,
+    }),
+    prisma.candidateProfile.count({ where }),
+  ]);
+
+  const totalPages = Math.ceil(totalCount / limit);
 
   return (
     <div className="min-h-screen bg-[#080c14]">
@@ -97,13 +102,17 @@ export default async function RecruiterDashboard({
               <span className="text-[#ff4060]">Talents Cyber</span> 🎯
             </h1>
             <p className="text-gray-400 font-mono text-xs md:text-sm">
-              {candidates.length} candidats disponibles · Classés par score
+              {totalCount} candidat{totalCount > 1 ? "s" : ""} · Page {page}/{totalPages}
             </p>
           </div>
           <RecalculateButton />
         </div>
 
-        <RecruiterDashboardClient initialCandidates={candidates} />
+        <RecruiterDashboardClient
+          initialCandidates={candidates}
+          currentPage={page}
+          totalPages={totalPages}
+        />
 
       </div>
     </div>

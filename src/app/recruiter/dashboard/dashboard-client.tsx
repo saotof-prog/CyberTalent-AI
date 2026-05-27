@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import RecruiterFilters from "./filters";
 
 type Candidate = {
@@ -21,11 +22,57 @@ type Candidate = {
   labs: { id: string }[];
 };
 
+function PaginationLink({
+  page,
+  disabled,
+  active,
+  label,
+}: {
+  page: number;
+  disabled?: boolean;
+  active?: boolean;
+  label?: string;
+}) {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+  params.set("page", String(page));
+
+  if (disabled) {
+    return (
+      <span className="font-mono text-xs text-gray-600 px-3 py-1.5 rounded border border-gray-800 cursor-not-allowed">
+        {label ?? page}
+      </span>
+    );
+  }
+
+  if (active) {
+    return (
+      <span className="font-mono text-xs text-white bg-[#ff4060] px-3 py-1.5 rounded border border-[#ff4060]">
+        {page}
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      href={`/recruiter/dashboard?${params.toString()}`}
+      className="font-mono text-xs text-gray-400 hover:text-white px-3 py-1.5 rounded border border-gray-800 hover:border-[#ff4060]/30 transition"
+    >
+      {label ?? page}
+    </Link>
+  );
+}
+
 export default function RecruiterDashboardClient({
   initialCandidates,
+  currentPage,
+  totalPages,
 }: {
   initialCandidates: Candidate[];
+  currentPage: number;
+  totalPages: number;
 }) {
+  const searchParams = useSearchParams();
   const [aiCandidates, setAiCandidates] = useState<Candidate[] | null>(null);
   const [aiRanked, setAiRanked] = useState(false);
 
@@ -40,7 +87,6 @@ export default function RecruiterDashboardClient({
         }}
       />
 
-      {/* Badge mode IA */}
       {aiRanked && (
         <div className="flex items-center gap-2 mb-4">
           <span className="font-mono text-xs text-[#ff4060] bg-[#ff4060]/10 border border-[#ff4060]/30 px-3 py-1 rounded-full">
@@ -65,8 +111,6 @@ export default function RecruiterDashboardClient({
           <Link key={candidate.id} href={`/recruiter/candidate/${candidate.id}`}>
             <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5 hover:border-[#ff4060] transition cursor-pointer">
               <div className="flex items-center gap-4">
-
-                {/* Rang ou match */}
                 <div className="flex flex-col items-center justify-center w-16 h-16 bg-[#111d2e] border border-[#ff4060]/30 rounded-lg shrink-0">
                   {candidate.aiRelevance !== undefined && aiRanked ? (
                     <>
@@ -106,7 +150,6 @@ export default function RecruiterDashboardClient({
                     </p>
                   )}
 
-                  {/* Raison du match */}
                   {aiRanked && candidate.aiReason && (
                     <p className="font-mono text-xs text-[#ff4060]/60 italic mb-2">
                       ↳ {candidate.aiReason}
@@ -131,7 +174,6 @@ export default function RecruiterDashboardClient({
                   </div>
                 </div>
 
-                {/* CyberScore */}
                 <div className="flex flex-col items-center justify-center w-24 h-24 bg-[#111d2e] border border-[#ff4060]/30 rounded-lg shrink-0">
                   <div className="font-mono text-3xl font-bold text-[#ff4060]">
                     {candidate.cyberScore}
@@ -144,9 +186,45 @@ export default function RecruiterDashboardClient({
         ))}
       </div>
 
-      {displayCandidates.length === 0 && (
+      {displayCandidates.length === 0 && !aiRanked && (
         <div className="text-center py-16 text-gray-500 font-mono text-sm">
           Aucun candidat trouvé. Ajustez vos filtres.
+        </div>
+      )}
+
+      {totalPages > 1 && !aiRanked && (
+        <div className="flex items-center justify-center gap-4 mt-8 pb-8">
+          <PaginationLink
+            page={currentPage - 1}
+            disabled={currentPage <= 1}
+            label="← Précédent"
+          />
+          <div className="flex items-center gap-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter((p) => {
+                const d = Math.abs(p - currentPage);
+                return d === 0 || d === 1 || d === 2 || p === 1 || p === totalPages;
+              })
+              .reduce<(number | "gap")[]>((acc, p, idx, arr) => {
+                if (idx > 0 && p - arr[idx - 1] > 1) acc.push("gap");
+                acc.push(p);
+                return acc;
+              }, [])
+              .map((item, i) =>
+                item === "gap" ? (
+                  <span key={`gap-${i}`} className="font-mono text-xs text-gray-600 px-1">
+                    ...
+                  </span>
+                ) : (
+                  <PaginationLink key={item} page={item} active={item === currentPage} />
+                )
+              )}
+          </div>
+          <PaginationLink
+            page={currentPage + 1}
+            disabled={currentPage >= totalPages}
+            label="Suivant →"
+          />
         </div>
       )}
     </>
