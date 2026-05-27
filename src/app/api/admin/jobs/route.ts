@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
-const ADMIN_ID = "user_3DzGZHTqCcaF4yvqP27rrB2RWBj";
+const ADMIN_ID = "user_3EAT5iB7v76L1L4QQ2uldeubkpW";
 
 export async function PATCH(req: Request) {
   const { userId } = await auth();

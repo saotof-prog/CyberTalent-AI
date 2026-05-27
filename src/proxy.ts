@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-const ADMIN_ID = "user_3DzGZHTqCcaF4yvqP27rrB2RWBj";
+const ADMIN_ID = "user_3EAT5iB7v76L1L4QQ2uldeubkpW";
 
 const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
