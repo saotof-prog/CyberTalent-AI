@@ -1,5 +1,8 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const ADMIN_ID = "user_3DzGZHTqCcaF4yvqP27rrB2RWBj";
 
@@ -11,31 +14,35 @@ const isPublicRoute = createRouteMatcher([
   "/",
 ]);
 
-const isCandidateRoute = createRouteMatcher([
-  "/dashboard(.*)",
-]);
-
-const isRecruiterRoute = createRouteMatcher([
-  "/recruiter(.*)",
-]);
+const isCandidateRoute = createRouteMatcher(["/dashboard(.*)"]);
+const isRecruiterRoute = createRouteMatcher(["/recruiter(.*)"]);
 
 export default clerkMiddleware(async (auth, request) => {
   const { userId } = await auth();
 
-  // Routes publiques — tout le monde peut accéder
+  // Routes publiques
   if (isPublicRoute(request)) return NextResponse.next();
 
-  // Non connecté → sign-in
+  // Non connecté
   if (!userId) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  // Admin → accès total
+  // Admin — accès total
   if (userId === ADMIN_ID) return NextResponse.next();
 
-  // Récupérer le rôle depuis les metadata Clerk
-  const { sessionClaims } = await auth();
-  const role = (sessionClaims?.metadata as any)?.role as string | undefined;
+  // Récupérer le rôle depuis la DB
+  const user = await prisma.user.findUnique({
+    where: { clerkId: userId },
+    select: { role: true },
+  });
+
+  const role = user?.role;
+
+  // Pas encore de rôle → choose-role
+  if (!role && !isPublicRoute(request)) {
+    return NextResponse.redirect(new URL("/choose-role", request.url));
+  }
 
   // Candidat essaie d'accéder à l'espace recruteur
   if (isRecruiterRoute(request) && role === "CANDIDATE") {
