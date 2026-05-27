@@ -129,7 +129,7 @@ export default async function RecruiterJobsPage() {
                     {/* Candidatures + date */}
                     <div className="flex items-center gap-4">
                       <Link
-                        href={`/dashboard/recruiter/jobs/${job.id}/applications`}
+                        href={`/recruiter/jobs/${job.id}/applications`}
                         className="font-mono text-xs text-[#ff4060] hover:underline"
                       >
                         👥 {job._count.applications} candidature

@@ -34,10 +34,15 @@ export async function POST(req: Request) {
       });
     }
 
-    // Créer ou mettre à jour l'entreprise
-    const companySlug = body.companyName.toLowerCase().replace(/\s+/g, "-") + "-" + Date.now();
-    const company = await prisma.company.create({
-      data: {
+    // Créer ou trouver l'entreprise
+    const companySlug = body.companyName.toLowerCase().replace(/\s+/g, "-");
+    const company = await prisma.company.upsert({
+      where: { slug: companySlug },
+      update: {
+        size: body.companySize ?? null,
+        industry: body.companyIndustry ?? null,
+      },
+      create: {
         name: body.companyName,
         slug: companySlug,
         size: body.companySize ?? null,

@@ -36,7 +36,7 @@ export default function RecruiterFilters({ onAiResults }: Props) {
       if (value) params.set(key, value);
       else params.delete(key);
       onAiResults(null, false);
-      router.push("/dashboard/recruiter/dashboard?" + params.toString());
+      router.push("/recruiter/dashboard?" + params.toString());
     },
     [router, searchParams, onAiResults]
   );
