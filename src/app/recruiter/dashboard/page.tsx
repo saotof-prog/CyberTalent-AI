@@ -1,10 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import RecalculateButton from "./recalculate-button";
 import RecruiterDashboardClient from "./dashboard-client";
-
-const prisma = new PrismaClient();
 
 export default async function RecruiterDashboard({
   searchParams,

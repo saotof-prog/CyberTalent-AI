@@ -1,12 +1,11 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import CertificationUpload from "@/components/CertificationUpload";
 import LabUpload from "@/components/LabUpload";
 import SkillsManager from "@/components/skills-manager";
 import JobRecommendations from "@/components/job-recommendations";
-
-const prisma = new PrismaClient();
+import GithubSync from "@/components/GithubSync";
 
 export default async function DashboardPage() {
   const { userId } = await auth();
@@ -115,6 +114,12 @@ export default async function DashboardPage() {
               <div className="font-mono text-xs text-gray-400 mb-1">GITHUB</div>
               <div className="font-mono text-xs md:text-sm text-[#00c896] truncate">
                 {profile.githubUsername ? "@" + profile.githubUsername : "—"}
+              </div>
+              <div className="mt-2">
+                <GithubSync
+                  username={profile.githubUsername}
+                  syncedAt={profile.githubSyncedAt}
+                />
               </div>
             </div>
             <div>

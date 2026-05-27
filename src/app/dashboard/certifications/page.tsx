@@ -1,9 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import CertificationUpload from "@/components/CertificationUpload";
-
-const prisma = new PrismaClient();
+import CertVerifyButton from "@/components/CertVerifyButton";
 
 export default async function CertificationsPage() {
   const { userId } = await auth();
@@ -49,6 +48,9 @@ export default async function CertificationsPage() {
               }`}>
                 {cert.status === "VERIFIED" ? "✓ Vérifié" : cert.status === "REJECTED" ? "✗ Rejeté" : "⏳ En attente"}
               </span>
+              {cert.status === "PENDING" && (
+                <CertVerifyButton certId={cert.id} />
+              )}
             </div>
           ))}
         </div>

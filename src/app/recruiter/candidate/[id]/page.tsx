@@ -1,10 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import SaveButton from "./save-button";
-
-const prisma = new PrismaClient();
 
 export default async function CandidateProfilePage({
   params,

@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { computeMatchScore } from "@/lib/matching";
-
-const prisma = new PrismaClient();
 
 export async function GET() {
   const { userId } = await auth();

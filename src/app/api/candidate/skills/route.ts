@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { calculateCyberScore } from "@/lib/score";
-
-const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
