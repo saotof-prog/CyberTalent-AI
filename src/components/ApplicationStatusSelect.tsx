@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const STATUSES = ["PENDING", "VIEWED", "SHORTLISTED", "INTERVIEW", "OFFER", "REJECTED"] as const;
 

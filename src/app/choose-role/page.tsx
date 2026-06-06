@@ -11,11 +11,16 @@ export default function ChooseRolePage() {
     if (!selected) return;
     setLoading(true);
 
-    await fetch("/api/choose-role", {
+    const res = await fetch("/api/choose-role", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ role: selected }),
     });
+
+    if (!res.ok) {
+      setLoading(false);
+      return;
+    }
 
     if (selected === "CANDIDATE") {
       router.push("/onboarding");

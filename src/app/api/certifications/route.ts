@@ -61,7 +61,7 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: Request) {
+export async function GET() {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
@@ -76,7 +76,7 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json(user?.candidateProfile?.certifications ?? []);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

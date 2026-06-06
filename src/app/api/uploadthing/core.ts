@@ -19,7 +19,7 @@ export const ourFileRouter = {
         throw e;
       }
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ file }) => {
       console.log("Upload terminé:", file.url);
       return { url: file.url };
     }),

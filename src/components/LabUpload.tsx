@@ -40,7 +40,7 @@ export default function LabUpload() {
         setDone(false);
         router.refresh();
       }, 1500);
-    } catch (e) {
+    } catch {
       alert("Erreur lors de l'ajout");
     }
     setLoading(false);

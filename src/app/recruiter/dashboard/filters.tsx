@@ -126,7 +126,7 @@ export default function RecruiterFilters({ onAiResults }: Props) {
           <option value="">Tous les pays</option>
           <option value="SN">Sénégal</option>
           <option value="MA">Maroc</option>
-          <option value="CI">Côte d'Ivoire</option>
+          <option value="CI">Côte d&apos;Ivoire</option>
         </select>
       </div>
     </div>

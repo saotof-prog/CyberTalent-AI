@@ -5,7 +5,7 @@ type ScoreInput = {
   labs: { id: string; labName?: string; platform?: string; difficulty?: string }[];
   skills: { id: string; level?: string }[];
   githubUsername: string | null;
-  githubStats: any;
+  githubStats: unknown;
 };
 
 const TOP_CERTS = ["OSCP", "CISSP", "CISM", "GREM", "GXPN", "GWAPT"];
@@ -30,7 +30,7 @@ export function calculateCyberScore(data: ScoreInput): number {
   if (data.githubUsername) {
     score += 5;
     if (data.githubStats) {
-      const stats = data.githubStats as any;
+      const stats = data.githubStats as Record<string, number>;
       if (stats.public_repos > 5) score += 5;
       if (stats.public_repos > 15) score += 5;
       if (stats.followers > 10) score += 5;
@@ -51,7 +51,7 @@ export async function analyzeProfileWithAI(profile: {
   skills: { level?: string }[];
 }) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
   const prompt = `
 Tu es un expert en cybersécurité. Analyse ce profil.

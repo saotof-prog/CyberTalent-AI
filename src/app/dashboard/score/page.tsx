@@ -72,12 +72,12 @@ export default async function ScorePage() {
         </div>
         {profile.aiSummary && (
           <p className="font-mono text-sm text-gray-300 max-w-2xl mx-auto leading-relaxed italic">
-            "{profile.aiSummary}"
+            &ldquo;{profile.aiSummary}&rdquo;
           </p>
         )}
         {!profile.aiSummary && (
           <p className="font-mono text-xs text-gray-500">
-            Clique sur "Recalculer" pour générer ton analyse IA
+            Clique sur &ldquo;Recalculer&rdquo; pour générer ton analyse IA
           </p>
         )}
         <div className="mt-6">
@@ -92,7 +92,7 @@ export default async function ScorePage() {
             ⚠ Incohérence détectée
           </div>
           <p className="font-mono text-xs text-gray-400 mt-1">
-            L'IA a détecté des incohérences dans ton profil. Vérifie tes certifications et skills.
+            L&apos;IA a détecté des incohérences dans ton profil. Vérifie tes certifications et skills.
           </p>
         </div>
       )}
@@ -144,7 +144,7 @@ export default async function ScorePage() {
           <div className="flex items-center gap-2 mb-4">
             <div className="w-1 h-4 bg-[#0084ff] rounded" />
             <span className="font-mono text-sm text-[#0084ff]">
-              QUESTIONS D'INTERVIEW GENEREES PAR L'IA
+              QUESTIONS D&apos;INTERVIEW GENEREES PAR L&apos;IA
             </span>
           </div>
           <div className="flex flex-col gap-3">

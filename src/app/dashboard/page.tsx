@@ -1,4 +1,4 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -66,7 +66,7 @@ export default async function DashboardPage() {
             <div className="font-mono text-4xl font-bold text-white mb-4">{totalCerts}</div>
             {totalCerts > 0 && (
               <div className="flex flex-col gap-2">
-                {profile.certifications.slice(0, 3).map((cert: any) => (
+                {profile.certifications.slice(0, 3).map((cert) => (
                   <div key={cert.id} className="flex items-center justify-between p-2 bg-[#111d2e] rounded-lg">
                     <div>
                       <div className="font-mono text-xs text-white">{cert.name}</div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, startTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -28,8 +28,8 @@ export default function NotificationsBell() {
   }, []);
 
   useEffect(() => {
-    fetchNotifs();
-    const interval = setInterval(fetchNotifs, 30000);
+    startTransition(() => { fetchNotifs(); });
+    const interval = setInterval(() => startTransition(() => { fetchNotifs(); }), 30000);
     return () => clearInterval(interval);
   }, [fetchNotifs]);
 

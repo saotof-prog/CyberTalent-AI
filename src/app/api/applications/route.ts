@@ -62,8 +62,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, application });
-  } catch (error) {
-    console.error("ERREUR APPLICATION:", error);
+  } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
@@ -88,7 +87,7 @@ export async function GET() {
     });
 
     return NextResponse.json(user?.candidateProfile?.applications ?? []);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

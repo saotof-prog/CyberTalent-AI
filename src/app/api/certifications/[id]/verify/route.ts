@@ -82,9 +82,9 @@ Réponds UNIQUEMENT en JSON valide sans markdown ni backticks:
 
       const { calculateCyberScore } = await import("@/lib/score");
       const newScore = calculateCyberScore({
-        certifications: allCerts as any,
-        labs: allLabs as any,
-        skills: allSkills as any,
+        certifications: allCerts,
+        labs: allLabs,
+        skills: allSkills,
         githubUsername: profile.githubUsername,
         githubStats: profile.githubStats,
       });

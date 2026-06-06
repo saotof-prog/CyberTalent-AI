@@ -31,25 +31,25 @@ export async function POST() {
       return NextResponse.json({ error: "GitHub user introuvable" }, { status: 404 });
     }
 
-    const userData: any = await userRes.json();
-    const reposData: any[] = await reposRes.json();
+    const userData: { public_repos: number; followers: number; following: number } = await userRes.json();
+    const reposData: { id: number; name: string; full_name: string; description: string | null; html_url: string; private: boolean; stargazers_count: number; forks_count: number; language: string | null; topics: string[]; pushed_at: string | null }[] = await reposRes.json();
 
     const languages: string[] = [...new Set(
-      reposData.map((r: any) => r.language).filter((l: string | null) => l != null)
+      reposData.map((r) => r.language).filter((l: string | null) => l != null)
     )];
 
     const stats = {
       public_repos: userData.public_repos,
       followers: userData.followers,
       following: userData.following,
-      total_stars: reposData.reduce((acc: number, r: any) => acc + r.stargazers_count, 0),
-      total_forks: reposData.reduce((acc: number, r: any) => acc + r.forks_count, 0),
+      total_stars: reposData.reduce((acc: number, r) => acc + r.stargazers_count, 0),
+      total_forks: reposData.reduce((acc: number, r) => acc + r.forks_count, 0),
       languages,
     };
 
     await prisma.$transaction([
       prisma.githubRepo.deleteMany({ where: { candidateId: candidate.id } }),
-      ...reposData.map((repo: any) =>
+      ...reposData.map((repo) =>
         prisma.githubRepo.create({
           data: {
             candidateId: candidate.id,

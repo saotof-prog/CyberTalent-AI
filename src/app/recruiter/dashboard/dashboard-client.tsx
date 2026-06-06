@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+
 import RecruiterFilters from "./filters";
 
 type Candidate = {
@@ -72,7 +73,6 @@ export default function RecruiterDashboardClient({
   currentPage: number;
   totalPages: number;
 }) {
-  const searchParams = useSearchParams();
   const [aiCandidates, setAiCandidates] = useState<Candidate[] | null>(null);
   const [aiRanked, setAiRanked] = useState(false);
 

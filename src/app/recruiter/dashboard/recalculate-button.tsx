@@ -11,8 +11,7 @@ export default function RecalculateButton() {
   async function handleClick() {
     setLoading(true);
     setDone(false);
-    const res = await fetch("/api/score/recalculate", { method: "POST" });
-    const data = await res.json();
+    await fetch("/api/score/recalculate", { method: "POST" });
     setLoading(false);
     setDone(true);
     router.refresh();

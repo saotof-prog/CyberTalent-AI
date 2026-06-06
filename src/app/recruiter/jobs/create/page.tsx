@@ -43,7 +43,7 @@ export default function CreateJobPage() {
       if (!res.ok) throw new Error("Erreur");
       router.push("/recruiter/jobs");
       router.refresh();
-    } catch (e) {
+    } catch {
       alert("Erreur lors de la création");
     }
     setLoading(false);

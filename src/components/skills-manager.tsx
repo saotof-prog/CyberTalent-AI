@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, startTransition } from "react";
 
 type Skill = {
   id: string;
@@ -55,37 +55,51 @@ export default function SkillsManager() {
   }, []);
 
   useEffect(() => {
-    if (!search.trim()) { setResults([]); return; }
+    if (!search.trim()) { startTransition(() => { setResults([]); }); return; }
     const t = setTimeout(async () => {
       const res = await fetch("/api/skills/search?q=" + encodeURIComponent(search));
       const data = await res.json();
-      setResults(data);
+      startTransition(() => { setResults(data); });
     }, 300);
     return () => clearTimeout(t);
   }, [search]);
 
   async function addSkill(skillName: string, category = "Autre") {
     setAdding(true);
-    const res = await fetch("/api/candidate/skills", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        skillName,
-        category,
-        level: selectedLevel,
-        yearsExp: yearsExp ? parseFloat(yearsExp) : null,
-      }),
-    });
-    const data = await res.json();
-    setMySkills((prev) => {
-      const exists = prev.find((s) => s.skillId === data.skill.id);
-      if (exists) return prev.map((s) =>
-        s.skillId === data.skill.id ? { ...s, level: selectedLevel } : s
-      );
-      return [...prev, { ...data.candidateSkill, skill: data.skill }];
-    });
-    setSearch("");
-    setResults([]);
+    try {
+      const res = await fetch("/api/candidate/skills", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          skillName,
+          category,
+          level: selectedLevel,
+          yearsExp: yearsExp ? parseFloat(yearsExp) : null,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!data.skill) {
+        setAdding(false);
+        return;
+      }
+
+      setMySkills((prev) => {
+        const exists = prev.find((s) => s.skillId === data.skill?.id);
+        if (exists) {
+          return prev.map((s) =>
+            s.skillId === data.skill?.id ? { ...s, level: selectedLevel } : s
+          );
+        }
+        return [...prev, { ...data.candidateSkill, skill: data.skill }];
+      });
+
+      setSearch("");
+      setResults([]);
+    } catch (e) {
+      console.error(e);
+    }
     setAdding(false);
   }
 
@@ -109,7 +123,7 @@ export default function SkillsManager() {
               key={cs.skillId}
               className={"flex items-center gap-2 px-3 py-1.5 rounded-full border bg-[#111d2e] " + (LEVEL_COLORS[cs.level] ?? LEVEL_COLORS.BEGINNER)}
             >
-              <span className="font-mono text-xs">{cs.skill.name}</span>
+              <span className="font-mono text-xs">{cs.skill?.name ?? cs.skillId}</span>
               <span className="font-mono text-[10px] opacity-60">{cs.level.slice(0, 3)}</span>
               <button
                 onClick={() => removeSkill(cs.skillId)}
@@ -151,7 +165,7 @@ export default function SkillsManager() {
             )}
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:gap-3 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <select
               value={selectedLevel}
               onChange={(e) => setSelectedLevel(e.target.value)}
@@ -167,7 +181,7 @@ export default function SkillsManager() {
               value={yearsExp}
               onChange={(e) => setYearsExp(e.target.value)}
               placeholder="Années"
-              className="w-24 bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-24"
+              className="bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-24"
             />
 
             {search.trim() && (
@@ -187,7 +201,7 @@ export default function SkillsManager() {
           <p className="font-mono text-xs text-gray-600 mb-2">Suggestions cyber :</p>
           <div className="flex flex-wrap gap-2">
             {SUGGESTED_SKILLS.filter(
-              (s) => !mySkills.find((ms) => ms.skill.name === s.name)
+              (s) => !mySkills.find((ms) => ms.skill?.name === s.name)
             ).slice(0, 8).map((s) => (
               <button
                 key={s.name}

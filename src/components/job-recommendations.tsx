@@ -45,7 +45,7 @@ export default function JobRecommendations() {
       <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
         <div className="flex items-center gap-2 mb-6">
           <div className="w-1 h-4 bg-[#0084ff] rounded" />
-          <span className="font-mono text-sm text-[#0084ff]">OFFRES RECOMMANDÉES PAR L'IA</span>
+          <span className="font-mono text-sm text-[#0084ff]">OFFRES RECOMMANDÉES PAR L&apos;IA</span>
         </div>
         <div className="text-center py-8 text-gray-500 font-mono text-sm animate-pulse">
           Analyse en cours...
@@ -58,7 +58,7 @@ export default function JobRecommendations() {
     <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
       <div className="flex items-center gap-2 mb-6">
         <div className="w-1 h-4 bg-[#0084ff] rounded" />
-        <span className="font-mono text-sm text-[#0084ff]">OFFRES RECOMMANDÉES PAR L'IA</span>
+        <span className="font-mono text-sm text-[#0084ff]">OFFRES RECOMMANDÉES PAR L&apos;IA</span>
         {jobs.length > 0 && (
           <span className="ml-auto font-mono text-xs text-gray-500">{jobs.length} offres compatibles</span>
         )}
@@ -66,7 +66,7 @@ export default function JobRecommendations() {
 
       {jobs.length === 0 ? (
         <div className="text-center py-8 text-gray-500 font-mono text-sm">
-          Aucune offre compatible pour l'instant. Complete ton profil et ajoute des skills.
+          Aucune offre compatible pour l&apos;instant. Complete ton profil et ajoute des skills.
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

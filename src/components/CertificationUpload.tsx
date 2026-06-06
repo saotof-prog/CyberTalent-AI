@@ -37,7 +37,7 @@ export default function CertificationUpload() {
         setDone(false);
         router.refresh();
       }, 1500);
-    } catch (e) {
+    } catch {
       alert("Erreur lors de l'ajout");
     }
     setLoading(false);
@@ -94,7 +94,7 @@ export default function CertificationUpload() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="font-mono text-xs text-gray-400 mb-1 block">Date d'obtention *</label>
+            <label className="font-mono text-xs text-gray-400 mb-1 block">Date d&apos;obtention *</label>
             <input
               type="date"
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
@@ -103,7 +103,7 @@ export default function CertificationUpload() {
             />
           </div>
           <div>
-            <label className="font-mono text-xs text-gray-400 mb-1 block">Date d'expiration</label>
+            <label className="font-mono text-xs text-gray-400 mb-1 block">Date d&apos;expiration</label>
             <input
               type="date"
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"

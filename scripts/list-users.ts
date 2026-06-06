@@ -9,18 +9,15 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  const email = process.argv[2];
-  if (!email) {
-    console.error("Usage: npx tsx scripts/set-admin.ts <email>");
-    process.exit(1);
+  const users = await prisma.user.findMany({ select: { email: true, role: true } });
+  if (users.length === 0) {
+    console.log("Aucun utilisateur en base.");
+  } else {
+    console.log("Utilisateurs en base :");
+    for (const u of users) {
+      console.log(`  - ${u.email} (${u.role})`);
+    }
   }
-
-  const user = await prisma.user.update({
-    where: { email },
-    data: { role: "ADMIN" },
-  });
-
-  console.log(`✅ ${user.email} est maintenant ADMIN`);
 }
 
 main().catch(console.error).finally(() => prisma.$disconnect());

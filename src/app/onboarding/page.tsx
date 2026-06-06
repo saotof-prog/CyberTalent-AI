@@ -57,7 +57,7 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen bg-[#080c14] text-white flex items-center justify-center p-6">
       <div className="w-full max-w-lg">
-        <div className="font-mono text-[#00c896] text-xl font-bold mb-2">// SETUP PROFIL</div>
+        <div className="font-mono text-[#00c896] text-xl font-bold mb-2">{'// SETUP PROFIL'}</div>
         <p className="text-gray-400 font-mono text-sm mb-8">Configure ton profil CyberTalent AI</p>
 
         <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6 flex flex-col gap-4">
