@@ -235,4 +235,6 @@ git push origin feature/your-feature
 
 *Built with ❤️ from Dakar — CyberTalent AI © 2026*
 
+> 🇫🇷 Une documentation en français est disponible dans [LISEZMOI.md](LISEZMOI.md)
+
 </div>
