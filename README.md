@@ -1,411 +1,229 @@
 <div align="center">
 
-# 🛡️ CyberTalent AI
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,50:302b63,100:24243e&height=200&section=header&text=CyberTalent%20AI&fontSize=52&fontColor=ffffff&fontAlignY=38&desc=The%20Intelligence%20Layer%20for%20Cybersecurity%20Hiring&descSize=18&descAlignY=60&animation=fadeIn" width="100%"/>
 
-**La plateforme de recrutement cybersécurité propulsée par l'IA**
+<br/>
 
-*Vérifie les vraies compétences · Score les profils · Connecte les talents*
+[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.dev/)
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=flat-square&logo=next.js)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
-[![Prisma](https://img.shields.io/badge/Prisma-6.x-2D3748?style=flat-square&logo=prisma)](https://www.prisma.io)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-336791?style=flat-square&logo=postgresql)](https://neon.tech)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com)
-[![Clerk](https://img.shields.io/badge/Auth-Clerk-6C47FF?style=flat-square)](https://clerk.com)
-[![Gemini AI](https://img.shields.io/badge/AI-Google%20Gemini-4285F4?style=flat-square&logo=google)](https://ai.google.dev)
-[![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+<br/>
 
-[🚀 Demo Live](https://cybertech-ai.vercel.app) · [🐛 Signaler un bug](https://github.com/saotof-prog/CyberTech-AI/issues) · [💡 Demander une feature](https://github.com/saotof-prog/CyberTech-AI/issues)
+> **CyberTalent AI** is a dual-portal platform that connects cybersecurity professionals with top recruiters — powered by AI-driven job matching, skill scoring, and real-time analytics.
+
+<br/>
+
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Coming_Soon-ff4060?style=for-the-badge)](https://cybertalent.ai)
+[![MIT License](https://img.shields.io/badge/License-MIT-00c896?style=for-the-badge)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-00c896?style=for-the-badge)](CONTRIBUTING.md)
 
 </div>
 
 ---
 
-## 📋 Table des matières
+## 📸 Preview
 
-- [À propos](#-à-propos)
-- [Fonctionnalités](#-fonctionnalités)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Démarrage rapide](#-démarrage-rapide)
-- [Variables d'environnement](#-variables-denvironnement)
-- [Structure du projet](#-structure-du-projet)
-- [Base de données](#-base-de-données)
-- [API Reference](#-api-reference)
-- [Déploiement](#-déploiement)
-- [Auteur](#-auteur)
+<div align="center">
+
+| 🔴 Recruiter Dashboard | 🟢 Candidate Dashboard |
+|:---:|:---:|
+| *AI-powered talent search & pipeline* | *CyberScore & job recommendations* |
+
+> Screenshots coming soon — deployment in progress.
+
+</div>
 
 ---
 
-## 🎯 À propos
+## ✨ Features
 
-**CyberTalent AI** est une plateforme SaaS spécialisée dans le recrutement en cybersécurité. Contrairement aux plateformes traditionnelles basées sur des mots-clés, CyberTalent AI utilise l'intelligence artificielle pour **vérifier les vraies compétences** des candidats et connecter les meilleurs talents aux entreprises.
+### 🔴 Recruiter Portal (`/recruiter`)
+- 🔍 **Advanced talent filtering** — search by skill, certification, CyberScore, and availability
+- 📊 **Pipeline management** — track candidates from shortlist to hire
+- 📋 **Job posting workflow** — create and manage listings with required skill matching
+- 📈 **Analytics dashboard** — conversion rates, talent pool insights
 
-### Le problème résolu
+### 🟢 Candidate Portal (`/candidate`)
+- 🧠 **CyberScore™** — dynamic score computed from certifications, labs, GitHub activity, and skill levels
+- 💼 **AI Job Recommendations** — matched positions based on your profile, score, and preferences
+- 🛠️ **Skills Manager** — add skills with proficiency level, years of experience, and autocomplete
+- 👤 **Profile builder** — showcase your certs, tools, and projects
 
-Le recrutement en cybersécurité souffre d'un problème majeur : les candidats surévaluent leurs compétences sur leur CV sans preuves concrètes. CyberTalent AI impose une approche **proof-of-work** — chaque compétence doit être prouvée par des certifications vérifiées, des labs complétés ou du code GitHub réel.
-
-### Comment ça marche
-
-```
-Candidat s'inscrit → Choisit son rôle → Renseigne ses compétences
-      ↓
-L'IA (Gemini) analyse la cohérence du profil
-      ↓
-CyberScore généré (0–100) avec résumé + points forts
-      ↓
-Recruteur recherche via IA → Trouve les meilleurs matchs
-```
-
----
-
-## ✨ Fonctionnalités
-
-### 👨‍💻 Espace Candidat
-
-| Fonctionnalité | Description |
-|---|---|---|
-| **Profil tech complet** | Headline, bio, localisation, GitHub, disponibilité |
-| **Édition du profil** | Modification du profil après onboarding (prénom, nom, headline, bio, localisation, GitHub, salaire, disponibilité) |
-| **Certifications** | Upload OSCP, CEH, CISSP, eJPT, etc. avec lien de vérification |
-| **Vérification IA des certs** | Google Gemini vérifie l'authenticité des certifications → statut VERIFIED/REJECTED |
-| **Labs complétés** | HackTheBox, TryHackMe, VulnHub, PortSwigger, etc. |
-| **Skills techniques** | Compétences avec niveaux (Beginner → Expert) |
-| **CyberScore IA** | Score 0-100 calculé par Google Gemini + algorithme |
-| **Historique de score** | Traçabilité complète de chaque évolution |
-| **Dashboard temps réel** | Vue d'ensemble de toutes ses données |
-| **Offres d'emploi** | Consultation des offres adaptées à son niveau |
-
-### 🎯 Espace Recruteur
-
-| Fonctionnalité | Description |
-|---|---|---|
-| **Dashboard candidats** | Liste classée par CyberScore avec filtres avancés |
-| **Pagination** | Navigation 20 candidats/page avec conservation des filtres |
-| **Recherche IA naturelle** | "Pentester senior OSCP avec expérience cloud" |
-| **Filtres avancés** | Score minimum, certification, pays, disponibilité |
-| **Page profil candidat** | Vue détaillée avec toutes les preuves de compétences |
-| **Gestion des candidatures** | Suivi des candidatures avec changement de statut (PENDING → VIEWED → SHORTLISTED → INTERVIEW → OFFER → REJECTED) |
-| **Candidats sauvegardés** | Bookmarks avec notes personnelles |
-| **Offres d'emploi** | Publication, gestion et désactivation des offres |
-| **Notifications temps réel** | 🔔 Cloche avec badge de notifications à la soumission d'une candidature |
-| **Recalcul des scores** | Mise à jour en masse des CyberScores |
-
-### 🤖 Intelligence Artificielle
-
-| Fonctionnalité | Description |
-|---|---|
-| **Scoring hybride** | Algorithme déterministe + analyse sémantique Gemini |
-| **Résumé automatique** | Profil résumé en langage naturel pour les recruteurs |
-| **Points forts** | Top 3 des forces identifiées par l'IA |
-| **Axes d'amélioration** | Recommandations personnalisées |
-| **Détection fake skills** | Analyse de cohérence entre certifications et labs |
-| **Questions d'interview** | Générées selon le profil exact du candidat |
+### 🤖 AI Engine
+- Semantic skill matching between job requirements and candidate profiles
+- Score-weighted recommendation algorithm
+- Mode-based matching (remote / hybrid / on-site)
 
 ---
 
-## 🛠 Tech Stack
+## 🏗️ Tech Stack
 
-### Frontend
-- **[Next.js 16](https://nextjs.org)** — App Router, Server Components, Turbopack
-- **[TypeScript](https://www.typescriptlang.org)** — Typage strict end-to-end
-- **[Tailwind CSS](https://tailwindcss.com)** — Styling utilitaire
-- **[Clerk](https://clerk.com)** — Authentification complète avec gestion des rôles
-
-### Backend
-- **[Next.js API Routes](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)** — API REST serverless
-- **[Prisma ORM 6](https://www.prisma.io)** — Type-safe database client
-- **[PostgreSQL via Neon](https://neon.tech)** — Base de données serverless
-
-### Intelligence Artificielle
-- **[Google Gemini 1.5 Flash](https://ai.google.dev)** — Analyse de profil, scoring, génération de contenu (1500 req/jour gratuites)
-- **Algorithme propriétaire** — Scoring déterministe basé sur les certifications et labs
-
-### Infrastructure
-- **[Vercel](https://vercel.com)** — Déploiement edge global, CI/CD automatique
-- **[Neon](https://neon.tech)** — PostgreSQL serverless, branching, auto-scaling
-- **[UploadThing](https://uploadthing.com)** — Upload sécurisé de certifications et CVs
+| Layer | Technology |
+|-------|-----------|
+| **Framework** | Next.js 15 (App Router) |
+| **Language** | TypeScript |
+| **Styling** | Tailwind CSS |
+| **Auth** | Clerk |
+| **ORM** | Prisma |
+| **Database** | PostgreSQL |
+| **AI** | OpenAI API / Custom matching engine |
+| **Deployment** | Vercel |
 
 ---
 
-## 🏗 Architecture
+## 🚀 Getting Started
 
-```
-cybertalent-ai/
-├── src/
-│   ├── app/                          # Next.js App Router
-│   │   ├── api/                      # API Routes serverless
-│   │   │   ├── certifications/       # CRUD certifications
-│   │   │   ├── certifications/[id]/verify/ # Vérification IA Gemini
-│   │   │   ├── labs/                 # CRUD labs
-│   │   │   ├── jobs/                 # CRUD offres d'emploi
-│   │   │   ├── applications/         # CRUD candidatures
-│   │   │   ├── applications/[id]/    # PATCH statut candidature
-│   │   │   ├── github/sync/          # Sync repos GitHub
-│   │   │   ├── candidate/profile/    # GET/PATCH profil candidat
-│   │   │   ├── candidate/search/     # Recherche IA recruteur
-│   │   │   ├── notifications/        # GET notifications + PATCH lu
-│   │   │   ├── score/recalculate/    # Scoring IA (Gemini)
-│   │   │   ├── onboarding/           # Création de profil
-│   │   │   ├── choose-role/          # Sélection candidat/recruteur
-│   │   │   └── uploadthing/          # Upload fichiers
-│   │   ├── choose-role/              # Page sélection de rôle
-│   │   ├── onboarding/               # Setup profil candidat
-│   │   ├── dashboard/                # Espace candidat
-│   │   │   ├── layout.tsx            # Layout avec Navbar
-│   │   │   ├── page.tsx              # Dashboard principal
-│   │   │   ├── certifications/
-│   │   │   ├── edit/                 # Édition profil
-│   │   │   ├── labs/
-│   │   │   ├── skills/
-│   │   │   ├── score/
-│   │   │   └── jobs/
-│   │   ├── recruiter/                # Espace recruteur
-│   │   │   ├── layout.tsx            # Layout avec RecruiterNavbar
-│   │   │   ├── dashboard/
-│   │   │   ├── candidate/[id]/
-│   │   │   ├── jobs/[id]/applications/ # Candidatures par offre
-│   │   │   ├── jobs/create/
-│   │   │   ├── search/
-│   │   │   └── saved/
-│   │   ├── sign-in/ & sign-up/       # Pages auth Clerk
-│   │   ├── page.tsx                  # Landing page publique
-│   │   ├── sitemap.ts                # Sitemap SEO
-│   │   └── robots.ts                 # Robots SEO
-│   ├── components/
-│   │   ├── Navbar.tsx                # Navigation candidat + 🔔 notifications
-│   │   ├── RecruiterNavbar.tsx       # Navigation recruteur + 🔔 notifications
-│   │   ├── NotificationsBell.tsx     # Dropdown notifications en direct
-│   │   ├── ApplicationStatusSelect.tsx # Changement de statut candidature
-│   │   ├── GithubSync.tsx            # Sync GitHub bouton
-│   │   ├── CertVerifyButton.tsx      # Vérification IA certification
-│   │   ├── CertificationUpload.tsx   # Formulaire certification
-│   │   └── LabUpload.tsx             # Formulaire lab
-│   └── lib/
-│       ├── score.ts                  # Scoring algorithme + Gemini
-│       ├── prisma.ts                 # Client Prisma singleton
-│       └── uploadthing.ts            # Helpers UploadThing
-├── prisma/
-│   ├── schema.prisma                 # 18 modèles de données
-│   └── seed.ts                       # Données de démonstration
-└── prisma.config.ts                  # Configuration Prisma 6
-```
+### Prerequisites
 
----
-
-## 🚀 Démarrage rapide
-
-### Prérequis
-
-- **Node.js** 18+
-- Compte [Neon](https://neon.tech) (PostgreSQL gratuit)
-- Compte [Clerk](https://clerk.com) (Auth gratuit)
-- Clé API [Google AI Studio](https://aistudio.google.com) (Gemini gratuit)
+- Node.js `>= 18.x`
+- PostgreSQL database
+- Clerk account
+- OpenAI API key
 
 ### Installation
 
 ```bash
-# 1. Cloner le repo
-git clone https://github.com/saotof-prog/CyberTech-AI.git
-cd CyberTech-AI
+# Clone the repository
+git clone https://github.com/saotof-prog/cybertalent-ai.git
+cd cybertalent-ai
 
-# 2. Installer les dépendances
+# Install dependencies
 npm install
 
-# 3. Configurer les variables d'environnement
+# Set up environment variables
 cp .env.example .env.local
-# Remplis les variables (voir section suivante)
+```
 
-# 4. Générer le client Prisma
-npx prisma generate
+### Environment Variables
 
-# 5. Créer les tables en base de données
+```env
+# Database
+DATABASE_URL="postgresql://..."
+
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_...
+CLERK_SECRET_KEY=sk_...
+
+# OpenAI
+OPENAI_API_KEY=sk-...
+```
+
+### Run locally
+
+```bash
+# Push database schema
 npx prisma db push
 
-# 6. (Optionnel) Charger les données de test
-npx prisma db seed
-
-# 7. Lancer le serveur de développement
+# Start development server
 npm run dev
 ```
 
-Ouvre [http://localhost:3000](http://localhost:3000) dans ton navigateur 🎉
+Open [http://localhost:3000](http://localhost:3000) 🚀
 
 ---
 
-## 🔐 Variables d'environnement
-
-Crée un fichier `.env.local` à la racine du projet :
-
-```env
-# Base de données PostgreSQL (Neon)
-DATABASE_URL="postgresql://user:password@host/neondb?sslmode=require"
-DIRECT_URL="postgresql://user:password@host/neondb?sslmode=require"
-
-# Clerk Auth
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
-CLERK_SECRET_KEY="sk_test_..."
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/choose-role
-
-# Google Gemini AI (gratuit - 1500 req/jour)
-GEMINI_API_KEY="AIzaSy..."
-
-# UploadThing (upload certifications/CV)
-UPLOADTHING_TOKEN="eyJhcGlL..."
-
-# App
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
-NEXT_PUBLIC_APP_NAME="CyberTalent AI"
-```
-
-### Obtenir les clés API
-
-| Service | Lien | Tier gratuit |
-|---------|------|-------------|
-| Neon (PostgreSQL) | [neon.tech](https://neon.tech) | 0.5 GB storage |
-| Clerk (Auth) | [clerk.com](https://clerk.com) | 10,000 MAU |
-| Google Gemini | [aistudio.google.com](https://aistudio.google.com) | 1500 req/jour |
-| UploadThing | [uploadthing.com](https://uploadthing.com) | 2 GB storage |
-
----
-
-## 🗄 Base de données
-
-Le schéma Prisma contient **18 modèles** couvrant l'ensemble de la plateforme :
+## 📁 Project Structure
 
 ```
-User                → Compte utilisateur (lié à Clerk)
-CandidateProfile    → Profil complet candidat + CyberScore
-RecruiterProfile    → Profil recruteur
-Company             → Entreprises vérifiées
-Certification       → Certifications avec vérification IA
-Skill               → Catalogue de compétences
-CandidateSkill      → Compétences du candidat avec niveaux
-LabCompletion       → Labs HackTheBox, TryHackMe, etc.
-CTFResult           → Résultats de compétitions CTF
-GithubRepo          → Repos analysés automatiquement
-Project             → Projets personnels
-WorkExperience      → Expériences professionnelles
-Education           → Formations et diplômes
-ScoreHistory        → Historique complet du CyberScore
-Job                 → Offres d'emploi
-JobSkill            → Compétences requises par offre
-Application         → Candidatures avec matching IA
-SavedCandidate      → Bookmarks recruteur
-InterviewQuestion   → Questions d'interview générées par IA
-Notification        → Système de notifications
-AuditLog            → Logs de toutes les actions
-UserSession         → Sessions utilisateurs
-```
-
-### Commandes utiles Prisma
-
-```bash
-npx prisma studio          # Interface graphique des données
-npx prisma db push         # Pousser le schéma sans migration
-npx prisma migrate dev     # Créer une migration
-npx prisma generate        # Régénérer le client TypeScript
-npx prisma db seed         # Charger les données de test
+cybertalent-ai/
+├── app/
+│   ├── (recruiter)/          # Recruiter portal (red accent #ff4060)
+│   │   ├── dashboard/
+│   │   ├── candidates/
+│   │   └── jobs/
+│   ├── (candidate)/          # Candidate portal (green accent #00c896)
+│   │   ├── dashboard/
+│   │   ├── profile/
+│   │   └── recommendations/
+│   └── api/
+│       ├── jobs/
+│       ├── candidates/
+│       └── recommendations/
+├── components/
+│   ├── recruiter/
+│   └── candidate/
+├── lib/
+│   ├── prisma.ts
+│   ├── cyberScore.ts         # CyberScore™ algorithm
+│   └── matching.ts           # AI matching engine
+└── prisma/
+    └── schema.prisma
 ```
 
 ---
 
-## 📡 API Reference
+## 🧮 CyberScore™ Algorithm
 
-Toutes les routes nécessitent une authentification Clerk via `auth()`.
+The **CyberScore** is a dynamic 0–100 metric computed from:
 
-| Méthode | Route | Description |
-|---------|-------|-------------|
-| `POST` | `/api/onboarding` | Créer/mettre à jour le profil candidat |
-| `POST` | `/api/onboarding/recruiter` | Créer le profil recruteur |
-| `POST` | `/api/certifications` | Ajouter une certification |
-| `GET` | `/api/certifications` | Lister ses certifications |
-| `POST` | `/api/certifications/[id]/verify` | Vérifier une certification via Gemini IA |
-| `POST` | `/api/labs` | Ajouter un lab complété |
-| `POST` | `/api/score/recalculate` | Recalculer le CyberScore avec Gemini |
-| `POST` | `/api/jobs` | Publier une offre d'emploi |
-| `PATCH` | `/api/jobs/[id]` | Activer/désactiver une offre |
-| `DELETE` | `/api/jobs/[id]` | Supprimer une offre |
-| `POST` | `/api/applications` | Postuler à une offre |
-| `PATCH` | `/api/applications/[id]` | Mettre à jour le statut d'une candidature |
-| `POST` | `/api/candidate/search` | Recherche IA de candidats |
-| `GET/PATCH` | `/api/candidate/profile` | Consulter/modifier son profil candidat |
-| `POST` | `/api/github/sync` | Synchroniser les repos GitHub |
-| `GET` | `/api/notifications` | Lister les notifications |
-| `PATCH` | `/api/notifications` | Marquer une notification comme lue |
-| `POST` | `/recruiter/save` | Sauvegarder/désauvegarder un candidat |
-| `POST` | `/api/choose-role` | Définir le rôle utilisateur |
-| `GET` | `/sitemap.xml` | Sitemap SEO |
-| `GET` | `/robots.txt` | Instructions robots SEO |
-
-### Exemple — Recalcul du CyberScore
+| Factor | Weight |
+|--------|--------|
+| 🏆 International Certifications | 35% |
+| 🧪 Labs & CTF completions | 25% |
+| 🛠️ Skill levels & experience | 25% |
+| 🐙 GitHub activity & projects | 15% |
 
 ```typescript
-const response = await fetch('/api/score/recalculate', {
-  method: 'POST',
-});
+// Simplified scoring logic
+export function computeCyberScore(profile: CandidateProfile): number {
+  const certScore   = scoreCertifications(profile.certifications) * 0.35;
+  const labScore    = scoreLabs(profile.labs)                     * 0.25;
+  const skillScore  = scoreSkills(profile.skills)                 * 0.25;
+  const githubScore = scoreGitHub(profile.githubUrl)              * 0.15;
 
-const data = await response.json();
-// {
-//   success: true,
-//   score: 87,
-//   summary: "Profil offensif solide avec preuves vérifiables...",
-//   strengths: ["OSCP obtenu", "34 labs complétés", "GitHub actif"],
-//   improvements: ["Ajouter des certs cloud", "Contribuer à l'open source"],
-//   interviewQuestions: ["Explique une attaque Buffer Overflow...", ...]
-// }
+  return Math.round(certScore + labScore + skillScore + githubScore);
+}
 ```
 
 ---
 
-## 🚢 Déploiement
+## 🛣️ Roadmap
 
-### Déploiement sur Vercel (recommandé)
+- [x] Recruiter dashboard with URL-based filtering
+- [x] Candidate profile page
+- [x] CyberScore™ calculation engine
+- [x] Skills manager with autocomplete
+- [ ] AI-powered job recommendations
+- [ ] Recruiter analytics dashboard
+- [ ] Real-time notifications
+- [ ] Resume parsing & auto-fill
+- [ ] Public candidate profiles
+- [ ] Mobile app (React Native)
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md) first.
 
 ```bash
-# 1. Push sur GitHub
-git add .
-git commit -m "feat: initial deploy"
-git push origin main
+# Create a feature branch
+git checkout -b feature/your-feature
 
-# 2. Importer sur Vercel
-# → vercel.com → New Project → Import depuis GitHub
+# Commit your changes
+git commit -m "feat: add your feature"
 
-# 3. Ajouter les variables d'environnement
-# → Project Settings → Environment Variables
-# → Coller toutes les variables de .env.local
-
-# 4. Deploy !
-# Vercel redéploie automatiquement à chaque git push
+# Push and open a PR
+git push origin feature/your-feature
 ```
 
-> **Note :** Assure-toi que toutes les variables d'environnement sont bien configurées dans Vercel avant de déployer.
-
 ---
 
-## 📄 License
-
-Ce projet est sous licence **MIT**. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
----
-
-## 👨‍💻 Auteur
+## 👤 Author
 
 <div align="center">
 
-### Mouhamed Abdallah Dia
+**Mouhamed Abdallah Dia** — *saotof-prog*
 
-**Développeur Full-Stack · Étudiant en Informatique**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mouhamed-abdallah-dia-302b743b2)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-7C3AED?style=for-the-badge&logo=githubpages&logoColor=white)](https://saotof-prog.github.io/portoflio/)
+[![Email](https://img.shields.io/badge/Email-Contact-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mouhamedabdallah.dia@uadb.edu.sn)
 
-*Université Alioune Diop de Bambey · Dakar, Sénégal* 🇸🇳
-
-[![GitHub](https://img.shields.io/badge/GitHub-saotof--prog-181717?style=for-the-badge&logo=github)](https://github.com/saotof-prog)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Mouhamed%20Abdallah%20Dia-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/mouhamed-abdallah-dia-302b743b2)
-[![Email](https://img.shields.io/badge/Email-mouhamedabdallah.dia%40uadb.edu.sn-D14836?style=for-the-badge&logo=gmail)](mailto:mouhamedabdallah.dia@uadb.edu.sn)
+*Full-Stack Developer · AI Engineer · Cybersecurity Enthusiast*
+*Dakar, Sénégal 🇸🇳*
 
 </div>
 
@@ -413,10 +231,8 @@ Ce projet est sous licence **MIT**. Voir le fichier [LICENSE](LICENSE) pour plus
 
 <div align="center">
 
-**CyberTalent AI** — Construit avec passion à Dakar, Sénégal 🇸🇳
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:24243e,50:302b63,100:0f0c29&height=120&section=footer&animation=fadeIn" width="100%"/>
 
-*Propulsé par Next.js · Google Gemini · Prisma · Clerk · Vercel*
-
-⭐ **Si ce projet t'a aidé ou inspiré, n'oublie pas de mettre une étoile !**
+*Built with ❤️ from Dakar — CyberTalent AI © 2026*
 
 </div>
