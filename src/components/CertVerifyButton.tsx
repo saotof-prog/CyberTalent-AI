@@ -4,28 +4,25 @@ import { useRouter } from "next/navigation";
 
 export default function CertVerifyButton({ certId }: { certId: string }) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
   const router = useRouter();
 
   async function handleVerify() {
     setLoading(true);
-    setResult(null);
     try {
-      const res = await fetch(`/api/certifications/${certId}/verify`, {
-        method: "POST",
-      });
+      const res = await fetch(`/api/certifications/${certId}/verify`, { method: "POST" });
       const data = await res.json();
-      if (res.ok) {
-        setResult(data.status === "VERIFIED" ? "✓ Vérifiée" : "✗ Rejetée");
-        router.refresh();
+      if (res.ok && data.status === "VERIFIED") {
+        alert("✅ Certification validée !");
+      } else if (res.ok && data.status === "PENDING") {
+        alert("⚠️ " + (data.notes || "Ajoute un lien de vérification pour valider automatiquement."));
       } else {
-        setResult("✗ Erreur");
+        alert("❌ Erreur lors de la vérification.");
       }
+      router.refresh();
     } catch {
-      setResult("✗ Erreur réseau");
+      alert("❌ Erreur réseau.");
     }
     setLoading(false);
-    setTimeout(() => setResult(null), 5000);
   }
 
   return (
@@ -34,7 +31,7 @@ export default function CertVerifyButton({ certId }: { certId: string }) {
       disabled={loading}
       className="font-mono text-xs px-3 py-1.5 rounded-lg border border-[#00c896]/30 text-[#00c896] hover:bg-[#00c896]/10 transition disabled:opacity-50"
     >
-      {loading ? "⏳" : result || "🔍 Vérifier IA"}
+      {loading ? "⏳" : "🔍 Vérifier"}
     </button>
   );
 }

@@ -1,8 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const ADMIN_ID = "user_3DzGZHTqCcaF4yvqP27rrB2RWBj";
-
 const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
@@ -24,17 +22,7 @@ export default clerkMiddleware(async (auth, request) => {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  // Admin
-  if (userId === ADMIN_ID) {
-    if (isAdminRoute(request)) return NextResponse.next();
-    return NextResponse.next();
-  }
-
-  // Non-admin qui essaie d'accéder à /admin
-  if (isAdminRoute(request)) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
+  // La vérification du rôle admin est gérée dans admin/layout.tsx côté DB
   return NextResponse.next();
 });
 

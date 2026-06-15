@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { calculateCyberScore, analyzeProfileWithAI } from "@/lib/score";
+import { handleApiError, unauthorized, notFound, success } from "@/lib/api-error";
 
 export async function POST() {
   const { userId } = await auth();
-  if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!userId) return unauthorized();
 
   try {
     const user = await prisma.user.findUnique({
@@ -15,19 +15,16 @@ export async function POST() {
           include: {
             certifications: true,
             labs: true,
-            skills: true,
+            skills: { include: { skill: true } },
           },
         },
       },
     });
 
-    if (!user?.candidateProfile) {
-      return NextResponse.json({ error: "Profil introuvable" }, { status: 404 });
-    }
+    if (!user?.candidateProfile) return notFound("Profil introuvable");
 
     const profile = user.candidateProfile;
 
-    // 1. Calcul du score
     const newScore = calculateCyberScore({
       certifications: profile.certifications,
       labs: profile.labs,
@@ -36,7 +33,11 @@ export async function POST() {
       githubStats: profile.githubStats,
     });
 
-    // 2. Analyse IA avec Gemini
+    const skillsWithName = profile.skills.map(s => ({
+      level: s.level,
+      name: (s as { skill?: { name: string } }).skill?.name ?? "",
+    }));
+
     const aiAnalysis = await analyzeProfileWithAI({
       firstName: profile.firstName,
       lastName: profile.lastName,
@@ -45,12 +46,11 @@ export async function POST() {
       githubUsername: profile.githubUsername,
       certifications: profile.certifications,
       labs: profile.labs,
-      skills: profile.skills,
+      skills: skillsWithName,
     });
 
     const oldScore = profile.cyberScore;
 
-    // 3. Sauvegarder en base
     await prisma.candidateProfile.update({
       where: { id: profile.id },
       data: {
@@ -66,7 +66,6 @@ export async function POST() {
       },
     });
 
-    // 4. Historique
     await prisma.scoreHistory.create({
       data: {
         candidateId: profile.id,
@@ -83,7 +82,7 @@ export async function POST() {
       },
     });
 
-    return NextResponse.json({
+    return success({
       success: true,
       score: newScore,
       summary: aiAnalysis.summary,
@@ -91,9 +90,7 @@ export async function POST() {
       improvements: aiAnalysis.improvements,
       interviewQuestions: aiAnalysis.interviewQuestions,
     });
-
   } catch (error) {
-    console.error("ERREUR SCORING:", error);
-    return NextResponse.json({ error: "Erreur scoring" }, { status: 500 });
+    return handleApiError(error);
   }
 }

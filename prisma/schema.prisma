@@ -173,6 +173,7 @@ model CandidateProfile {
   aiFlags         String[]                      // alertes détectées par IA
   profileComplete Int       @default(0)         // % complétion du profil
 
+  // Historiques
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
@@ -202,7 +203,7 @@ model CandidateProfile {
 model RecruiterProfile {
   id            String   @id @default(cuid())
   userId        String   @unique
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   firstName     String
   lastName      String
@@ -281,11 +282,16 @@ model Certification {
   aiNotes           String?                                  // Remarques de l'IA
   scoreImpact       Int                 @default(0)         // Points ajoutés au cyberScore
 
+  // Nouveaux champs pour la validation par plateforme
+  platform          String?                                   // Plateforme détectée (credly, coursera, github, edu, corporate, unknown)
+  platformSpecificData Json?                                 // Données spécifiques à la plateforme
+
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
 
   @@index([candidateId])
   @@index([status])
+  @@index([platform])
   @@map("certifications")
 }
 
@@ -346,7 +352,6 @@ model LabCompletion {
   proofUrl      String?                                      // Screenshot ou lien
   isFirstBlood  Boolean          @default(false)
   points        Int              @default(0)
-  writeupUrl    String?
 
   // Vérification
   isVerified    Boolean          @default(false)

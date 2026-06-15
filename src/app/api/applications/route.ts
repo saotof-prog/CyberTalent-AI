@@ -1,10 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { handleApiError, unauthorized, notFound, badRequest, success } from "@/lib/api-error";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
-  if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!userId) return unauthorized();
 
   const { jobId } = await req.json();
 
@@ -14,11 +14,8 @@ export async function POST(req: Request) {
       include: { candidateProfile: true },
     });
 
-    if (!user?.candidateProfile) {
-      return NextResponse.json({ error: "Profil introuvable" }, { status: 404 });
-    }
+    if (!user?.candidateProfile) return notFound("Profil introuvable");
 
-    // Vérifier si déjà postulé
     const existing = await prisma.application.findUnique({
       where: {
         candidateId_jobId: {
@@ -28,9 +25,7 @@ export async function POST(req: Request) {
       },
     });
 
-    if (existing) {
-      return NextResponse.json({ error: "Déjà postulé" }, { status: 400 });
-    }
+    if (existing) return badRequest("Déjà postulé");
 
     const application = await prisma.application.create({
       data: {
@@ -61,15 +56,15 @@ export async function POST(req: Request) {
       });
     }
 
-    return NextResponse.json({ success: true, application });
-  } catch {
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    return success({ success: true, application });
+  } catch (error) {
+    return handleApiError(error);
   }
 }
 
 export async function GET() {
   const { userId } = await auth();
-  if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!userId) return unauthorized();
 
   try {
     const user = await prisma.user.findUnique({
@@ -86,8 +81,8 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(user?.candidateProfile?.applications ?? []);
-  } catch {
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    return success(user?.candidateProfile?.applications ?? []);
+  } catch (error) {
+    return handleApiError(error);
   }
 }

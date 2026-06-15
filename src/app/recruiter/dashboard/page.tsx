@@ -58,6 +58,18 @@ export default async function RecruiterDashboard({
         { firstName: { contains: filters.search, mode: "insensitive" } },
         { lastName: { contains: filters.search, mode: "insensitive" } },
         { headline: { contains: filters.search, mode: "insensitive" } },
+        { bio: { contains: filters.search, mode: "insensitive" } },
+        { location: { contains: filters.search, mode: "insensitive" } },
+        {
+          skills: {
+            some: { skill: { name: { contains: filters.search, mode: "insensitive" } } },
+          },
+        },
+        {
+          certifications: {
+            some: { name: { contains: filters.search, mode: "insensitive" } },
+          },
+        },
       ],
     });
   }

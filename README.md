@@ -4,215 +4,292 @@
 
 <br/>
 
-[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Gemini](https://img.shields.io/badge/Gemini_AI-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
 [![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.dev/)
+[![Neon](https://img.shields.io/badge/Neon-00E599?style=for-the-badge&logo=neon&logoColor=white)](https://neon.tech/)
 
 <br/>
 
-> **CyberTalent AI** is a dual-portal platform that connects cybersecurity professionals with top recruiters — powered by AI-driven job matching, skill scoring, and real-time analytics.
+> **CyberTalent AI** plateforme dual-portal qui connecte les talents cybersécurité aux recruteurs — propulsée par un scoring IA, du matching intelligent et des analytics en temps réel.
 
 <br/>
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Coming_Soon-ff4060?style=for-the-badge)](https://cybertalent.ai)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-ff4060?style=for-the-badge)](https://cybertalent.ai)
 [![MIT License](https://img.shields.io/badge/License-MIT-00c896?style=for-the-badge)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-00c896?style=for-the-badge)](CONTRIBUTING.md)
 
 </div>
 
 ---
 
-## 📸 Preview
+## ✨ Fonctionnalités
 
-<div align="center">
+### 👨‍💻 Portail Candidat (`/dashboard`)
+- 🧠 **CyberScore™** — score dynamique 0-100 calculé à partir de certifications, labs, skills et GitHub
+- 📜 **Gestion des certifications** — upload avec détection automatique de plateforme (Credly, Coursera, GitHub, .edu) et auto-vérification
+- 🧪 **Suivi de labs & CTF** — HackTheBox, TryHackMe, VulnHub, etc. avec niveaux de difficulté
+- 🛠️ **Skills Manager** — ajout/retrait de compétences avec niveaux, années d'expérience et autocomplétion
+- 🐙 **Sync GitHub** — analyse automatique des repos et contributions
+- 🤖 **Analyse IA du profil** — résumé, points forts, axes d'amélioration et questions d'interview générées par Gemini
+- 🎯 **Recommandations d'emploi** — matching personnalisé avec score de compatibilité
+- 📊 **Score IA détaillé** — historique des scores, analyse locale intelligente (même sans connexion Gemini)
+- 📝 **Éditeur de profil** — bio, headline, réseaux sociaux, salaire attendu, disponibilité
 
-| 🔴 Recruiter Dashboard | 🟢 Candidate Dashboard |
-|:---:|:---:|
-| *AI-powered talent search & pipeline* | *CyberScore & job recommendations* |
+### 🔴 Portail Recruteur (`/recruiter/dashboard`)
+- 🔍 **Recherche intelligente** — filtres par mots-clés, score, certifications, pays + matching sémantique IA
+- 👁️ **Profils candidats détaillés** — certifications vérifiées, labs complétés, skills
+- 📋 **Gestion des offres d'emploi** — création, activation/désactivation, suivi des candidatures
+- 💾 **Candidats sauvegardés** — bookmarquez les profils intéressants
+- 📈 **Statistiques** — nombre de candidats, pages, scores
 
-> Screenshots coming soon — deployment in progress.
+### 🛡️ Administration (`/admin`)
+- 📊 **Tableau de bord** — statistiques plateforme (utilisateurs, candidats, recruteurs, offres)
+- 👥 **Gestion des utilisateurs** — liste, détails
+- 🏢 **Gestion des entreprises**
+- 📋 **Gestion des offres**
+- 🎓 **Gestion des certifications**
 
-</div>
-
----
-
-## ✨ Features
-
-### 🔴 Recruiter Portal (`/recruiter`)
-- 🔍 **Advanced talent filtering** — search by skill, certification, CyberScore, and availability
-- 📊 **Pipeline management** — track candidates from shortlist to hire
-- 📋 **Job posting workflow** — create and manage listings with required skill matching
-- 📈 **Analytics dashboard** — conversion rates, talent pool insights
-
-### 🟢 Candidate Portal (`/candidate`)
-- 🧠 **CyberScore™** — dynamic score computed from certifications, labs, GitHub activity, and skill levels
-- 💼 **AI Job Recommendations** — matched positions based on your profile, score, and preferences
-- 🛠️ **Skills Manager** — add skills with proficiency level, years of experience, and autocomplete
-- 👤 **Profile builder** — showcase your certs, tools, and projects
-
-### 🤖 AI Engine
-- Semantic skill matching between job requirements and candidate profiles
-- Score-weighted recommendation algorithm
-- Mode-based matching (remote / hybrid / on-site)
+### 🤖 Moteur IA
+- **Scoring CyberScore™** — 4 facteurs pondérés (certs 40%, labs 25%, skills 15%, GitHub 20%)
+- **Analyse locale intelligente** — génère résumé, forces, améliorations et questions d'interview sans dépendre de Gemini
+- **Analyse Gemini AI** — analyse approfondie quand l'API est disponible
+- **Matching sémantique** — correspondance skills/offres avec score pondéré
+- **Détection d'incohérences** — fake skills detection par croisement certs/labs/skills
+- **Génération de questions d'interview** — personnalisées par domaine (réseau, web, pentest, cloud, SOC)
 
 ---
 
 ## 🏗️ Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **Framework** | Next.js 15 (App Router) |
-| **Language** | TypeScript |
-| **Styling** | Tailwind CSS |
-| **Auth** | Clerk |
-| **ORM** | Prisma |
-| **Database** | PostgreSQL |
-| **AI** | OpenAI API / Custom matching engine |
-| **Deployment** | Vercel |
+| Layer | Technologie |
+|-------|------------|
+| **Framework** | Next.js 16.2.6 (App Router + Turbopack) |
+| **Langage** | TypeScript 5.x |
+| **Styling** | Tailwind CSS v4 |
+| **Auth** | Clerk (`@clerk/nextjs`) |
+| **ORM** | Prisma 6 (`@prisma/client` + `@prisma/adapter-neon`) |
+| **Base de données** | PostgreSQL (Neon.tech) |
+| **IA** | Google Gemini 2.0 Flash (`@google/generative-ai`) |
+| **Upload** | UploadThing |
+| **Temps réel** | WebSockets (`ws`) |
+| **Tests** | Vitest |
+| **Déploiement** | Vercel |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Démarrage rapide
 
-### Prerequisites
+### Prérequis
 
 - Node.js `>= 18.x`
-- PostgreSQL database
-- Clerk account
-- OpenAI API key
+- PostgreSQL (via Neon.tech ou local)
+- Compte Clerk
+- Clé API Google Gemini (gratuite)
 
 ### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/saotof-prog/cybertalent-ai.git
 cd cybertalent-ai
-
-# Install dependencies
 npm install
-
-# Set up environment variables
-cp .env.example .env.local
 ```
 
-### Environment Variables
+### Variables d'environnement
 
 ```env
-# Database
+# Base de données PostgreSQL (Neon)
 DATABASE_URL="postgresql://..."
+DIRECT_URL="postgresql://..."
 
 # Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_...
 CLERK_SECRET_KEY=sk_...
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/choose-role
 
-# OpenAI
-OPENAI_API_KEY=sk-...
+# Google Gemini AI (gratuit : https://aistudio.google.com/)
+GEMINI_API_KEY=AIza...
+
+# UploadThing
+UPLOADTHING_TOKEN=...
+
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_APP_NAME=CyberTalent AI
 ```
 
-### Run locally
+### Lancer en développement
 
 ```bash
-# Push database schema
 npx prisma db push
-
-# Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) 🚀
+Ouvrir [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📁 Project Structure
+## 🧮 Algorithme CyberScore™
+
+Score dynamique 0-100 calculé à partir de **preuves vérifiables** :
+
+| Facteur | Poids | Détail |
+|---------|-------|--------|
+| 🏆 **Certifications** | 40% | TOP (OSCP, CISSP, etc.) = 15pts, MID (CEH, SECURITY+) = 10pts, Autres = 5pts |
+| 🧪 **Labs & CTF** | 25% | 3pts par lab, max 25pts |
+| 🛠️ **Compétences** | 15% | 2pts par skill, max 15pts |
+| 🐙 **GitHub** | 20% | 5pts username + 5pts (>5 repos) + 5pts (>15 repos) + 5pts (>10 followers) |
+
+```typescript
+// Exemple : profil avec OSCP + 5 labs + 3 skills + GitHub actif → Score ≈ 66
+```
+
+### Analyse locale intelligente
+
+Même sans connexion Gemini, le système génère automatiquement :
+- **Résumé** adapté au niveau (débutant / intermédiaire / expert)
+- **Points forts** concrets (certs vérifiées, labs difficiles, skills avancés)
+- **Axes d'amélioration** personnalisés (certifications manquantes, labs à diversifier)
+- **Questions d'interview** par domaine détecté (7 domaines supportés)
+
+---
+
+## 📁 Structure du projet
 
 ```
 cybertalent-ai/
-├── app/
-│   ├── (recruiter)/          # Recruiter portal (red accent #ff4060)
-│   │   ├── dashboard/
-│   │   ├── candidates/
-│   │   └── jobs/
-│   ├── (candidate)/          # Candidate portal (green accent #00c896)
-│   │   ├── dashboard/
-│   │   ├── profile/
-│   │   └── recommendations/
-│   └── api/
-│       ├── jobs/
-│       ├── candidates/
-│       └── recommendations/
-├── components/
-│   ├── recruiter/
-│   └── candidate/
-├── lib/
-│   ├── prisma.ts
-│   ├── cyberScore.ts         # CyberScore™ algorithm
-│   └── matching.ts           # AI matching engine
-└── prisma/
-    └── schema.prisma
+├── prisma/
+│   └── schema.prisma          # 27 modèles, 11 enums
+├── scripts/
+│   ├── set-admin.ts           # Promouvoir un utilisateur en ADMIN
+│   └── list-users.ts          # Lister les utilisateurs
+├── src/
+│   ├── proxy.ts               # Middleware Clerk
+│   ├── app/
+│   │   ├── page.tsx           # Landing page avec fond cyber animé
+│   │   ├── layout.tsx         # Root layout (ClerkProvider)
+│   │   ├── sign-in/           # Connexion Clerk (catch-all)
+│   │   ├── sign-up/           # Inscription Clerk (catch-all)
+│   │   ├── choose-role/       # Choix CANDIDATE / RECRUITER
+│   │   ├── onboarding/        # Onboarding candidat
+│   │   ├── onboarding/recruiter/ # Onboarding recruteur
+│   │   ├── dashboard/         # PORTAL CANDIDAT
+│   │   │   ├── page.tsx       # Accueil stats
+│   │   │   ├── edit/          # Éditer profil
+│   │   │   ├── score/         # CyberScore + analyse IA
+│   │   │   ├── jobs/          # Offres d'emploi
+│   │   │   ├── certifications/
+│   │   │   ├── labs/
+│   │   │   └── skills/
+│   │   ├── recruiter/         # PORTAL RECRUTEUR
+│   │   │   ├── dashboard/     # Recherche talents + filtres
+│   │   │   ├── jobs/          # Gestion des offres
+│   │   │   ├── candidate/[id]/ # Détail candidat
+│   │   │   ├── saved/         # Candidats sauvegardés
+│   │   │   └── search/        # Recherche avancée
+│   │   ├── admin/             # PANEL ADMIN
+│   │   └── api/               # Routes API REST
+│   ├── components/
+│   │   ├── cyber-background.tsx  # Canvas animé (particules, data streams)
+│   │   ├── Navbar.tsx
+│   │   ├── RecruiterNavbar.tsx
+│   │   ├── CertificationUpload.tsx
+│   │   ├── LabUpload.tsx
+│   │   ├── SkillsManager.tsx
+│   │   ├── JobRecommendations.tsx
+│   │   ├── GithubSync.tsx
+│   │   └── NotificationsBell.tsx
+│   └── lib/
+│       ├── prisma.ts          # Client Prisma singleton
+│       ├── score.ts           # CyberScore + analyse IA (Gemini + fallback local)
+│       ├── matching.ts        # Algorithme de matching job/candidat
+│       ├── api-error.ts       # Handler d'erreurs API unifié
+│       └── certificate-validation/
+│           └── platform-detector.ts
 ```
 
 ---
 
-## 🧮 CyberScore™ Algorithm
+## 🧪 Tests
 
-The **CyberScore** is a dynamic 0–100 metric computed from:
+```bash
+# Exécuter tous les tests
+npm test
 
-| Factor | Weight |
-|--------|--------|
-| 🏆 International Certifications | 35% |
-| 🧪 Labs & CTF completions | 25% |
-| 🛠️ Skill levels & experience | 25% |
-| 🐙 GitHub activity & projects | 15% |
-
-```typescript
-// Simplified scoring logic
-export function computeCyberScore(profile: CandidateProfile): number {
-  const certScore   = scoreCertifications(profile.certifications) * 0.35;
-  const labScore    = scoreLabs(profile.labs)                     * 0.25;
-  const skillScore  = scoreSkills(profile.skills)                 * 0.25;
-  const githubScore = scoreGitHub(profile.githubUrl)              * 0.15;
-
-  return Math.round(certScore + labScore + skillScore + githubScore);
-}
+# Mode watch
+npm run test:watch
 ```
+
+**38 tests unitaires** couvrant :
+- `score.test.ts` — 14 tests : calcul du CyberScore (certs, labs, skills, GitHub)
+- `matching.test.ts` — 16 tests : algorithme de matching (score, skills, mode, contrat, pays)
+- `local-analysis.test.ts` — 8 tests : analyse locale (forces, améliorations, questions)
 
 ---
 
 ## 🛣️ Roadmap
 
-- [x] Recruiter dashboard with URL-based filtering
-- [x] Candidate profile page
-- [x] CyberScore™ calculation engine
-- [x] Skills manager with autocomplete
-- [ ] AI-powered job recommendations
-- [ ] Recruiter analytics dashboard
-- [ ] Real-time notifications
-- [ ] Resume parsing & auto-fill
-- [ ] Public candidate profiles
-- [ ] Mobile app (React Native)
+- [x] Landing page avec fond cyber animé (Canvas + particules)
+- [x] Authentification Clerk (Sign-in / Sign-up)
+- [x] Dual-portal (Candidat / Recruteur / Admin)
+- [x] CyberScore™ avec scoring algorithmique
+- [x] Analyse IA (Gemini + fallback local intelligent)
+- [x] Matching sémantique job/candidat
+- [x] Gestion des certifications avec auto-vérification
+- [x] Suivi des labs & CTF
+- [x] Skills manager avec autocomplétion
+- [x] Sync GitHub
+- [x] Notifications en temps réel
+- [x] Panel Admin
+- [x] Tests unitaires (38 tests)
+- [ ] Recherche full-text avancée (Elasticsearch / pg_search)
+- [ ] Parsing automatique de CV
+- [ ] Profils publics candidats
+- [ ] Dashboard analytics recruteur
+- [ ] Application mobile (React Native)
 
 ---
 
-## 🤝 Contributing
+## 📊 API Routes
 
-Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md) first.
-
-```bash
-# Create a feature branch
-git checkout -b feature/your-feature
-
-# Commit your changes
-git commit -m "feat: add your feature"
-
-# Push and open a PR
-git push origin feature/your-feature
-```
+| Méthode | Route | Description |
+|---------|-------|-------------|
+| POST | `/api/choose-role` | Définir le rôle utilisateur |
+| POST | `/api/onboarding` | Créer profil candidat |
+| POST | `/api/onboarding/recruiter` | Créer profil recruteur |
+| GET/POST | `/api/certifications` | Lister/ajouter des certifications |
+| GET/PATCH/DELETE | `/api/certifications/[id]` | Gérer une certification |
+| POST | `/api/labs` | Ajouter un lab |
+| POST | `/api/candidate/skills` | Ajouter/modifier une compétence |
+| GET | `/api/candidate/profile` | Lire le profil candidat |
+| PATCH | `/api/candidate/profile` | Modifier le profil candidat |
+| GET | `/api/candidate/recommendations` | Recommandations d'emploi IA |
+| POST | `/api/candidate/search` | Recherche sémantique de candidats |
+| POST | `/api/score/recalculate` | Recalculer CyberScore + analyse IA |
+| POST | `/api/applications` | Postuler à une offre |
+| PATCH | `/api/applications/[id]` | Mettre à jour le statut |
+| POST | `/api/github/sync` | Synchroniser GitHub |
+| GET | `/api/notifications` | Notifications utilisateur |
 
 ---
 
-## 👤 Author
+## 🔐 Sécurité
+
+- Authentification via Clerk (JWT, MFA supporté)
+- Middleware de protection des routes
+- Rôles (CANDIDATE / RECRUITER / ADMIN) avec guards
+- Validation des URLs de certifications (détection de shorteners)
+- Auto-vérification des liens valides
+- Détection d'incohérences de profil par l'IA
+
+---
+
+## 👤 Auteur
 
 <div align="center">
 
@@ -234,7 +311,5 @@ git push origin feature/your-feature
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:24243e,50:302b63,100:0f0c29&height=120&section=footer&animation=fadeIn" width="100%"/>
 
 *Built with ❤️ from Dakar — CyberTalent AI © 2026*
-
-> 🇫🇷 Une documentation en français est disponible dans [LISEZMOI.md](LISEZMOI.md)
 
 </div>

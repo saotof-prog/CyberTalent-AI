@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import CertificationUpload from "@/components/CertificationUpload";
 import CertVerifyButton from "@/components/CertVerifyButton";
+import CertDeleteButton from "@/components/CertDeleteButton";
 
 export default async function CertificationsPage() {
   const { userId } = await auth();
@@ -39,18 +40,35 @@ export default async function CertificationsPage() {
                   </a>
                 )}
               </div>
-              <span className={`font-mono text-xs px-3 py-1 rounded-full border ${
-                cert.status === "VERIFIED"
-                  ? "border-[#00c896] text-[#00c896] bg-[#00c896]/10"
-                  : cert.status === "REJECTED"
-                  ? "border-[#ff4060] text-[#ff4060] bg-[#ff4060]/10"
-                  : "border-[#ffaa00] text-[#ffaa00] bg-[#ffaa00]/10"
-              }`}>
-                {cert.status === "VERIFIED" ? "✓ Vérifié" : cert.status === "REJECTED" ? "✗ Rejeté" : "⏳ En attente"}
-              </span>
-              {cert.status === "PENDING" && (
-                <CertVerifyButton certId={cert.id} />
-              )}
+              <div className="flex flex-col gap-2">
+                <div className={`font-mono text-xs px-3 py-1 rounded-full ${
+                  cert.status === "VERIFIED"
+                    ? "border-[#00c896] text-[#00c896] bg-[#00c896]/10"
+                    : cert.status === "REJECTED"
+                      ? "border-[#ff4060] text-[#ff4060] bg-[#ff4060]/10"
+                      : cert.status === "VERIFYING"
+                        ? "border-[#ffaa00] text-[#ffaa00] bg-[#ffaa00]/10"
+                        : "border-[#ffaa00] text-[#ffaa00] bg-[#ffaa00]/10"
+                }`}>
+                  {cert.status === "VERIFIED" ? "✓ Vérifié" : cert.status === "REJECTED" ? "✗ Rejeté" : "⏳ En attente"}
+                </div>
+                {cert.platform && (
+                  <div className="font-mono text-[10px] text-[#00c896] mt-1">
+                    Plateforme: {cert.platform}
+                  </div>
+                )}
+                {cert.platformSpecificData && typeof cert.platformSpecificData === 'object' && Object.keys(cert.platformSpecificData).length > 0 && (
+                  <div className="font-mono text-[10px] text-[#00c896] mt-1 max-w-xs">
+                    Détails: {JSON.stringify(cert.platformSpecificData)}
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {cert.status === "PENDING" && (
+                  <CertVerifyButton certId={cert.id} />
+                )}
+                <CertDeleteButton certId={cert.id} />
+              </div>
             </div>
           ))}
         </div>

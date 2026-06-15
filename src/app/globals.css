@@ -10,6 +10,52 @@
   --color-foreground: var(--foreground);
   --font-sans: "Inter", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+  --animate-orb: orb 20s ease-in-out infinite;
+  --animate-orb2: orb2 25s ease-in-out infinite;
+  --animate-orb3: orb3 18s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 3s ease-in-out infinite;
+  --animate-data-flow: data-flow 8s linear infinite;
+  --animate-scan: scan 4s linear infinite;
+  --animate-typing-cursor: typing-cursor 1s step-end infinite;
+}
+
+@keyframes orb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(60px, -40px) scale(1.1); }
+  50% { transform: translate(-30px, -80px) scale(0.9); }
+  75% { transform: translate(-60px, 40px) scale(1.05); }
+}
+
+@keyframes orb2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-80px, 50px) scale(1.15); }
+  66% { transform: translate(50px, -60px) scale(0.85); }
+}
+
+@keyframes orb3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, 60px) scale(0.9); }
+  66% { transform: translate(-60px, -30px) scale(1.1); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes data-flow {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes typing-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 @media (prefers-color-scheme: dark) {

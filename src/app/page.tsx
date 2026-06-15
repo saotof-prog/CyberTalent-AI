@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import CyberBackground from "@/components/cyber-background";
 
 export default async function LandingPage() {
   const { userId } = await auth();
@@ -20,10 +21,16 @@ export default async function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080c14] text-white overflow-x-hidden">
+    <div className="min-h-screen text-white overflow-x-hidden">
 
-      {/* GRID BACKGROUND */}
-      <div className="fixed inset-0 bg-[linear-gradient(rgba(0,200,150,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,200,150,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none z-0" />
+      <CyberBackground />
+
+      {/* Gradient orbs flottantes (overlay sur le canvas) */}
+      <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#00c896] rounded-full blur-[120px] opacity-[0.04] animate-orb" />
+        <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-[#00ff9d] rounded-full blur-[150px] opacity-[0.03] animate-orb2" />
+        <div className="absolute top-2/3 left-1/3 w-[400px] h-[400px] bg-[#00c896] rounded-full blur-[100px] opacity-[0.025] animate-orb3" />
+      </div>
 
       {/* NAVBAR */}
       <nav className="relative z-10 flex items-center justify-between px-4 md:px-8 py-5 border-b border-[#00c896]/10 bg-[#080c14]/90 backdrop-blur sticky top-0">
@@ -138,13 +145,13 @@ export default async function LandingPage() {
       <section className="relative z-10 px-4 md:px-8 py-16 md:py-20 max-w-7xl mx-auto">
         <div className="text-center mb-12 md:mb-16">
           <div className="font-mono text-xs text-[#00c896] mb-4">/ COMMENT CA MARCHE</div>
-          <h2 className="font-mono text-2xl md:text-3xl font-bold text-white">3 etapes simples</h2>
+          <h2 className="font-mono text-2xl md:text-3xl font-bold text-white">3 étapes simples</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { step: "01", title: "Cree ton profil", desc: "Inscris-toi et remplis ton profil avec tes certifications, labs et competences." },
-            { step: "02", title: "L'IA analyse", desc: "Gemini AI verifie la coherence de ton profil et calcule ton CyberScore en temps reel." },
-            { step: "03", title: "Sois decouvert", desc: "Les recruteurs te trouvent via la recherche IA et te contactent directement." },
+            { step: "01", title: "Crée ton profil", desc: "Inscris-toi et remplis ton profil avec tes certifications, labs et compétences." },
+            { step: "02", title: "L'IA analyse", desc: "Gemini AI vérifie la cohérence de ton profil et calcule ton CyberScore en temps réel." },
+            { step: "03", title: "Sois découvert", desc: "Les recruteurs te trouvent via la recherche IA et te contactent directement." },
           ].map((s, i) => (
             <div key={i} className="text-center">
               <div className="font-mono text-6xl font-bold text-[#00c896]/20 mb-4">{s.step}</div>
@@ -158,12 +165,12 @@ export default async function LandingPage() {
       {/* CTA */}
       <section className="relative z-10 px-4 md:px-8 py-16 md:py-24 text-center">
         <div className="max-w-2xl mx-auto">
-          <h2 className="font-mono text-3xl md:text-4xl font-bold text-white mb-6">Pret a prouver ton niveau ?</h2>
+          <h2 className="font-mono text-3xl md:text-4xl font-bold text-white mb-6">Prêt à prouver ton niveau ?</h2>
           <p className="font-mono text-sm text-gray-400 mb-10">
             Rejoins CyberTalent AI et laisse tes vraies competences parler pour toi.
           </p>
           <Link href="/sign-up" className="font-mono text-sm px-10 py-4 bg-[#00c896] text-black font-bold rounded-xl hover:bg-[#00ff9d] transition inline-block">
-            Creer mon profil
+            Créer mon profil
           </Link>
         </div>
       </section>
@@ -171,7 +178,7 @@ export default async function LandingPage() {
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-[#00c896]/10 px-4 md:px-8 py-8 text-center">
         <div className="font-mono text-xs text-gray-600">
-          © Mouhamed Dia 2026 CyberTalent AI · Propulse par Google Gemini · Fait avec pour la communaute cyber africaine
+          © Mouhamed Dia 2026 CyberTalent AI · Propulsé par Google Gemini · Fait avec ❤️ pour la communauté cyber africaine
         </div>
       </footer>
 

@@ -146,23 +146,17 @@ export default async function DashboardPage() {
           )}
         </div>
 
-        {/* SKILLS */}
-        <div className="mb-6 md:mb-8">
+        {/* SKILLS + CERTIFICATIONS — 2-col grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
           <SkillsManager />
-        </div>
-
-        {/* UPLOAD CERTIFICATION */}
-        <div className="mb-6 md:mb-8">
           <CertificationUpload />
         </div>
 
-        {/* UPLOAD LAB */}
-        <div className="mb-6 md:mb-8" id="add-lab">
-          <LabUpload />
-        </div>
-
-        {/* OFFRES */}
-        <div className="mb-6 md:mb-8">
+        {/* LABS + OFFRES — 2-col grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+          <div id="add-lab">
+            <LabUpload />
+          </div>
           <JobRecommendations />
         </div>
 
