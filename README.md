@@ -14,7 +14,7 @@
 
 <br/>
 
-> **CyberTalent AI** plateforme dual-portal qui connecte les talents cybersécurité aux recruteurs — propulsée par un scoring IA, du matching intelligent et des analytics en temps réel.
+> **CyberTalent AI** is a dual-portal platform that connects cybersecurity talents with recruiters — powered by AI scoring, intelligent matching, and real-time analytics.
 
 <br/>
 
@@ -25,69 +25,69 @@
 
 ---
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-### 👨‍💻 Portail Candidat (`/dashboard`)
-- 🧠 **CyberScore™** — score dynamique 0-100 calculé à partir de certifications, labs, skills et GitHub
-- 📜 **Gestion des certifications** — upload avec détection automatique de plateforme (Credly, Coursera, GitHub, .edu) et auto-vérification
-- 🧪 **Suivi de labs & CTF** — HackTheBox, TryHackMe, VulnHub, etc. avec niveaux de difficulté
-- 🛠️ **Skills Manager** — ajout/retrait de compétences avec niveaux, années d'expérience et autocomplétion
-- 🐙 **Sync GitHub** — analyse automatique des repos et contributions
-- 🤖 **Analyse IA du profil** — résumé, points forts, axes d'amélioration et questions d'interview générées par Gemini
-- 🎯 **Recommandations d'emploi** — matching personnalisé avec score de compatibilité
-- 📊 **Score IA détaillé** — historique des scores, analyse locale intelligente (même sans connexion Gemini)
-- 📝 **Éditeur de profil** — bio, headline, réseaux sociaux, salaire attendu, disponibilité
+### 👨‍💻 Candidate Portal (`/dashboard`)
+- 🧠 **CyberScore™** — dynamic 0-100 score computed from certifications, labs, skills, and GitHub activity
+- 📜 **Certification Management** — upload with auto platform detection (Credly, Coursera, GitHub, .edu) and auto-verification
+- 🧪 **Lab & CTF Tracking** — HackTheBox, TryHackMe, VulnHub, etc. with difficulty levels
+- 🛠️ **Skills Manager** — add/remove skills with proficiency levels, years of experience, and autocomplete
+- 🐙 **GitHub Sync** — automatic repo and contribution analysis
+- 🤖 **AI Profile Analysis** — summary, strengths, improvements, and interview questions from Gemini + local fallback
+- 🎯 **Job Recommendations** — personalized matching with compatibility score
+- 📊 **Detailed AI Score** — score history, intelligent local analysis (even without Gemini)
+- 📝 **Profile Editor** — bio, headline, social links, salary expectations, availability
 
-### 🔴 Portail Recruteur (`/recruiter/dashboard`)
-- 🔍 **Recherche intelligente** — filtres par mots-clés, score, certifications, pays + matching sémantique IA
-- 👁️ **Profils candidats détaillés** — certifications vérifiées, labs complétés, skills
-- 📋 **Gestion des offres d'emploi** — création, activation/désactivation, suivi des candidatures
-- 💾 **Candidats sauvegardés** — bookmarquez les profils intéressants
-- 📈 **Statistiques** — nombre de candidats, pages, scores
+### 🔴 Recruiter Portal (`/recruiter/dashboard`)
+- 🔍 **Smart Search** — filters by keywords, score, certifications, country + semantic AI matching
+- 👁️ **Detailed Candidate Profiles** — verified certifications, completed labs, skills
+- 📋 **Job Management** — create, activate/deactivate, track applications
+- 💾 **Saved Candidates** — bookmark promising profiles
+- 📈 **Stats** — candidate count, pages, scores
 
-### 🛡️ Administration (`/admin`)
-- 📊 **Tableau de bord** — statistiques plateforme (utilisateurs, candidats, recruteurs, offres)
-- 👥 **Gestion des utilisateurs** — liste, détails
-- 🏢 **Gestion des entreprises**
-- 📋 **Gestion des offres**
-- 🎓 **Gestion des certifications**
+### 🛡️ Admin Panel (`/admin`)
+- 📊 **Dashboard** — platform-wide stats (users, candidates, recruiters, jobs)
+- 👥 **User Management**
+- 🏢 **Company Management**
+- 📋 **Job Management**
+- 🎓 **Certification Management**
 
-### 🤖 Moteur IA
-- **Scoring CyberScore™** — 4 facteurs pondérés (certs 40%, labs 25%, skills 15%, GitHub 20%)
-- **Analyse locale intelligente** — génère résumé, forces, améliorations et questions d'interview sans dépendre de Gemini
-- **Analyse Gemini AI** — analyse approfondie quand l'API est disponible
-- **Matching sémantique** — correspondance skills/offres avec score pondéré
-- **Détection d'incohérences** — fake skills detection par croisement certs/labs/skills
-- **Génération de questions d'interview** — personnalisées par domaine (réseau, web, pentest, cloud, SOC)
+### 🤖 AI Engine
+- **CyberScore™** — 4 weighted factors (certs 40%, labs 25%, skills 15%, GitHub 20%)
+- **Local Intelligent Analysis** — generates summary, strengths, improvements, and interview questions without Gemini
+- **Gemini AI Analysis** — deep profile analysis when API is available
+- **Semantic Matching** — skill-to-job matching with weighted scores
+- **Inconsistency Detection** — fake skills detection by cross-referencing certs/labs/skills
+- **Interview Question Generation** — domain-specific (network, web, pentest, cloud, SOC)
 
 ---
 
 ## 🏗️ Tech Stack
 
-| Layer | Technologie |
-|-------|------------|
+| Layer | Technology |
+|-------|-----------|
 | **Framework** | Next.js 16.2.6 (App Router + Turbopack) |
-| **Langage** | TypeScript 5.x |
+| **Language** | TypeScript 5.x |
 | **Styling** | Tailwind CSS v4 |
 | **Auth** | Clerk (`@clerk/nextjs`) |
 | **ORM** | Prisma 6 (`@prisma/client` + `@prisma/adapter-neon`) |
-| **Base de données** | PostgreSQL (Neon.tech) |
-| **IA** | Google Gemini 2.0 Flash (`@google/generative-ai`) |
+| **Database** | PostgreSQL (Neon.tech) |
+| **AI** | Google Gemini 2.0 Flash (`@google/generative-ai`) |
 | **Upload** | UploadThing |
-| **Temps réel** | WebSockets (`ws`) |
-| **Tests** | Vitest |
-| **Déploiement** | Vercel |
+| **Real-time** | WebSockets (`ws`) |
+| **Testing** | Vitest |
+| **Deployment** | Vercel |
 
 ---
 
-## 🚀 Démarrage rapide
+## 🚀 Quick Start
 
-### Prérequis
+### Prerequisites
 
 - Node.js `>= 18.x`
-- PostgreSQL (via Neon.tech ou local)
-- Compte Clerk
-- Clé API Google Gemini (gratuite)
+- PostgreSQL (Neon.tech or local)
+- Clerk account
+- Google Gemini API key (free at aistudio.google.com)
 
 ### Installation
 
@@ -97,10 +97,10 @@ cd cybertalent-ai
 npm install
 ```
 
-### Variables d'environnement
+### Environment Variables
 
 ```env
-# Base de données PostgreSQL (Neon)
+# PostgreSQL Database (Neon)
 DATABASE_URL="postgresql://..."
 DIRECT_URL="postgresql://..."
 
@@ -112,7 +112,7 @@ NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/choose-role
 
-# Google Gemini AI (gratuit : https://aistudio.google.com/)
+# Google Gemini AI (free: https://aistudio.google.com/)
 GEMINI_API_KEY=AIza...
 
 # UploadThing
@@ -123,43 +123,39 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_APP_NAME=CyberTalent AI
 ```
 
-### Lancer en développement
+### Run in development
 
 ```bash
 npx prisma db push
 npm run dev
 ```
 
-Ouvrir [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🧮 Algorithme CyberScore™
+## 🧮 CyberScore™ Algorithm
 
-Score dynamique 0-100 calculé à partir de **preuves vérifiables** :
+Dynamic 0-100 score based on **verifiable evidence**:
 
-| Facteur | Poids | Détail |
-|---------|-------|--------|
-| 🏆 **Certifications** | 40% | TOP (OSCP, CISSP, etc.) = 15pts, MID (CEH, SECURITY+) = 10pts, Autres = 5pts |
-| 🧪 **Labs & CTF** | 25% | 3pts par lab, max 25pts |
-| 🛠️ **Compétences** | 15% | 2pts par skill, max 15pts |
-| 🐙 **GitHub** | 20% | 5pts username + 5pts (>5 repos) + 5pts (>15 repos) + 5pts (>10 followers) |
+| Factor | Weight | Detail |
+|--------|--------|--------|
+| 🏆 **Certifications** | 40% | TOP (OSCP, CISSP, etc.) = 15pts, MID (CEH, SECURITY+) = 10pts, Other = 5pts |
+| 🧪 **Labs & CTF** | 25% | 3pts per lab, max 25pts |
+| 🛠️ **Skills** | 15% | 2pts per skill, max 15pts |
+| 🐙 **GitHub** | 20% | Username 5pts + (>5 repos) 5pts + (>15 repos) 5pts + (>10 followers) 5pts |
 
-```typescript
-// Exemple : profil avec OSCP + 5 labs + 3 skills + GitHub actif → Score ≈ 66
-```
+### Smart Local Analysis
 
-### Analyse locale intelligente
-
-Même sans connexion Gemini, le système génère automatiquement :
-- **Résumé** adapté au niveau (débutant / intermédiaire / expert)
-- **Points forts** concrets (certs vérifiées, labs difficiles, skills avancés)
-- **Axes d'amélioration** personnalisés (certifications manquantes, labs à diversifier)
-- **Questions d'interview** par domaine détecté (7 domaines supportés)
+Even without Gemini API access, the system automatically generates:
+- **Summary** adapted to the level (beginner / intermediate / expert)
+- **Strengths** — verified certs, hard labs, advanced skills
+- **Improvements** — missing certs, lab diversification, GitHub connection
+- **Interview questions** by detected domain (7 domains supported)
 
 ---
 
-## 📁 Structure du projet
+## 📁 Project Structure
 
 ```
 cybertalent-ai/
@@ -205,87 +201,89 @@ cybertalent-ai/
 │   │   ├── GithubSync.tsx
 │   │   └── NotificationsBell.tsx
 │   └── lib/
-│       ├── prisma.ts          # Client Prisma singleton
-│       ├── score.ts           # CyberScore + analyse IA (Gemini + fallback local)
-│       ├── matching.ts        # Algorithme de matching job/candidat
-│       ├── api-error.ts       # Handler d'erreurs API unifié
+│       ├── prisma.ts          # Prisma client singleton
+│       ├── score.ts           # CyberScore + AI analysis (Gemini + local fallback)
+│       ├── matching.ts        # Job/candidate matching algorithm
+│       ├── api-error.ts       # Unified API error handler
 │       └── certificate-validation/
 │           └── platform-detector.ts
 ```
+
+> 🇫🇷 Une version française est disponible dans [LISEZMOI.md](LISEZMOI.md)
 
 ---
 
 ## 🧪 Tests
 
 ```bash
-# Exécuter tous les tests
+# Run all tests
 npm test
 
-# Mode watch
+# Watch mode
 npm run test:watch
 ```
 
-**38 tests unitaires** couvrant :
-- `score.test.ts` — 14 tests : calcul du CyberScore (certs, labs, skills, GitHub)
-- `matching.test.ts` — 16 tests : algorithme de matching (score, skills, mode, contrat, pays)
-- `local-analysis.test.ts` — 8 tests : analyse locale (forces, améliorations, questions)
+**38 unit tests** covering:
+- `score.test.ts` — 14 tests: CyberScore calculation (certs, labs, skills, GitHub)
+- `matching.test.ts` — 16 tests: matching algorithm (score, skills, mode, contract, country)
+- `local-analysis.test.ts` — 8 tests: local analysis (strengths, improvements, questions)
 
 ---
 
 ## 🛣️ Roadmap
 
-- [x] Landing page avec fond cyber animé (Canvas + particules)
-- [x] Authentification Clerk (Sign-in / Sign-up)
-- [x] Dual-portal (Candidat / Recruteur / Admin)
-- [x] CyberScore™ avec scoring algorithmique
-- [x] Analyse IA (Gemini + fallback local intelligent)
-- [x] Matching sémantique job/candidat
-- [x] Gestion des certifications avec auto-vérification
-- [x] Suivi des labs & CTF
-- [x] Skills manager avec autocomplétion
-- [x] Sync GitHub
-- [x] Notifications en temps réel
-- [x] Panel Admin
-- [x] Tests unitaires (38 tests)
-- [ ] Recherche full-text avancée (Elasticsearch / pg_search)
-- [ ] Parsing automatique de CV
-- [ ] Profils publics candidats
-- [ ] Dashboard analytics recruteur
-- [ ] Application mobile (React Native)
+- [x] Landing page with animated cyber background (Canvas + particles)
+- [x] Clerk authentication (Sign-in / Sign-up)
+- [x] Dual-portal (Candidate / Recruiter / Admin)
+- [x] CyberScore™ with algorithmic scoring
+- [x] AI analysis (Gemini + intelligent local fallback)
+- [x] Semantic job/candidate matching
+- [x] Certification management with auto-verification
+- [x] Lab & CTF tracking
+- [x] Skills manager with autocomplete
+- [x] GitHub sync
+- [x] Real-time notifications
+- [x] Admin panel
+- [x] Unit tests (38 tests)
+- [ ] Advanced full-text search (Elasticsearch / pg_search)
+- [ ] Automatic CV parsing
+- [ ] Public candidate profiles
+- [ ] Recruiter analytics dashboard
+- [ ] Mobile app (React Native)
 
 ---
 
 ## 📊 API Routes
 
-| Méthode | Route | Description |
-|---------|-------|-------------|
-| POST | `/api/choose-role` | Définir le rôle utilisateur |
-| POST | `/api/onboarding` | Créer profil candidat |
-| POST | `/api/onboarding/recruiter` | Créer profil recruteur |
-| GET/POST | `/api/certifications` | Lister/ajouter des certifications |
-| GET/PATCH/DELETE | `/api/certifications/[id]` | Gérer une certification |
-| POST | `/api/labs` | Ajouter un lab |
-| POST | `/api/candidate/skills` | Ajouter/modifier une compétence |
-| GET | `/api/candidate/profile` | Lire le profil candidat |
-| PATCH | `/api/candidate/profile` | Modifier le profil candidat |
-| GET | `/api/candidate/recommendations` | Recommandations d'emploi IA |
-| POST | `/api/candidate/search` | Recherche sémantique de candidats |
-| POST | `/api/score/recalculate` | Recalculer CyberScore + analyse IA |
-| POST | `/api/applications` | Postuler à une offre |
-| PATCH | `/api/applications/[id]` | Mettre à jour le statut |
-| POST | `/api/github/sync` | Synchroniser GitHub |
-| GET | `/api/notifications` | Notifications utilisateur |
+| Method | Route | Description |
+|--------|-------|-------------|
+| POST | `/api/choose-role` | Set user role |
+| POST | `/api/onboarding` | Create candidate profile |
+| POST | `/api/onboarding/recruiter` | Create recruiter profile |
+| GET/POST | `/api/certifications` | List/add certifications |
+| GET/PATCH/DELETE | `/api/certifications/[id]` | Manage a certification |
+| POST | `/api/labs` | Add a lab completion |
+| POST | `/api/candidate/skills` | Add/update a skill |
+| GET | `/api/candidate/profile` | Read candidate profile |
+| PATCH | `/api/candidate/profile` | Update candidate profile |
+| GET | `/api/candidate/recommendations` | AI job recommendations |
+| POST | `/api/candidate/search` | Semantic candidate search |
+| POST | `/api/score/recalculate` | Recalculate CyberScore + AI analysis |
+| POST | `/api/applications` | Apply to a job |
+| PATCH | `/api/applications/[id]` | Update application status |
+| POST | `/api/github/sync` | Sync GitHub repos |
+| GET | `/api/notifications` | User notifications |
 
 ---
 
-## 🔐 Sécurité
+## 🔐 Security
 
-- Authentification via Clerk (JWT, MFA supporté)
-- Middleware de protection des routes
-- Rôles (CANDIDATE / RECRUITER / ADMIN) avec guards
-- Validation des URLs de certifications (détection de shorteners)
-- Auto-vérification des liens valides
-- Détection d'incohérences de profil par l'IA
+- Authentication via Clerk (JWT, MFA supported)
+- Route protection middleware
+- Roles (CANDIDATE / RECRUITER / ADMIN) with guards
+- Certification URL validation (shortener detection)
+- Auto-verification of valid links
+- AI-powered profile inconsistency detection
 
 ---
 
