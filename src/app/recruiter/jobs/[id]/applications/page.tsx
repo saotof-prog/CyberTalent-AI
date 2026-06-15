@@ -4,11 +4,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import ApplicationStatusSelect from "@/components/ApplicationStatusSelect";
 
-export default async function JobApplicationsPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function JobApplicationsPage({ params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
@@ -56,9 +52,7 @@ export default async function JobApplicationsPage({
 
         {job.applications.length === 0 ? (
           <div className="text-center py-16 bg-[#0d1520] border border-[#ff4060]/20 rounded-xl">
-            <p className="font-mono text-sm text-gray-500">
-              Aucune candidature pour cette offre.
-            </p>
+            <p className="font-mono text-sm text-gray-500">Aucune candidature pour cette offre.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
@@ -90,9 +84,7 @@ export default async function JobApplicationsPage({
                         )}
                       </div>
                       {c.headline && (
-                        <p className="font-mono text-xs text-gray-400 mb-2">
-                          {c.headline}
-                        </p>
+                        <p className="font-mono text-xs text-gray-400 mb-2">{c.headline}</p>
                       )}
                       <div className="flex items-center gap-3 flex-wrap">
                         <span className="font-mono text-xs text-gray-500">

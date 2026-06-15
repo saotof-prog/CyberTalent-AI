@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/toast";
 
 const PLATFORMS = ["HACKTHEBOX", "TRYHACKME", "VULNHUB", "PWNEDLABS", "PORTSWIGGER", "CUSTOM"];
 const DIFFICULTIES = ["EASY", "MEDIUM", "HARD", "INSANE"];
 
 export default function LabUpload() {
   const router = useRouter();
+  const { toast } = useToast();
   const [form, setForm] = useState({
     platform: "HACKTHEBOX",
     labName: "",
@@ -20,7 +22,7 @@ export default function LabUpload() {
 
   async function handleSubmit() {
     if (!form.labName || !form.completedAt) {
-      alert("Remplis les champs obligatoires !");
+      toast("Remplis les champs obligatoires !", "error");
       return;
     }
 
@@ -35,13 +37,20 @@ export default function LabUpload() {
       if (!res.ok) throw new Error("Erreur");
 
       setDone(true);
-      setForm({ platform: "HACKTHEBOX", labName: "", difficulty: "MEDIUM", category: "", completedAt: "", proofUrl: "" });
+      setForm({
+        platform: "HACKTHEBOX",
+        labName: "",
+        difficulty: "MEDIUM",
+        category: "",
+        completedAt: "",
+        proofUrl: "",
+      });
       setTimeout(() => {
         setDone(false);
         router.refresh();
       }, 1500);
     } catch {
-      alert("Erreur lors de l'ajout");
+      toast("Erreur lors de l'ajout", "error");
     }
     setLoading(false);
   }
@@ -60,10 +69,12 @@ export default function LabUpload() {
             <select
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
               value={form.platform}
-              onChange={e => setForm({...form, platform: e.target.value})}
+              onChange={(e) => setForm({ ...form, platform: e.target.value })}
             >
-              {PLATFORMS.map(p => (
-                <option key={p} value={p}>{p}</option>
+              {PLATFORMS.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
               ))}
             </select>
           </div>
@@ -72,51 +83,61 @@ export default function LabUpload() {
             <select
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
               value={form.difficulty}
-              onChange={e => setForm({...form, difficulty: e.target.value})}
+              onChange={(e) => setForm({ ...form, difficulty: e.target.value })}
             >
-              {DIFFICULTIES.map(d => (
-                <option key={d} value={d}>{d}</option>
+              {DIFFICULTIES.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
               ))}
             </select>
           </div>
         </div>
 
         <div>
-          <label className="font-mono text-xs text-gray-400 mb-1 block">Nom du lab * (ex: Lame, Blue, Inject)</label>
+          <label className="font-mono text-xs text-gray-400 mb-1 block">
+            Nom du lab * (ex: Lame, Blue, Inject)
+          </label>
           <input
             className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
             value={form.labName}
-            onChange={e => setForm({...form, labName: e.target.value})}
+            onChange={(e) => setForm({ ...form, labName: e.target.value })}
             placeholder="Lame"
           />
         </div>
 
         <div>
-          <label className="font-mono text-xs text-gray-400 mb-1 block">Catégorie (ex: Linux, Web, Windows)</label>
+          <label className="font-mono text-xs text-gray-400 mb-1 block">
+            Catégorie (ex: Linux, Web, Windows)
+          </label>
           <input
             className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
             value={form.category}
-            onChange={e => setForm({...form, category: e.target.value})}
+            onChange={(e) => setForm({ ...form, category: e.target.value })}
             placeholder="Linux"
           />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="font-mono text-xs text-gray-400 mb-1 block">Date de complétion *</label>
+            <label className="font-mono text-xs text-gray-400 mb-1 block">
+              Date de complétion *
+            </label>
             <input
               type="date"
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
               value={form.completedAt}
-              onChange={e => setForm({...form, completedAt: e.target.value})}
+              onChange={(e) => setForm({ ...form, completedAt: e.target.value })}
             />
           </div>
           <div>
-            <label className="font-mono text-xs text-gray-400 mb-1 block">Lien preuve (screenshot/writeup)</label>
+            <label className="font-mono text-xs text-gray-400 mb-1 block">
+              Lien preuve (screenshot/writeup)
+            </label>
             <input
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
               value={form.proofUrl}
-              onChange={e => setForm({...form, proofUrl: e.target.value})}
+              onChange={(e) => setForm({ ...form, proofUrl: e.target.value })}
               placeholder="https://..."
             />
           </div>

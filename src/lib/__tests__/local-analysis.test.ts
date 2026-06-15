@@ -6,9 +6,7 @@ describe("generateLocalAnalysis", () => {
     const result = generateLocalAnalysis({
       firstName: "Alice",
       lastName: "Cyber",
-      certifications: [
-        { name: "OSCP", status: "VERIFIED", issuer: "Offensive Security" },
-      ],
+      certifications: [{ name: "OSCP", status: "VERIFIED", issuer: "Offensive Security" }],
       labs: [],
       skills: [],
     });
@@ -27,7 +25,9 @@ describe("generateLocalAnalysis", () => {
       skills: [],
     });
 
-    expect(result.improvements.some((i: string) => i.toLowerCase().includes("certification"))).toBe(true);
+    expect(result.improvements.some((i: string) => i.toLowerCase().includes("certification"))).toBe(
+      true
+    );
     expect(result.improvements.some((i: string) => i.toLowerCase().includes("lab"))).toBe(true);
     expect(result.improvements.some((i: string) => i.toLowerCase().includes("github"))).toBe(true);
   });
@@ -98,7 +98,9 @@ describe("generateLocalAnalysis", () => {
       skills: [],
     });
 
-    expect(result.improvements.some((i: string) => i.toLowerCase().includes("diversifie"))).toBe(true);
+    expect(result.improvements.some((i: string) => i.toLowerCase().includes("diversifie"))).toBe(
+      true
+    );
   });
 
   it("praises hard labs", () => {

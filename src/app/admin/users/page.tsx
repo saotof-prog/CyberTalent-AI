@@ -11,7 +11,9 @@ export default async function AdminUsersPage() {
     orderBy: { createdAt: "desc" },
     include: {
       candidateProfile: { select: { cyberScore: true, firstName: true, lastName: true } },
-      recruiterProfile: { select: { firstName: true, lastName: true, company: { select: { name: true } } } },
+      recruiterProfile: {
+        select: { firstName: true, lastName: true, company: { select: { name: true } } },
+      },
     },
   });
 
@@ -43,21 +45,28 @@ export default async function AdminUsersPage() {
                 const name = u.candidateProfile
                   ? `${u.candidateProfile.firstName} ${u.candidateProfile.lastName}`
                   : u.recruiterProfile
-                  ? `${u.recruiterProfile.firstName} ${u.recruiterProfile.lastName}`
-                  : "—";
+                    ? `${u.recruiterProfile.firstName} ${u.recruiterProfile.lastName}`
+                    : "—";
                 return (
-                  <tr key={u.id} className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition">
+                  <tr
+                    key={u.id}
+                    className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition"
+                  >
                     <td className="p-3 font-mono text-xs text-gray-500">
                       {new Date(u.createdAt).toLocaleDateString("fr-FR")}
                     </td>
                     <td className="p-3 font-mono text-sm text-white">{u.email}</td>
                     <td className="p-3 font-mono text-sm text-gray-300">{name}</td>
                     <td className="p-3">
-                      <span className={`font-mono text-xs px-2 py-0.5 rounded-full border ${
-                        u.role === "CANDIDATE" ? "border-[#00c896] text-[#00c896]" :
-                        u.role === "RECRUITER" ? "border-[#ff4060] text-[#ff4060]" :
-                        "border-[#0084ff] text-[#0084ff]"
-                      }`}>
+                      <span
+                        className={`font-mono text-xs px-2 py-0.5 rounded-full border ${
+                          u.role === "CANDIDATE"
+                            ? "border-[#00c896] text-[#00c896]"
+                            : u.role === "RECRUITER"
+                              ? "border-[#ff4060] text-[#ff4060]"
+                              : "border-[#0084ff] text-[#0084ff]"
+                        }`}
+                      >
                         {u.role}
                       </span>
                     </td>
@@ -65,11 +74,15 @@ export default async function AdminUsersPage() {
                       {u.candidateProfile?.cyberScore ?? "—"}
                     </td>
                     <td className="p-3">
-                      <span className={`font-mono text-xs px-2 py-0.5 rounded-full border ${
-                        u.isBanned ? "border-[#ff4060] text-[#ff4060]" :
-                        u.isActive ? "border-[#00c896] text-[#00c896]" :
-                        "border-gray-500 text-gray-500"
-                      }`}>
+                      <span
+                        className={`font-mono text-xs px-2 py-0.5 rounded-full border ${
+                          u.isBanned
+                            ? "border-[#ff4060] text-[#ff4060]"
+                            : u.isActive
+                              ? "border-[#00c896] text-[#00c896]"
+                              : "border-gray-500 text-gray-500"
+                        }`}
+                      >
                         {u.isBanned ? "Banni" : u.isActive ? "Actif" : "Inactif"}
                       </span>
                     </td>

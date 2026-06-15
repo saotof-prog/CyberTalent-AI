@@ -2,13 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function AdminJobActions({
-  jobId,
-  isActive,
-}: {
-  jobId: string;
-  isActive: boolean;
-}) {
+export default function AdminJobActions({ jobId, isActive }: { jobId: string; isActive: boolean }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 

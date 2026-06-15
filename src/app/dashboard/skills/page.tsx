@@ -38,8 +38,12 @@ export default async function SkillsPage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
           {skills.map((s) => (
             <div key={s.id} className="bg-[#0d1520] border border-[#ffaa00]/20 rounded-xl p-4">
-              <div className="font-mono text-sm font-bold text-white mb-2">{s.skill?.name ?? s.skillId}</div>
-              <span className={`font-mono text-xs px-2 py-1 rounded border ${levelColor[s.level] ?? "text-gray-400 border-gray-600"}`}>
+              <div className="font-mono text-sm font-bold text-white mb-2">
+                {s.skill?.name ?? s.skillId}
+              </div>
+              <span
+                className={`font-mono text-xs px-2 py-1 rounded border ${levelColor[s.level] ?? "text-gray-400 border-gray-600"}`}
+              >
                 {s.level}
               </span>
               {s.yearsExp && (

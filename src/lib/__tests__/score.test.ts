@@ -28,9 +28,7 @@ describe("calculateCyberScore", () => {
   it("awards points for verified MID certifications (CEH, SECURITY+, etc.)", () => {
     const result = calculateCyberScore({
       ...baseInput,
-      certifications: [
-        { name: "CEH", status: "VERIFIED", issuer: "EC-Council" },
-      ],
+      certifications: [{ name: "CEH", status: "VERIFIED", issuer: "EC-Council" }],
     });
     expect(result).toBe(10);
   });
@@ -38,9 +36,7 @@ describe("calculateCyberScore", () => {
   it("awards points for other verified certifications", () => {
     const result = calculateCyberScore({
       ...baseInput,
-      certifications: [
-        { name: "Some Other Cert", status: "VERIFIED", issuer: "Unknown" },
-      ],
+      certifications: [{ name: "Some Other Cert", status: "VERIFIED", issuer: "Unknown" }],
     });
     expect(result).toBe(5);
   });

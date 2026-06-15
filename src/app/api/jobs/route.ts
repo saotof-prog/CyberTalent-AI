@@ -9,9 +9,12 @@ export async function POST(req: NextRequest) {
   const recruiter = await prisma.recruiterProfile.findFirst({
     where: { user: { clerkId: userId } },
   });
-  if (!recruiter) return NextResponse.json({ error: "Profil recruteur introuvable" }, { status: 404 });
+  if (!recruiter)
+    return NextResponse.json({ error: "Profil recruteur introuvable" }, { status: 404 });
 
   const body = await req.json();
+  if (!body.title || typeof body.title !== "string")
+    return NextResponse.json({ error: "Le titre est requis" }, { status: 400 });
   const slug = body.title.toLowerCase().replace(/\s+/g, "-") + "-" + Date.now();
 
   const job = await prisma.job.create({

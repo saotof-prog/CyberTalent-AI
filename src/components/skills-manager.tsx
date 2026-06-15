@@ -55,11 +55,18 @@ export default function SkillsManager() {
   }, []);
 
   useEffect(() => {
-    if (!search.trim()) { startTransition(() => { setResults([]); }); return; }
+    if (!search.trim()) {
+      startTransition(() => {
+        setResults([]);
+      });
+      return;
+    }
     const t = setTimeout(async () => {
       const res = await fetch("/api/skills/search?q=" + encodeURIComponent(search));
       const data = await res.json();
-      startTransition(() => { setResults(data); });
+      startTransition(() => {
+        setResults(data);
+      });
     }, 300);
     return () => clearTimeout(t);
   }, [search]);
@@ -121,7 +128,10 @@ export default function SkillsManager() {
           {mySkills.map((cs) => (
             <div
               key={cs.skillId}
-              className={"flex items-center gap-2 px-3 py-1.5 rounded-full border bg-[#111d2e] " + (LEVEL_COLORS[cs.level] ?? LEVEL_COLORS.BEGINNER)}
+              className={
+                "flex items-center gap-2 px-3 py-1.5 rounded-full border bg-[#111d2e] " +
+                (LEVEL_COLORS[cs.level] ?? LEVEL_COLORS.BEGINNER)
+              }
             >
               <span className="font-mono text-xs">{cs.skill?.name ?? cs.skillId}</span>
               <span className="font-mono text-[10px] opacity-60">{cs.level.slice(0, 3)}</span>
@@ -172,7 +182,9 @@ export default function SkillsManager() {
               className="bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-auto"
             >
               {LEVELS.map((l) => (
-                <option key={l} value={l}>{l}</option>
+                <option key={l} value={l}>
+                  {l}
+                </option>
               ))}
             </select>
 
@@ -200,17 +212,17 @@ export default function SkillsManager() {
         <div>
           <p className="font-mono text-xs text-gray-600 mb-2">Suggestions cyber :</p>
           <div className="flex flex-wrap gap-2">
-            {SUGGESTED_SKILLS.filter(
-              (s) => !mySkills.find((ms) => ms.skill?.name === s.name)
-            ).slice(0, 8).map((s) => (
-              <button
-                key={s.name}
-                onClick={() => addSkill(s.name, s.category)}
-                className="font-mono text-xs px-3 py-1 rounded-full border border-gray-700 text-gray-400 hover:border-[#00c896]/40 hover:text-[#00c896] transition"
-              >
-                + {s.name}
-              </button>
-            ))}
+            {SUGGESTED_SKILLS.filter((s) => !mySkills.find((ms) => ms.skill?.name === s.name))
+              .slice(0, 8)
+              .map((s) => (
+                <button
+                  key={s.name}
+                  onClick={() => addSkill(s.name, s.category)}
+                  className="font-mono text-xs px-3 py-1 rounded-full border border-gray-700 text-gray-400 hover:border-[#00c896]/40 hover:text-[#00c896] transition"
+                >
+                  + {s.name}
+                </button>
+              ))}
           </div>
         </div>
       </div>

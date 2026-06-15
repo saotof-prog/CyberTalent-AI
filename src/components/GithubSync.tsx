@@ -50,9 +50,7 @@ export default function GithubSync({
       >
         {loading ? "⏳ Sync en cours..." : "⬡ Sync GitHub"}
       </button>
-      {result && (
-        <span className="font-mono text-xs text-gray-400">{result}</span>
-      )}
+      {result && <span className="font-mono text-xs text-gray-400">{result}</span>}
       {syncedAt && !result && (
         <span className="font-mono text-xs text-gray-600">
           Dernière sync : {new Date(syncedAt).toLocaleDateString("fr-FR")}

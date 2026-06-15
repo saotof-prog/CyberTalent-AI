@@ -39,9 +39,7 @@ export default function ChooseRolePage() {
             <div className="w-2 h-2 rounded-full bg-[#00c896] animate-pulse" />
             <span className="font-mono text-[#00c896] font-bold text-sm">CYBERTALENT_AI</span>
           </div>
-          <h1 className="font-mono text-3xl font-bold text-white mb-3">
-            Bienvenue ! Tu es...
-          </h1>
+          <h1 className="font-mono text-3xl font-bold text-white mb-3">Bienvenue ! Tu es...</h1>
           <p className="font-mono text-sm text-gray-400">
             Choisis ton rôle pour personnaliser ton expérience
           </p>
@@ -59,14 +57,18 @@ export default function ChooseRolePage() {
             }`}
           >
             <div className="text-5xl mb-4 text-center">👨‍💻</div>
-            <h2 className="font-mono text-xl font-bold text-white text-center mb-3">
-              Candidat
-            </h2>
+            <h2 className="font-mono text-xl font-bold text-white text-center mb-3">Candidat</h2>
             <p className="font-mono text-xs text-gray-400 text-center leading-relaxed">
-              Je cherche un emploi en cybersécurité et je veux mettre en valeur mes compétences réelles
+              Je cherche un emploi en cybersécurité et je veux mettre en valeur mes compétences
+              réelles
             </p>
             <div className="mt-6 flex flex-col gap-2">
-              {["Upload certifications", "Ajouter mes labs", "Score IA 0-100", "Être découvert"].map((f) => (
+              {[
+                "Upload certifications",
+                "Ajouter mes labs",
+                "Score IA 0-100",
+                "Être découvert",
+              ].map((f) => (
                 <div key={f} className="flex items-center gap-2 font-mono text-xs text-gray-400">
                   <span className="text-[#00c896]">✓</span> {f}
                 </div>
@@ -89,14 +91,17 @@ export default function ChooseRolePage() {
             }`}
           >
             <div className="text-5xl mb-4 text-center">🎯</div>
-            <h2 className="font-mono text-xl font-bold text-white text-center mb-3">
-              Recruteur
-            </h2>
+            <h2 className="font-mono text-xl font-bold text-white text-center mb-3">Recruteur</h2>
             <p className="font-mono text-xs text-gray-400 text-center leading-relaxed">
               Je recrute des talents cyber et je veux trouver les meilleurs candidats rapidement
             </p>
             <div className="mt-6 flex flex-col gap-2">
-              {["Recherche IA", "Voir les vrais skills", "Ranking par score", "Publier des offres"].map((f) => (
+              {[
+                "Recherche IA",
+                "Voir les vrais skills",
+                "Ranking par score",
+                "Publier des offres",
+              ].map((f) => (
                 <div key={f} className="flex items-center gap-2 font-mono text-xs text-gray-400">
                   <span className="text-[#ff4060]">✓</span> {f}
                 </div>
@@ -120,7 +125,11 @@ export default function ChooseRolePage() {
               : "bg-[#00c896] text-black hover:bg-[#00ff9d]"
           }`}
         >
-          {loading ? "Chargement..." : selected ? `Continuer comme ${selected === "CANDIDATE" ? "Candidat" : "Recruteur"} →` : "Choisis ton rôle"}
+          {loading
+            ? "Chargement..."
+            : selected
+              ? `Continuer comme ${selected === "CANDIDATE" ? "Candidat" : "Recruteur"} →`
+              : "Choisis ton rôle"}
         </button>
       </div>
     </div>

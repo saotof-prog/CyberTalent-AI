@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { calculateCyberScore } from "@/lib/score";
+import { recalculateAndTrack } from "@/lib/score-tracker";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
@@ -38,20 +38,11 @@ export async function POST(req: Request) {
       },
     });
 
-    // Recalculer le score
-    const allLabs = [...user.candidateProfile.labs, lab];
-    const newScore = calculateCyberScore({
-      certifications: user.candidateProfile.certifications,
-      labs: allLabs,
-      skills: user.candidateProfile.skills,
-      githubUsername: user.candidateProfile.githubUsername,
-      githubStats: user.candidateProfile.githubStats,
-    });
-
-    await prisma.candidateProfile.update({
-      where: { id: user.candidateProfile.id },
-      data: { cyberScore: newScore, scoreUpdatedAt: new Date() },
-    });
+    const newScore = await recalculateAndTrack(
+      user.candidateProfile.id,
+      `LAB_ADDED: ${lab.labName}`,
+      user.candidateProfile.cyberScore
+    );
 
     return NextResponse.json({ success: true, lab, newScore });
   } catch (error) {

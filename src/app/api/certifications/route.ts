@@ -1,18 +1,24 @@
 import { auth } from "@clerk/nextjs/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { calculateCyberScore } from "@/lib/score";
 import { detectCertificatePlatform } from "@/lib/certificate-validation/platform-detector";
 import { handleApiError, unauthorized, notFound, success } from "@/lib/api-error";
+import { recalculateAndTrack } from "@/lib/score-tracker";
 
 function isShortener(url: string | null): boolean {
   if (!url) return false;
   const shorteners = [/bit\.ly/i, /tinyurl\.com/i, /short\.link/i, /cutt\.ly/i, /rb\.gy/i];
-  return shorteners.some(p => p.test(url));
+  return shorteners.some((p) => p.test(url));
 }
 
 function isValidUrl(url: string | null): boolean {
   if (!url) return false;
-  try { new URL(url); return true; } catch { return false; }
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export async function POST(req: Request) {
@@ -58,7 +64,7 @@ export async function POST(req: Request) {
         fileUrl: body.fileUrl ?? null,
         status: hasValidUrl ? "VERIFIED" : "PENDING",
         platform,
-        platformSpecificData: platformData as any,
+        platformSpecificData: (platformData as unknown as Prisma.InputJsonValue) ?? Prisma.JsonNull,
         aiVerifiedAt: hasValidUrl ? new Date() : null,
         aiConfidence: hasValidUrl ? 1.0 : null,
         aiNotes: hasValidUrl ? `Auto-validé — lien ${platform || "direct"} détecté` : null,
@@ -66,20 +72,11 @@ export async function POST(req: Request) {
       },
     });
 
-    // Recalculer le score
-    const allCerts = [...user.candidateProfile.certifications, cert];
-    const newScore = calculateCyberScore({
-      certifications: allCerts,
-      labs: user.candidateProfile.labs,
-      skills: user.candidateProfile.skills,
-      githubUsername: user.candidateProfile.githubUsername,
-      githubStats: user.candidateProfile.githubStats,
-    });
-
-    await prisma.candidateProfile.update({
-      where: { id: user.candidateProfile.id },
-      data: { cyberScore: newScore, scoreUpdatedAt: new Date() },
-    });
+    const newScore = await recalculateAndTrack(
+      user.candidateProfile.id,
+      `CERT_ADDED: ${cert.name}`,
+      user.candidateProfile.cyberScore
+    );
 
     return success({ success: true, cert, newScore, autoVerified: hasValidUrl });
   } catch (error) {

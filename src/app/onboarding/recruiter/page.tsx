@@ -50,7 +50,12 @@ export default function RecruiterOnboardingPage() {
 
   function update(field: string, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) setErrors((prev) => { const n = { ...prev }; delete n[field]; return n; });
+    if (errors[field])
+      setErrors((prev) => {
+        const n = { ...prev };
+        delete n[field];
+        return n;
+      });
   }
 
   const inputClass = (field: string) =>
@@ -62,7 +67,9 @@ export default function RecruiterOnboardingPage() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className="w-2 h-2 rounded-full bg-[#ff4060] animate-pulse" />
-            <span className="font-mono text-[#ff4060] font-bold text-sm">CYBERTALENT_RECRUITER</span>
+            <span className="font-mono text-[#ff4060] font-bold text-sm">
+              CYBERTALENT_RECRUITER
+            </span>
           </div>
           <h1 className="font-mono text-2xl font-bold text-white mb-2">
             Setup ton profil <span className="text-[#ff4060]">Recruteur</span>
@@ -82,31 +89,63 @@ export default function RecruiterOnboardingPage() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Prénom *</label>
-              <input className={inputClass("firstName")} value={form.firstName} onChange={(e) => update("firstName", e.target.value)} placeholder="Mariam" />
-              {errors.firstName && <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.firstName}</p>}
+              <input
+                className={inputClass("firstName")}
+                value={form.firstName}
+                onChange={(e) => update("firstName", e.target.value)}
+                placeholder="Mariam"
+              />
+              {errors.firstName && (
+                <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.firstName}</p>
+              )}
             </div>
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Nom *</label>
-              <input className={inputClass("lastName")} value={form.lastName} onChange={(e) => update("lastName", e.target.value)} placeholder="Diop" />
-              {errors.lastName && <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.lastName}</p>}
+              <input
+                className={inputClass("lastName")}
+                value={form.lastName}
+                onChange={(e) => update("lastName", e.target.value)}
+                placeholder="Diop"
+              />
+              {errors.lastName && (
+                <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.lastName}</p>
+              )}
             </div>
           </div>
 
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Titre du poste</label>
-            <input className={inputClass("jobTitle")} value={form.jobTitle} onChange={(e) => update("jobTitle", e.target.value)} placeholder="Head of Talent Acquisition" />
+            <input
+              className={inputClass("jobTitle")}
+              value={form.jobTitle}
+              onChange={(e) => update("jobTitle", e.target.value)}
+              placeholder="Head of Talent Acquisition"
+            />
           </div>
 
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Entreprise *</label>
-            <input className={inputClass("companyName")} value={form.companyName} onChange={(e) => update("companyName", e.target.value)} placeholder="SecureCorp" />
-            {errors.companyName && <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.companyName}</p>}
+            <input
+              className={inputClass("companyName")}
+              value={form.companyName}
+              onChange={(e) => update("companyName", e.target.value)}
+              placeholder="SecureCorp"
+            />
+            {errors.companyName && (
+              <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.companyName}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="font-mono text-xs text-gray-400 mb-1 block">Taille entreprise</label>
-              <select className={inputClass("companySize")} value={form.companySize} onChange={(e) => update("companySize", e.target.value)}>
+              <label className="font-mono text-xs text-gray-400 mb-1 block">
+                Taille entreprise
+              </label>
+              <select
+                className={inputClass("companySize")}
+                value={form.companySize}
+                onChange={(e) => update("companySize", e.target.value)}
+              >
                 <option value="">Choisir...</option>
                 <option value="1-10">1-10</option>
                 <option value="11-50">11-50</option>
@@ -117,7 +156,11 @@ export default function RecruiterOnboardingPage() {
             </div>
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Secteur</label>
-              <select className={inputClass("companyIndustry")} value={form.companyIndustry} onChange={(e) => update("companyIndustry", e.target.value)}>
+              <select
+                className={inputClass("companyIndustry")}
+                value={form.companyIndustry}
+                onChange={(e) => update("companyIndustry", e.target.value)}
+              >
                 <option value="">Choisir...</option>
                 <option value="Cybersécurité">Cybersécurité</option>
                 <option value="Finance">Finance</option>
@@ -131,12 +174,22 @@ export default function RecruiterOnboardingPage() {
 
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Téléphone</label>
-            <input className={inputClass("phoneNumber")} value={form.phoneNumber} onChange={(e) => update("phoneNumber", e.target.value)} placeholder="+221 77 000 00 00" />
+            <input
+              className={inputClass("phoneNumber")}
+              value={form.phoneNumber}
+              onChange={(e) => update("phoneNumber", e.target.value)}
+              placeholder="+221 77 000 00 00"
+            />
           </div>
 
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">LinkedIn</label>
-            <input className={inputClass("linkedinUrl")} value={form.linkedinUrl} onChange={(e) => update("linkedinUrl", e.target.value)} placeholder="https://linkedin.com/in/..." />
+            <input
+              className={inputClass("linkedinUrl")}
+              value={form.linkedinUrl}
+              onChange={(e) => update("linkedinUrl", e.target.value)}
+              placeholder="https://linkedin.com/in/..."
+            />
           </div>
 
           <button

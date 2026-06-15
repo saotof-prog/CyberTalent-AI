@@ -28,8 +28,16 @@ export default function NotificationsBell() {
   }, []);
 
   useEffect(() => {
-    startTransition(() => { fetchNotifs(); });
-    const interval = setInterval(() => startTransition(() => { fetchNotifs(); }), 30000);
+    startTransition(() => {
+      fetchNotifs();
+    });
+    const interval = setInterval(
+      () =>
+        startTransition(() => {
+          fetchNotifs();
+        }),
+      30000
+    );
     return () => clearInterval(interval);
   }, [fetchNotifs]);
 
@@ -48,7 +56,10 @@ export default function NotificationsBell() {
   return (
     <div className="relative">
       <button
-        onClick={() => { setOpen(!open); if (!open) fetchNotifs(); }}
+        onClick={() => {
+          setOpen(!open);
+          if (!open) fetchNotifs();
+        }}
         className="relative font-mono text-sm text-gray-400 hover:text-white transition"
       >
         🔔
@@ -79,7 +90,13 @@ export default function NotificationsBell() {
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
                       {n.link ? (
-                        <Link href={n.link} onClick={() => { setOpen(false); markRead(n.id); }}>
+                        <Link
+                          href={n.link}
+                          onClick={() => {
+                            setOpen(false);
+                            markRead(n.id);
+                          }}
+                        >
                           <p className="font-mono text-xs font-bold text-white">{n.title}</p>
                           <p className="font-mono text-[11px] text-gray-400 mt-0.5">{n.body}</p>
                         </Link>
@@ -91,13 +108,19 @@ export default function NotificationsBell() {
                       )}
                       <p className="font-mono text-[10px] text-gray-600 mt-1">
                         {new Date(n.createdAt).toLocaleDateString("fr-FR", {
-                          day: "numeric", month: "short", hour: "2-digit", minute: "2-digit",
+                          day: "numeric",
+                          month: "short",
+                          hour: "2-digit",
+                          minute: "2-digit",
                         })}
                       </p>
                     </div>
                     {!n.isRead && (
                       <button
-                        onClick={(e) => { e.stopPropagation(); markRead(n.id); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          markRead(n.id);
+                        }}
                         className="font-mono text-[10px] text-[#ff4060] hover:underline shrink-0"
                       >
                         Lu

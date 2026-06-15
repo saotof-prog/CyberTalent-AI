@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
-import { calculateCyberScore } from "@/lib/score";
+import { recalculateAndTrack } from "@/lib/score-tracker";
 
-export async function DELETE(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
@@ -36,30 +33,13 @@ export async function DELETE(
       return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
     }
 
+    const certToDelete = await prisma.certification.findUnique({
+      where: { id },
+      select: { name: true },
+    });
     await prisma.certification.delete({ where: { id } });
 
-    const [certs, labs, skills, candidate] = await Promise.all([
-      prisma.certification.findMany({ where: { candidateId: profileId } }),
-      prisma.labCompletion.findMany({ where: { candidateId: profileId } }),
-      prisma.candidateSkill.findMany({ where: { candidateId: profileId } }),
-      prisma.candidateProfile.findUnique({ where: { id: profileId } }),
-    ]);
-
-    if (candidate) {
-      const newScore = calculateCyberScore({
-        certifications: certs,
-        labs,
-        skills,
-        githubUsername: candidate.githubUsername,
-        githubStats: candidate.githubStats,
-      });
-
-      await prisma.candidateProfile.update({
-        where: { id: profileId },
-        data: { cyberScore: newScore, scoreUpdatedAt: new Date() },
-      });
-    }
-
+    await recalculateAndTrack(profileId, `CERT_DELETED: ${certToDelete?.name ?? "unknown"}`);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("ERREUR DELETE CERT:", error);

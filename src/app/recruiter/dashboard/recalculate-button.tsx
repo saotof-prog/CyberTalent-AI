@@ -24,7 +24,11 @@ export default function RecalculateButton() {
       disabled={loading}
       className="font-mono text-xs px-4 py-2 rounded-lg border border-[#ff4060]/40 text-[#ff4060] hover:bg-[#ff4060]/10 transition disabled:opacity-50"
     >
-      {loading ? "⏳ Calcul en cours..." : done ? "✓ Scores mis à jour" : "⚡ Recalculer les scores"}
+      {loading
+        ? "⏳ Calcul en cours..."
+        : done
+          ? "✓ Scores mis à jour"
+          : "⚡ Recalculer les scores"}
     </button>
   );
 }

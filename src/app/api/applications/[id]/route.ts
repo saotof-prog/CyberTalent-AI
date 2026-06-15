@@ -2,12 +2,16 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
-const VALID_STATUSES = ["PENDING", "VIEWED", "SHORTLISTED", "INTERVIEW", "OFFER", "REJECTED"] as const;
+const VALID_STATUSES = [
+  "PENDING",
+  "VIEWED",
+  "SHORTLISTED",
+  "INTERVIEW",
+  "OFFER",
+  "REJECTED",
+] as const;
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
@@ -21,11 +25,15 @@ export async function PATCH(
   try {
     const app = await prisma.application.findUnique({
       where: { id },
-      include: { job: { include: { company: true } } },
+      include: { job: { include: { recruiter: { include: { user: true } } } } },
     });
 
     if (!app) {
       return NextResponse.json({ error: "Candidature introuvable" }, { status: 404 });
+    }
+
+    if (app.job.recruiter.user.clerkId !== userId) {
+      return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
     }
 
     const updated = await prisma.application.update({

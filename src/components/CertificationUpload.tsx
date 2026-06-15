@@ -2,48 +2,66 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { detectCertificatePlatform } from "@/lib/certificate-validation/platform-detector";
+import { useToast } from "@/components/toast";
 
-const SUSPICIOUS_PATTERNS = [
-  /bit\.ly/i, /tinyurl\.com/i, /short\.link/i, /cutt\.ly/i, /rb\.gy/i,
-];
+const SUSPICIOUS_PATTERNS = [/bit\.ly/i, /tinyurl\.com/i, /short\.link/i, /cutt\.ly/i, /rb\.gy/i];
 
 export default function CertificationUpload() {
   const router = useRouter();
+  const { toast } = useToast();
   const [form, setForm] = useState({
-    name: "", fullName: "", issuer: "",
-    issuedAt: "", expiresAt: "", credentialUrl: "",
+    name: "",
+    fullName: "",
+    issuer: "",
+    issuedAt: "",
+    expiresAt: "",
+    credentialUrl: "",
   });
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [platformInfo, setPlatformInfo] = useState<{
-    platform: string; confidence: number;
+    platform: string;
+    confidence: number;
   } | null>(null);
   const [urlError, setUrlError] = useState<string | null>(null);
 
   function validateUrl(url: string): { isValid: boolean; error?: string } {
     if (!url.trim()) return { isValid: true };
-    if (SUSPICIOUS_PATTERNS.some(p => p.test(url))) {
-      return { isValid: false, error: "Les raccourcisseurs d'URL ne sont pas autorisés. Mets le lien direct." };
+    if (SUSPICIOUS_PATTERNS.some((p) => p.test(url))) {
+      return {
+        isValid: false,
+        error: "Les raccourcisseurs d'URL ne sont pas autorisés. Mets le lien direct.",
+      };
     }
-    try { new URL(url); return { isValid: true }; }
-    catch { return { isValid: false, error: "L'URL n'est pas valide." }; }
+    try {
+      new URL(url);
+      return { isValid: true };
+    } catch {
+      return { isValid: false, error: "L'URL n'est pas valide." };
+    }
   }
 
   useEffect(() => {
     if (form.credentialUrl) {
       const detection = detectCertificatePlatform(form.credentialUrl);
-      setPlatformInfo({ platform: detection.platform, confidence: detection.confidence });
+      queueMicrotask(() =>
+        setPlatformInfo({ platform: detection.platform, confidence: detection.confidence })
+      );
     } else {
-      setPlatformInfo(null);
+      queueMicrotask(() => setPlatformInfo(null));
     }
   }, [form.credentialUrl]);
 
   async function handleSubmit() {
     if (!form.name || !form.issuer || !form.issuedAt) {
-      alert("Remplis les champs obligatoires !"); return;
+      toast("Remplis les champs obligatoires !", "error");
+      return;
     }
     const urlValidation = validateUrl(form.credentialUrl);
-    if (!urlValidation.isValid) { alert(urlValidation.error); return; }
+    if (!urlValidation.isValid) {
+      toast(urlValidation.error!, "error");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -54,9 +72,16 @@ export default function CertificationUpload() {
       });
       if (!res.ok) throw new Error("Erreur");
 
-      const data = await res.json();
+      await res.json();
       setDone(true);
-      setForm({ name: "", fullName: "", issuer: "", issuedAt: "", expiresAt: "", credentialUrl: "" });
+      setForm({
+        name: "",
+        fullName: "",
+        issuer: "",
+        issuedAt: "",
+        expiresAt: "",
+        credentialUrl: "",
+      });
       setPlatformInfo(null);
       setUrlError(null);
       setTimeout(() => {
@@ -64,7 +89,7 @@ export default function CertificationUpload() {
         router.refresh();
       }, 1500);
     } catch {
-      alert("Erreur lors de l'ajout");
+      toast("Erreur lors de l'ajout", "error");
     }
     setLoading(false);
   }
@@ -83,7 +108,7 @@ export default function CertificationUpload() {
             <input
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
               value={form.name}
-              onChange={e => setForm({...form, name: e.target.value})}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="OSCP"
             />
           </div>
@@ -92,7 +117,7 @@ export default function CertificationUpload() {
             <input
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
               value={form.fullName}
-              onChange={e => setForm({...form, fullName: e.target.value})}
+              onChange={(e) => setForm({ ...form, fullName: e.target.value })}
               placeholder="Offensive Security Certified Professional"
             />
           </div>
@@ -103,27 +128,26 @@ export default function CertificationUpload() {
           <input
             className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
             value={form.issuer}
-            onChange={e => setForm({...form, issuer: e.target.value})}
+            onChange={(e) => setForm({ ...form, issuer: e.target.value })}
             placeholder="Offensive Security"
           />
         </div>
 
         <div>
           <label className="font-mono text-xs text-gray-400 mb-1 block">
-            Lien de vérification <span className="text-[#00c896]">(recommandé — validation automatique)</span>
+            Lien de vérification{" "}
+            <span className="text-[#00c896]">(recommandé — validation automatique)</span>
           </label>
           <input
             className={`w-full bg-[#111d2e] border ${urlError ? "border-[#ff4060]" : "border-[#00c896]/20"} rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]`}
             value={form.credentialUrl}
-            onChange={e => {
-              setForm({...form, credentialUrl: e.target.value});
+            onChange={(e) => {
+              setForm({ ...form, credentialUrl: e.target.value });
               if (e.target.value.trim() === "") setUrlError(null);
             }}
             placeholder="https://credly.com/badges/..."
           />
-          {urlError && (
-            <p className="font-mono text-[10px] text-[#ff4060] mt-1">{urlError}</p>
-          )}
+          {urlError && <p className="font-mono text-[10px] text-[#ff4060] mt-1">{urlError}</p>}
         </div>
 
         {platformInfo && platformInfo.platform !== "unknown" && (
@@ -136,21 +160,25 @@ export default function CertificationUpload() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="font-mono text-xs text-gray-400 mb-1 block">Date d&apos;obtention *</label>
+            <label className="font-mono text-xs text-gray-400 mb-1 block">
+              Date d&apos;obtention *
+            </label>
             <input
               type="date"
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
               value={form.issuedAt}
-              onChange={e => setForm({...form, issuedAt: e.target.value})}
+              onChange={(e) => setForm({ ...form, issuedAt: e.target.value })}
             />
           </div>
           <div>
-            <label className="font-mono text-xs text-gray-400 mb-1 block">Date d&apos;expiration</label>
+            <label className="font-mono text-xs text-gray-400 mb-1 block">
+              Date d&apos;expiration
+            </label>
             <input
               type="date"
               className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
               value={form.expiresAt}
-              onChange={e => setForm({...form, expiresAt: e.target.value})}
+              onChange={(e) => setForm({ ...form, expiresAt: e.target.value })}
             />
           </div>
         </div>
@@ -160,7 +188,11 @@ export default function CertificationUpload() {
           disabled={loading || done}
           className="w-full font-mono text-sm font-bold py-3 bg-[#00c896] text-black rounded-lg hover:bg-[#00ff9d] transition disabled:opacity-50"
         >
-          {done ? "✓ Certification ajoutée et vérifiée !" : loading ? "Ajout en cours..." : "Ajouter la certification →"}
+          {done
+            ? "✓ Certification ajoutée et vérifiée !"
+            : loading
+              ? "Ajout en cours..."
+              : "Ajouter la certification →"}
         </button>
       </div>
     </div>

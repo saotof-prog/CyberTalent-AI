@@ -33,7 +33,7 @@ export async function POST() {
       githubStats: profile.githubStats,
     });
 
-    const skillsWithName = profile.skills.map(s => ({
+    const skillsWithName = profile.skills.map((s) => ({
       level: s.level,
       name: (s as { skill?: { name: string } }).skill?.name ?? "",
     }));
@@ -74,7 +74,10 @@ export async function POST() {
         delta: newScore - oldScore,
         reason: "AI_RECALCULATION",
         breakdown: {
-          certifications: Math.min(profile.certifications.filter(c => c.status === "VERIFIED").length * 10, 40),
+          certifications: Math.min(
+            profile.certifications.filter((c) => c.status === "VERIFIED").length * 10,
+            40
+          ),
           labs: Math.min(profile.labs.length * 3, 25),
           skills: Math.min(profile.skills.length * 2, 15),
           github: profile.githubUsername ? 5 : 0,

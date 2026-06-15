@@ -21,23 +21,27 @@ export default async function ScorePage() {
 
   // Parser les données IA depuis aiFlags
   const strengths = profile.aiFlags
-    .filter(f => f.startsWith("STRENGTH:"))
-    .map(f => f.replace("STRENGTH:", ""));
+    .filter((f) => f.startsWith("STRENGTH:"))
+    .map((f) => f.replace("STRENGTH:", ""));
 
   const improvements = profile.aiFlags
-    .filter(f => f.startsWith("IMPROVE:"))
-    .map(f => f.replace("IMPROVE:", ""));
+    .filter((f) => f.startsWith("IMPROVE:"))
+    .map((f) => f.replace("IMPROVE:", ""));
 
   const questions = profile.aiFlags
-    .filter(f => f.startsWith("QUESTION:"))
-    .map(f => f.replace("QUESTION:", ""));
+    .filter((f) => f.startsWith("QUESTION:"))
+    .map((f) => f.replace("QUESTION:", ""));
 
   const fakeDetected = profile.aiFlags.includes("FAKE_SKILLS_DETECTED");
 
-  const scoreLevel = profile.cyberScore >= 75 ? "EXPERT"
-    : profile.cyberScore >= 50 ? "ADVANCED"
-    : profile.cyberScore >= 25 ? "INTERMEDIATE"
-    : "BEGINNER";
+  const scoreLevel =
+    profile.cyberScore >= 75
+      ? "EXPERT"
+      : profile.cyberScore >= 50
+        ? "ADVANCED"
+        : profile.cyberScore >= 25
+          ? "INTERMEDIATE"
+          : "BEGINNER";
 
   const levelColor = {
     EXPERT: "text-[#00c896]",
@@ -57,17 +61,13 @@ export default async function ScorePage() {
 
       {/* Score principal */}
       <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-8 mb-6 text-center">
-        <div className="font-mono text-8xl font-bold text-[#00c896] mb-2">
-          {profile.cyberScore}
-        </div>
-        <div className={`font-mono text-sm font-bold mb-1 ${levelColor}`}>
-          {scoreLevel}
-        </div>
+        <div className="font-mono text-8xl font-bold text-[#00c896] mb-2">{profile.cyberScore}</div>
+        <div className={`font-mono text-sm font-bold mb-1 ${levelColor}`}>{scoreLevel}</div>
         <div className="font-mono text-xs text-gray-400 mb-4">CyberScore / 100</div>
         <div className="w-full h-3 bg-[#111d2e] rounded-full overflow-hidden mb-6 max-w-md mx-auto">
           <div
             className="h-full bg-[#00c896] rounded-full transition-all"
-            style={{width: `${profile.cyberScore}%`}}
+            style={{ width: `${profile.cyberScore}%` }}
           />
         </div>
         {profile.aiSummary && (
@@ -92,7 +92,8 @@ export default async function ScorePage() {
             ⚠ Incohérence détectée
           </div>
           <p className="font-mono text-xs text-gray-400 mt-1">
-            L&apos;IA a détecté des incohérences dans ton profil. Vérifie tes certifications et skills.
+            L&apos;IA a détecté des incohérences dans ton profil. Vérifie tes certifications et
+            skills.
           </p>
         </div>
       )}
@@ -167,7 +168,10 @@ export default async function ScorePage() {
           </div>
           <div className="flex flex-col gap-3">
             {profile.scoreHistory.map((h) => (
-              <div key={h.id} className="flex items-center justify-between p-3 bg-[#111d2e] rounded-lg">
+              <div
+                key={h.id}
+                className="flex items-center justify-between p-3 bg-[#111d2e] rounded-lg"
+              >
                 <div>
                   <div className="font-mono text-xs text-gray-400">{h.reason}</div>
                   <div className="font-mono text-xs text-gray-600">
@@ -178,8 +182,11 @@ export default async function ScorePage() {
                   <span className="font-mono text-xs text-gray-500">{h.scoreBefore}</span>
                   <span className="font-mono text-xs text-gray-500">→</span>
                   <span className="font-mono text-sm font-bold text-[#00c896]">{h.scoreAfter}</span>
-                  <span className={`font-mono text-xs ${h.delta >= 0 ? "text-[#00c896]" : "text-[#ff4060]"}`}>
-                    {h.delta >= 0 ? "+" : ""}{h.delta}
+                  <span
+                    className={`font-mono text-xs ${h.delta >= 0 ? "text-[#00c896]" : "text-[#ff4060]"}`}
+                  >
+                    {h.delta >= 0 ? "+" : ""}
+                    {h.delta}
                   </span>
                 </div>
               </div>

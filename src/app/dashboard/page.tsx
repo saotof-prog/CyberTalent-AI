@@ -35,7 +35,6 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#080c14]">
       <div className="p-4 md:p-6 max-w-7xl mx-auto">
-
         {/* HEADER */}
         <div className="mb-6 md:mb-8">
           <h1 className="font-mono text-2xl md:text-3xl font-bold text-white mb-2">
@@ -67,16 +66,22 @@ export default async function DashboardPage() {
             {totalCerts > 0 && (
               <div className="flex flex-col gap-2">
                 {profile.certifications.slice(0, 3).map((cert) => (
-                  <div key={cert.id} className="flex items-center justify-between p-2 bg-[#111d2e] rounded-lg">
+                  <div
+                    key={cert.id}
+                    className="flex items-center justify-between p-2 bg-[#111d2e] rounded-lg"
+                  >
                     <div>
                       <div className="font-mono text-xs text-white">{cert.name}</div>
                       <div className="font-mono text-xs text-gray-400">{cert.issuer}</div>
                     </div>
-                    <span className={"font-mono text-xs px-2 py-1 rounded border " + (
-                      cert.status === "VERIFIED"
-                        ? "border-[#00c896] text-[#00c896]"
-                        : "border-[#ffaa00] text-[#ffaa00]"
-                    )}>
+                    <span
+                      className={
+                        "font-mono text-xs px-2 py-1 rounded border " +
+                        (cert.status === "VERIFIED"
+                          ? "border-[#00c896] text-[#00c896]"
+                          : "border-[#ffaa00] text-[#ffaa00]")
+                      }
+                    >
                       {cert.status === "VERIFIED" ? "✓" : "⏳"}
                     </span>
                   </div>
@@ -94,12 +99,14 @@ export default async function DashboardPage() {
         </div>
 
         {/* PROFIL INFO */}
-          <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4 md:p-6 mb-6 md:mb-8">
+        <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4 md:p-6 mb-6 md:mb-8">
           <div className="flex items-center gap-2 mb-4 md:mb-6">
             <div className="w-1 h-4 bg-[#00c896] rounded" />
             <span className="font-mono text-sm text-[#00c896]">MON PROFIL</span>
             <div className="ml-auto flex items-center gap-3">
-              <span className="font-mono text-xs text-gray-400">{profile.profileComplete}% complété</span>
+              <span className="font-mono text-xs text-gray-400">
+                {profile.profileComplete}% complété
+              </span>
               <Link
                 href="/dashboard/edit"
                 className="font-mono text-xs px-3 py-1 rounded border border-[#00c896]/30 text-[#00c896] hover:bg-[#00c896]/10 transition"
@@ -111,7 +118,9 @@ export default async function DashboardPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             <div>
               <div className="font-mono text-xs text-gray-400 mb-1">NOM COMPLET</div>
-              <div className="font-mono text-xs md:text-sm text-white">{profile.firstName} {profile.lastName}</div>
+              <div className="font-mono text-xs md:text-sm text-white">
+                {profile.firstName} {profile.lastName}
+              </div>
             </div>
             <div>
               <div className="font-mono text-xs text-gray-400 mb-1">LOCALISATION</div>
@@ -125,15 +134,17 @@ export default async function DashboardPage() {
                 {profile.githubUsername ? "@" + profile.githubUsername : "—"}
               </div>
               <div className="mt-2">
-                <GithubSync
-                  username={profile.githubUsername}
-                  syncedAt={profile.githubSyncedAt}
-                />
+                <GithubSync username={profile.githubUsername} syncedAt={profile.githubSyncedAt} />
               </div>
             </div>
             <div>
               <div className="font-mono text-xs text-gray-400 mb-1">DISPONIBILITÉ</div>
-              <div className={"font-mono text-xs md:text-sm " + (profile.isAvailable ? "text-[#00c896]" : "text-[#ff4060]")}>
+              <div
+                className={
+                  "font-mono text-xs md:text-sm " +
+                  (profile.isAvailable ? "text-[#00c896]" : "text-[#ff4060]")
+                }
+              >
                 {profile.isAvailable ? "✓ Disponible" : "✗ Indisponible"}
               </div>
             </div>
@@ -159,7 +170,6 @@ export default async function DashboardPage() {
           </div>
           <JobRecommendations />
         </div>
-
       </div>
     </div>
   );

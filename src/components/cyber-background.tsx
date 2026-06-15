@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 
 type Particle = {
-  x: number; y: number;
-  vx: number; vy: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
   size: number;
   opacity: number;
   connections: number[];
@@ -25,8 +27,8 @@ export default function CyberBackground() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d")!;
 
-    let w = canvas.width = window.innerWidth;
-    let h = canvas.height = window.innerHeight;
+    let w = (canvas.width = window.innerWidth);
+    let h = (canvas.height = window.innerHeight);
     let animId: number;
 
     const PARTICLE_COUNT = 80;
@@ -50,7 +52,8 @@ export default function CyberBackground() {
       chars: [],
     }));
 
-    const chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>/\\|{}[]!@#$%^&*()";
+    const chars =
+      "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>/\\|{}[]!@#$%^&*()";
 
     let frame = 0;
 
@@ -79,7 +82,7 @@ export default function CyberBackground() {
     function drawPulseRings() {
       const now = Date.now() / 1000;
       for (let i = 0; i < 3; i++) {
-        const t = ((now * 0.15 + i * 0.33) % 1);
+        const t = (now * 0.15 + i * 0.33) % 1;
         const radius = t * 300;
         ctx.beginPath();
         ctx.arc(w * 0.5, h * 0.5, radius, 0, Math.PI * 2);
@@ -175,7 +178,8 @@ export default function CyberBackground() {
             const angle = (Math.PI / 3) * i - Math.PI / 6;
             const px = x + hexSize * Math.cos(angle);
             const py = y + hexSize * Math.sin(angle);
-            i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
           }
           ctx.closePath();
           ctx.stroke();

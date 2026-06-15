@@ -93,7 +93,10 @@ export default function RecruiterDashboardClient({
             ⚡ Résultats classés par matching
           </span>
           <button
-            onClick={() => { setAiCandidates(null); setAiRanked(false); }}
+            onClick={() => {
+              setAiCandidates(null);
+              setAiRanked(false);
+            }}
             className="font-mono text-xs text-gray-500 hover:text-gray-300 underline"
           >
             Réinitialiser
@@ -121,9 +124,7 @@ export default function RecruiterDashboardClient({
                     </>
                   ) : (
                     <>
-                      <div className="font-mono text-xl font-bold text-[#ff4060]">
-                        #{idx + 1}
-                      </div>
+                      <div className="font-mono text-xl font-bold text-[#ff4060]">#{idx + 1}</div>
                       <div className="font-mono text-xs text-gray-500">rank</div>
                     </>
                   )}
@@ -135,7 +136,8 @@ export default function RecruiterDashboardClient({
                       {candidate.firstName} {candidate.lastName}
                     </h3>
                     <span className="font-mono text-xs text-gray-400">
-                      {candidate.location && `${candidate.location}, `}{candidate.country}
+                      {candidate.location && `${candidate.location}, `}
+                      {candidate.country}
                     </span>
                     {candidate.isAvailable && (
                       <span className="font-mono text-xs px-2 py-1 rounded bg-[#00c896]/10 border border-[#00c896]/30 text-[#00c896]">
@@ -145,9 +147,7 @@ export default function RecruiterDashboardClient({
                   </div>
 
                   {candidate.headline && (
-                    <p className="font-mono text-sm text-gray-400 mb-1">
-                      {candidate.headline}
-                    </p>
+                    <p className="font-mono text-sm text-gray-400 mb-1">{candidate.headline}</p>
                   )}
 
                   {aiRanked && candidate.aiReason && (
@@ -194,11 +194,7 @@ export default function RecruiterDashboardClient({
 
       {totalPages > 1 && !aiRanked && (
         <div className="flex items-center justify-center gap-4 mt-8 pb-8">
-          <PaginationLink
-            page={currentPage - 1}
-            disabled={currentPage <= 1}
-            label="← Précédent"
-          />
+          <PaginationLink page={currentPage - 1} disabled={currentPage <= 1} label="← Précédent" />
           <div className="flex items-center gap-2">
             {Array.from({ length: totalPages }, (_, i) => i + 1)
               .filter((p) => {

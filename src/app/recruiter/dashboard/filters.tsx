@@ -50,9 +50,7 @@ export default function RecruiterFilters({ onAiResults }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query,
-          minScore: searchParams.get("score")
-            ? parseInt(searchParams.get("score")!)
-            : undefined,
+          minScore: searchParams.get("score") ? parseInt(searchParams.get("score")!) : undefined,
           country: searchParams.get("country") || undefined,
         }),
       });
@@ -86,7 +84,9 @@ export default function RecruiterFilters({ onAiResults }: Props) {
         >
           {loading ? (
             <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-          ) : "⚡ Matcher"}
+          ) : (
+            "⚡ Matcher"
+          )}
         </button>
       </div>
 

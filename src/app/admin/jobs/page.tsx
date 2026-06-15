@@ -39,23 +39,32 @@ export default async function AdminJobsPage() {
             </div>
             <div className="flex items-center gap-4 text-xs">
               <span className="font-mono text-gray-500">📍 {j.location ?? "—"}</span>
-              <span className={`font-mono px-2 py-0.5 rounded border ${
-                j.type === "FULL_TIME" ? "text-[#00c896] border-[#00c896]" :
-                j.type === "CONTRACT" ? "text-yellow-400 border-yellow-400" :
-                j.type === "FREELANCE" ? "text-purple-400 border-purple-400" :
-                "text-gray-400 border-gray-400"
-              }`}>{j.type}</span>
-              <span className="font-mono text-gray-500">📩 {j._count.applications} candidature(s)</span>
-              <span className={`font-mono text-xs ${j.isActive ? "text-[#00c896]" : "text-[#ff4060]"}`}>
+              <span
+                className={`font-mono px-2 py-0.5 rounded border ${
+                  j.type === "FULL_TIME"
+                    ? "text-[#00c896] border-[#00c896]"
+                    : j.type === "CONTRACT"
+                      ? "text-yellow-400 border-yellow-400"
+                      : j.type === "FREELANCE"
+                        ? "text-purple-400 border-purple-400"
+                        : "text-gray-400 border-gray-400"
+                }`}
+              >
+                {j.type}
+              </span>
+              <span className="font-mono text-gray-500">
+                📩 {j._count.applications} candidature(s)
+              </span>
+              <span
+                className={`font-mono text-xs ${j.isActive ? "text-[#00c896]" : "text-[#ff4060]"}`}
+              >
                 {j.isActive ? "Active" : "Inactive"}
               </span>
             </div>
           </div>
         ))}
         {jobs.length === 0 && (
-          <div className="text-center py-12 font-mono text-sm text-gray-500">
-            Aucune offre
-          </div>
+          <div className="text-center py-12 font-mono text-sm text-gray-500">Aucune offre</div>
         )}
       </div>
     </div>

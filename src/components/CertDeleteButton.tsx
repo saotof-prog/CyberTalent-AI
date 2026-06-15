@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/toast";
 
 export default function CertDeleteButton({ certId }: { certId: string }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   async function handleDelete() {
     if (!confirm("Supprimer cette certification ?")) return;
@@ -12,9 +14,9 @@ export default function CertDeleteButton({ certId }: { certId: string }) {
     try {
       const res = await fetch(`/api/certifications/${certId}`, { method: "DELETE" });
       if (res.ok) router.refresh();
-      else alert("Erreur lors de la suppression");
+      else toast("Erreur lors de la suppression", "error");
     } catch {
-      alert("Erreur réseau");
+      toast("Erreur réseau", "error");
     }
     setLoading(false);
   }

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useToast } from "@/components/toast";
 
 export default function ApplyButton({
   jobId,
@@ -10,6 +11,7 @@ export default function ApplyButton({
   alreadyApplied: boolean;
   scoreTooLow: boolean;
 }) {
+  const { toast } = useToast();
   const [applied, setApplied] = useState(alreadyApplied);
   const [loading, setLoading] = useState(false);
 
@@ -23,9 +25,9 @@ export default function ApplyButton({
         body: JSON.stringify({ jobId }),
       });
       if (res.ok) setApplied(true);
-      else alert("Erreur lors de la candidature");
+      else toast("Erreur lors de la candidature", "error");
     } catch {
-      alert("Erreur réseau");
+      toast("Erreur réseau", "error");
     }
     setLoading(false);
   }

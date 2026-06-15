@@ -14,10 +14,7 @@ export async function POST(req: Request) {
     // Chercher si l'user existe déjà par clerkId OU par email
     let user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { clerkId: userId },
-          { email: email },
-        ],
+        OR: [{ clerkId: userId }, { email: email }],
       },
     });
 
@@ -29,9 +26,8 @@ export async function POST(req: Request) {
       });
     } else {
       // Créer un nouvel utilisateur
-      const username = (body.firstName + body.lastName)
-        .toLowerCase()
-        .replace(/\s/g, "") + Date.now();
+      const username =
+        (body.firstName + body.lastName).toLowerCase().replace(/\s/g, "") + Date.now();
 
       user = await prisma.user.create({
         data: {

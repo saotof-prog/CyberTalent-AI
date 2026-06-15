@@ -13,7 +13,8 @@ export async function POST(req: Request) {
       where: { user: { clerkId: userId } },
     });
 
-    if (!recruiter) return NextResponse.json({ error: "Profil recruteur introuvable" }, { status: 404 });
+    if (!recruiter)
+      return NextResponse.json({ error: "Profil recruteur introuvable" }, { status: 404 });
 
     // Toggle save/unsave
     const existing = await prisma.savedCandidate.findUnique({

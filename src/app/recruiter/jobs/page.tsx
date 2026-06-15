@@ -60,17 +60,12 @@ export default async function RecruiterJobsPage() {
         ) : (
           <div className="flex flex-col gap-3">
             {jobs.map((job) => (
-              <div
-                key={job.id}
-                className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5"
-              >
+              <div key={job.id} className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     {/* Titre + badges */}
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <h3 className="font-mono text-base font-bold text-white">
-                        {job.title}
-                      </h3>
+                      <h3 className="font-mono text-base font-bold text-white">{job.title}</h3>
                       {job.isUrgent && (
                         <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#ff4060]/10 border border-[#ff4060]/30 text-[#ff4060]">
                           URGENT
@@ -95,12 +90,14 @@ export default async function RecruiterJobsPage() {
                       </span>
                       {job.country && (
                         <span className="font-mono text-xs text-gray-500">
-                          📍 {job.location ? job.location + ", " : ""}{job.country}
+                          📍 {job.location ? job.location + ", " : ""}
+                          {job.country}
                         </span>
                       )}
                       {job.salaryMin && (
                         <span className="font-mono text-xs text-[#00c896]">
-                          ${job.salaryMin.toLocaleString()} — ${job.salaryMax?.toLocaleString() ?? "?"}/mois
+                          ${job.salaryMin.toLocaleString()} — $
+                          {job.salaryMax?.toLocaleString() ?? "?"}/mois
                         </span>
                       )}
                       {job.minScore && (
@@ -134,8 +131,7 @@ export default async function RecruiterJobsPage() {
                         {job._count.applications > 1 ? "s" : ""}
                       </Link>
                       <span className="font-mono text-xs text-gray-600">
-                        Publiée le{" "}
-                        {new Date(job.createdAt).toLocaleDateString("fr-FR")}
+                        Publiée le {new Date(job.createdAt).toLocaleDateString("fr-FR")}
                       </span>
                     </div>
                   </div>

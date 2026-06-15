@@ -34,18 +34,14 @@ export function computeMatchScore(candidate: Candidate, job: Job): number {
 
   // 2. Skills matchés — 40 pts
   if (job.requiredSkills.length > 0) {
-    const candidateSkillNames = candidate.skills.map((s) =>
-      s.skill.name.toLowerCase()
-    );
+    const candidateSkillNames = candidate.skills.map((s) => s.skill.name.toLowerCase());
     const matched = job.requiredSkills.filter((js) =>
       candidateSkillNames.includes(js.skill.name.toLowerCase())
     ).length;
     score += (matched / job.requiredSkills.length) * 40;
   } else {
     // Matching par tags si pas de skills définis
-    const candidateSkillNames = candidate.skills.map((s) =>
-      s.skill.name.toLowerCase()
-    );
+    const candidateSkillNames = candidate.skills.map((s) => s.skill.name.toLowerCase());
     const tagMatches = job.tags.filter((tag) =>
       candidateSkillNames.some((s) => s.includes(tag.toLowerCase()))
     ).length;

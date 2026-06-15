@@ -34,9 +34,7 @@ export default async function LabsPage() {
       {labs.length === 0 ? (
         <div className="text-center py-12 bg-[#0d1520] border border-[#0084ff]/20 rounded-xl mb-8">
           <div className="text-4xl mb-3">🧪</div>
-          <p className="font-mono text-sm text-gray-500">
-            Aucun lab complété pour l&apos;instant.
-          </p>
+          <p className="font-mono text-sm text-gray-500">Aucun lab complété pour l&apos;instant.</p>
           <p className="font-mono text-xs text-gray-600 mt-1">
             Ajoute tes labs HackTheBox, TryHackMe, etc. ci-dessous
           </p>
@@ -47,12 +45,16 @@ export default async function LabsPage() {
             <div key={lab.id} className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
                 <div className="font-mono text-sm font-bold text-white">{lab.labName}</div>
-                <span className={`font-mono text-xs px-2 py-1 rounded border ${diffColor[lab.difficulty] ?? "text-gray-400 border-gray-400"}`}>
+                <span
+                  className={`font-mono text-xs px-2 py-1 rounded border ${diffColor[lab.difficulty] ?? "text-gray-400 border-gray-400"}`}
+                >
                   {lab.difficulty}
                 </span>
               </div>
               <div className="font-mono text-xs text-gray-400">{lab.platform}</div>
-              {lab.category && <div className="font-mono text-xs text-gray-500">{lab.category}</div>}
+              {lab.category && (
+                <div className="font-mono text-xs text-gray-500">{lab.category}</div>
+              )}
               <div className="font-mono text-xs text-gray-600 mt-1">
                 {new Date(lab.completedAt).toLocaleDateString("fr-FR")}
               </div>

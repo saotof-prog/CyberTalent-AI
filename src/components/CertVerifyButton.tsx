@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/toast";
 
 export default function CertVerifyButton({ certId }: { certId: string }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   async function handleVerify() {
     setLoading(true);
@@ -12,15 +14,15 @@ export default function CertVerifyButton({ certId }: { certId: string }) {
       const res = await fetch(`/api/certifications/${certId}/verify`, { method: "POST" });
       const data = await res.json();
       if (res.ok && data.status === "VERIFIED") {
-        alert("✅ Certification validée !");
+        toast("Certification validée !", "success");
       } else if (res.ok && data.status === "PENDING") {
-        alert("⚠️ " + (data.notes || "Ajoute un lien de vérification pour valider automatiquement."));
+        toast(data.notes || "Ajoute un lien de vérification pour valider automatiquement.", "info");
       } else {
-        alert("❌ Erreur lors de la vérification.");
+        toast("Erreur lors de la vérification.", "error");
       }
       router.refresh();
     } catch {
-      alert("❌ Erreur réseau.");
+      toast("Erreur réseau.", "error");
     }
     setLoading(false);
   }

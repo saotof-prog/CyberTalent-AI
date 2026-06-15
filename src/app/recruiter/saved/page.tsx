@@ -18,18 +18,16 @@ export default async function SavedCandidatesPage() {
     orderBy: { savedAt: "desc" },
   });
 
-  const candidates = await Promise.all(
-    saved.map((s) =>
-      prisma.candidateProfile.findUnique({
-        where: { id: s.candidateId },
-        include: {
-          certifications: { where: { status: "VERIFIED" } },
-          labs: true,
-          skills: true,
-        },
-      })
-    )
-  );
+  const candidateIds = saved.map((s) => s.candidateId);
+  const candidateProfiles = await prisma.candidateProfile.findMany({
+    where: { id: { in: candidateIds } },
+    include: {
+      certifications: { where: { status: "VERIFIED" } },
+      labs: true,
+      skills: true,
+    },
+  });
+  const candidates = candidateIds.map((id) => candidateProfiles.find((c) => c.id === id) ?? null);
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -66,7 +64,9 @@ export default async function SavedCandidatesPage() {
               >
                 <div className="flex items-center gap-4">
                   <div className="flex flex-col items-center justify-center w-16 h-16 bg-[#111d2e] border border-[#ff4060]/30 rounded-lg flex-shrink-0">
-                    <div className="font-mono text-xl font-bold text-[#ff4060]">{candidate.cyberScore}</div>
+                    <div className="font-mono text-xl font-bold text-[#ff4060]">
+                      {candidate.cyberScore}
+                    </div>
                     <div className="font-mono text-xs text-gray-500">score</div>
                   </div>
                   <div className="flex-1">
@@ -85,15 +85,25 @@ export default async function SavedCandidatesPage() {
                     </div>
                     <p className="font-mono text-sm text-gray-400 mb-2">{candidate.headline}</p>
                     <div className="flex items-center gap-4 flex-wrap">
-                      <span className="font-mono text-xs text-gray-500">📜 {candidate.certifications.length} certs</span>
-                      <span className="font-mono text-xs text-gray-500">🧪 {candidate.labs.length} labs</span>
-                      <span className="font-mono text-xs text-gray-500">⚡ {candidate.skills.length} skills</span>
+                      <span className="font-mono text-xs text-gray-500">
+                        📜 {candidate.certifications.length} certs
+                      </span>
+                      <span className="font-mono text-xs text-gray-500">
+                        🧪 {candidate.labs.length} labs
+                      </span>
+                      <span className="font-mono text-xs text-gray-500">
+                        ⚡ {candidate.skills.length} skills
+                      </span>
                       {candidate.githubUsername && (
-                        <span className="font-mono text-xs text-[#00c896]">@{candidate.githubUsername}</span>
+                        <span className="font-mono text-xs text-[#00c896]">
+                          @{candidate.githubUsername}
+                        </span>
                       )}
                     </div>
                     {s.note && (
-                      <div className="mt-2 font-mono text-xs text-gray-500 italic">Note: {s.note}</div>
+                      <div className="mt-2 font-mono text-xs text-gray-500 italic">
+                        Note: {s.note}
+                      </div>
                     )}
                   </div>
                 </div>

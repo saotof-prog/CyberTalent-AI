@@ -3,9 +3,22 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
 const ALLOWED_FIELDS = [
-  "firstName", "lastName", "headline", "bio", "location", "country",
-  "timezone", "phoneNumber", "website", "linkedinUrl", "twitterUrl",
-  "githubUsername", "isAvailable", "availableFrom", "salaryMin", "salaryMax",
+  "firstName",
+  "lastName",
+  "headline",
+  "bio",
+  "location",
+  "country",
+  "timezone",
+  "phoneNumber",
+  "website",
+  "linkedinUrl",
+  "twitterUrl",
+  "githubUsername",
+  "isAvailable",
+  "availableFrom",
+  "salaryMin",
+  "salaryMax",
 ] as const;
 
 export async function GET() {
@@ -17,7 +30,10 @@ export async function GET() {
       where: { clerkId: userId },
       include: {
         candidateProfile: {
-          select: ALLOWED_FIELDS.reduce((acc, f) => ({ ...acc, [f]: true }), {} as Record<string, boolean>),
+          select: ALLOWED_FIELDS.reduce(
+            (acc, f) => ({ ...acc, [f]: true }),
+            {} as Record<string, boolean>
+          ),
         },
       },
     });

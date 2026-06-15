@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ToastProvider } from "@/components/toast";
 
 export const metadata: Metadata = {
   title: {
@@ -34,8 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "CyberTalent AI — Recrutement Cybersécurité",
-    description:
-      "Plateforme de recrutement cybersécurité propulsée par l'IA Gemini.",
+    description: "Plateforme de recrutement cybersécurité propulsée par l'IA Gemini.",
   },
   robots: {
     index: true,
@@ -49,13 +49,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html
-        lang="fr"
-        className="h-full antialiased"
-      >
-        <body className="min-h-full flex flex-col">{children}</body>
-      </html>
-    </ClerkProvider>
+    <html lang="fr" className="h-full antialiased">
+      <body className="min-h-full flex flex-col">
+        <ClerkProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

@@ -30,14 +30,16 @@ export default async function CandidateProfilePage({
     where: { user: { clerkId: userId } },
   });
 
-  const isSaved = recruiter ? !!(await prisma.savedCandidate.findUnique({
-    where: {
-      recruiterId_candidateId: {
-        recruiterId: recruiter.id,
-        candidateId: candidate.id,
-      },
-    },
-  })) : false;
+  const isSaved = recruiter
+    ? !!(await prisma.savedCandidate.findUnique({
+        where: {
+          recruiterId_candidateId: {
+            recruiterId: recruiter.id,
+            candidateId: candidate.id,
+          },
+        },
+      }))
+    : false;
 
   const githubUrl = "https://github.com/" + candidate.githubUsername;
   const mailtoUrl = "mailto:" + candidate.user.email;
@@ -52,7 +54,6 @@ export default async function CandidateProfilePage({
   return (
     <div className="min-h-screen bg-[#080c14] text-white">
       <div className="p-4 md:p-6 max-w-4xl mx-auto">
-
         {/* HEADER PROFIL */}
         <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5 md:p-8 mb-6">
           <div className="flex flex-col md:flex-row items-start justify-between gap-4">
@@ -63,7 +64,9 @@ export default async function CandidateProfilePage({
               <p className="font-mono text-[#ff4060] text-sm mb-3">{candidate.headline}</p>
               <div className="flex flex-wrap items-center gap-3 text-gray-400 font-mono text-xs">
                 {candidate.location && (
-                  <span>📍 {candidate.location}, {candidate.country}</span>
+                  <span>
+                    📍 {candidate.location}, {candidate.country}
+                  </span>
                 )}
                 {candidate.githubUsername && (
                   <a href={githubUrl} target="_blank" className="text-[#00c896] hover:underline">
@@ -78,7 +81,9 @@ export default async function CandidateProfilePage({
               </div>
             </div>
             <div className="flex flex-col items-center justify-center w-24 h-24 md:w-28 md:h-28 bg-[#111d2e] border-2 border-[#ff4060]/50 rounded-xl flex-shrink-0">
-              <div className="font-mono text-3xl md:text-4xl font-bold text-[#ff4060]">{candidate.cyberScore}</div>
+              <div className="font-mono text-3xl md:text-4xl font-bold text-[#ff4060]">
+                {candidate.cyberScore}
+              </div>
               <div className="font-mono text-xs text-gray-500">CyberScore</div>
             </div>
           </div>
@@ -92,15 +97,21 @@ export default async function CandidateProfilePage({
         {/* STATS */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4 text-center">
-            <div className="font-mono text-2xl md:text-3xl font-bold text-[#ff4060]">{candidate.certifications.length}</div>
+            <div className="font-mono text-2xl md:text-3xl font-bold text-[#ff4060]">
+              {candidate.certifications.length}
+            </div>
             <div className="font-mono text-xs text-gray-400 mt-1">Certifications</div>
           </div>
           <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4 text-center">
-            <div className="font-mono text-2xl md:text-3xl font-bold text-[#0084ff]">{candidate.labs.length}</div>
+            <div className="font-mono text-2xl md:text-3xl font-bold text-[#0084ff]">
+              {candidate.labs.length}
+            </div>
             <div className="font-mono text-xs text-gray-400 mt-1">Labs</div>
           </div>
           <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4 text-center">
-            <div className="font-mono text-2xl md:text-3xl font-bold text-[#ffaa00]">{candidate.skills.length}</div>
+            <div className="font-mono text-2xl md:text-3xl font-bold text-[#ffaa00]">
+              {candidate.skills.length}
+            </div>
             <div className="font-mono text-xs text-gray-400 mt-1">Skills</div>
           </div>
         </div>
@@ -120,16 +131,21 @@ export default async function CandidateProfilePage({
             ) : (
               <div className="flex flex-col gap-2">
                 {candidate.certifications.map((cert) => (
-                  <div key={cert.id} className="flex items-center justify-between bg-[#111d2e] rounded-lg px-3 py-2">
+                  <div
+                    key={cert.id}
+                    className="flex items-center justify-between bg-[#111d2e] rounded-lg px-3 py-2"
+                  >
                     <div>
                       <div className="font-mono text-sm text-white">{cert.name}</div>
                       <div className="font-mono text-xs text-gray-500">{cert.issuer}</div>
                     </div>
-                    <span className={
-                      cert.status === "VERIFIED"
-                        ? "font-mono text-xs px-2 py-0.5 rounded bg-[#00c896]/10 text-[#00c896] border border-[#00c896]/30"
-                        : "font-mono text-xs px-2 py-0.5 rounded bg-gray-800 text-gray-500"
-                    }>
+                    <span
+                      className={
+                        cert.status === "VERIFIED"
+                          ? "font-mono text-xs px-2 py-0.5 rounded bg-[#00c896]/10 text-[#00c896] border border-[#00c896]/30"
+                          : "font-mono text-xs px-2 py-0.5 rounded bg-gray-800 text-gray-500"
+                      }
+                    >
                       {cert.status === "VERIFIED" ? "✓ Vérifié" : "⏳"}
                     </span>
                   </div>
@@ -142,14 +158,19 @@ export default async function CandidateProfilePage({
           <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-1 h-4 bg-[#ff4060] rounded" />
-              <span className="font-mono text-sm text-[#ff4060]">SKILLS ({candidate.skills.length})</span>
+              <span className="font-mono text-sm text-[#ff4060]">
+                SKILLS ({candidate.skills.length})
+              </span>
             </div>
             {candidate.skills.length === 0 ? (
               <p className="font-mono text-xs text-gray-600">Aucun skill renseigné</p>
             ) : (
               <div className="flex flex-wrap gap-2">
                 {candidate.skills.map((skill) => (
-                  <span key={skill.id} className="font-mono text-xs px-3 py-1 rounded-full bg-[#ff4060]/10 border border-[#ff4060]/20 text-[#ff4060]">
+                  <span
+                    key={skill.id}
+                    className="font-mono text-xs px-3 py-1 rounded-full bg-[#ff4060]/10 border border-[#ff4060]/20 text-[#ff4060]"
+                  >
                     {skill.skill?.name ?? skill.skillId} · {skill.level}
                   </span>
                 ))}
@@ -169,11 +190,16 @@ export default async function CandidateProfilePage({
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {candidate.labs.map((lab) => (
-                <div key={lab.id} className="bg-[#111d2e] rounded-lg px-4 py-3 border border-gray-800">
+                <div
+                  key={lab.id}
+                  className="bg-[#111d2e] rounded-lg px-4 py-3 border border-gray-800"
+                >
                   <div className="font-mono text-sm text-white mb-1">{lab.labName}</div>
                   <div className="flex items-center justify-between">
                     <div className="font-mono text-xs text-gray-500">{lab.platform}</div>
-                    <span className={`font-mono text-xs px-2 py-0.5 rounded border ${diffColor[lab.difficulty] ?? "text-gray-400 border-gray-600"}`}>
+                    <span
+                      className={`font-mono text-xs px-2 py-0.5 rounded border ${diffColor[lab.difficulty] ?? "text-gray-400 border-gray-600"}`}
+                    >
                       {lab.difficulty}
                     </span>
                   </div>
@@ -185,10 +211,7 @@ export default async function CandidateProfilePage({
 
         {/* ACTIONS */}
         <div className="flex flex-col sm:flex-row gap-3 justify-end">
-          <SaveButton
-            candidateId={candidate.id}
-            initialSaved={isSaved}
-          />
+          <SaveButton candidateId={candidate.id} initialSaved={isSaved} />
           <a
             href={mailtoUrl}
             className="font-mono text-sm px-6 py-3 bg-[#ff4060] hover:bg-[#ff2040] text-white rounded-lg transition font-bold text-center"
@@ -196,7 +219,6 @@ export default async function CandidateProfilePage({
             ✉ Contacter ce candidat
           </a>
         </div>
-
       </div>
     </div>
   );

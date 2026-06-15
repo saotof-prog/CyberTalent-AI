@@ -69,7 +69,10 @@ export default async function AdminCertificationsPage() {
             </thead>
             <tbody>
               {certs.map((c) => (
-                <tr key={c.id} className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition">
+                <tr
+                  key={c.id}
+                  className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition"
+                >
                   <td className="p-3 font-mono text-xs text-gray-500">
                     {new Date(c.createdAt).toLocaleDateString("fr-FR")}
                   </td>
@@ -80,7 +83,9 @@ export default async function AdminCertificationsPage() {
                   <td className="p-3 font-mono text-xs text-gray-400">{c.issuer}</td>
                   <td className="p-3 font-mono text-sm text-white">{c.candidate.cyberScore}</td>
                   <td className="p-3">
-                    <span className={`font-mono text-xs px-2 py-0.5 rounded-full border ${statusColor[c.status] ?? "border-gray-500 text-gray-500"}`}>
+                    <span
+                      className={`font-mono text-xs px-2 py-0.5 rounded-full border ${statusColor[c.status] ?? "border-gray-500 text-gray-500"}`}
+                    >
                       {c.status}
                     </span>
                   </td>

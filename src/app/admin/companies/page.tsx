@@ -30,7 +30,9 @@ export default async function AdminCompaniesPage() {
             <div className="flex items-center justify-between mb-3">
               <div>
                 <h3 className="font-mono text-base font-bold text-white">{c.name}</h3>
-                <p className="font-mono text-xs text-gray-400">{c.industry ?? "—"} · {c.size ?? "—"}</p>
+                <p className="font-mono text-xs text-gray-400">
+                  {c.industry ?? "—"} · {c.size ?? "—"}
+                </p>
               </div>
               <AdminCompanyActions companyId={c.id} isVerified={c.isVerified} />
             </div>
@@ -41,7 +43,11 @@ export default async function AdminCompaniesPage() {
                 {c.recruiters[0] && ` (${c.recruiters[0].user.email})`}
               </span>
               {c.website && (
-                <a href={c.website} target="_blank" className="font-mono text-[#0084ff] hover:underline">
+                <a
+                  href={c.website}
+                  target="_blank"
+                  className="font-mono text-[#0084ff] hover:underline"
+                >
                   Site web →
                 </a>
               )}
@@ -49,9 +55,7 @@ export default async function AdminCompaniesPage() {
           </div>
         ))}
         {companies.length === 0 && (
-          <div className="text-center py-12 font-mono text-sm text-gray-500">
-            Aucune entreprise
-          </div>
+          <div className="text-center py-12 font-mono text-sm text-gray-500">Aucune entreprise</div>
         )}
       </div>
     </div>

@@ -78,7 +78,9 @@ export default async function AdminDashboard() {
         </div>
         <div className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4">
           <div className="font-mono text-xs text-gray-400 mb-1">Certifications en attente</div>
-          <div className={`font-mono text-3xl font-bold ${pendingCerts > 0 ? "text-[#ffaa00]" : "text-[#00c896]"}`}>
+          <div
+            className={`font-mono text-3xl font-bold ${pendingCerts > 0 ? "text-[#ffaa00]" : "text-[#00c896]"}`}
+          >
             {pendingCerts}
           </div>
         </div>
@@ -86,19 +88,31 @@ export default async function AdminDashboard() {
 
       {/* Quick links */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <Link href="/admin/users" className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center">
+        <Link
+          href="/admin/users"
+          className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
+        >
           <div className="font-mono text-2xl mb-1">👥</div>
           <div className="font-mono text-xs text-gray-400">Gérer les utilisateurs</div>
         </Link>
-        <Link href="/admin/companies" className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center">
+        <Link
+          href="/admin/companies"
+          className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
+        >
           <div className="font-mono text-2xl mb-1">🏢</div>
           <div className="font-mono text-xs text-gray-400">Gérer les entreprises</div>
         </Link>
-        <Link href="/admin/jobs" className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center">
+        <Link
+          href="/admin/jobs"
+          className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
+        >
           <div className="font-mono text-2xl mb-1">💼</div>
           <div className="font-mono text-xs text-gray-400">Gérer les offres</div>
         </Link>
-        <Link href="/admin/certifications" className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center">
+        <Link
+          href="/admin/certifications"
+          className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
+        >
           <div className="font-mono text-2xl mb-1">🏆</div>
           <div className="font-mono text-xs text-gray-400">Gérer les certifications</div>
         </Link>
@@ -112,22 +126,30 @@ export default async function AdminDashboard() {
         </div>
         <div className="flex flex-col gap-2">
           {recentUsers.map((u) => (
-            <div key={u.id} className="flex items-center justify-between py-2 border-b border-[#0084ff]/5 last:border-0">
+            <div
+              key={u.id}
+              className="flex items-center justify-between py-2 border-b border-[#0084ff]/5 last:border-0"
+            >
               <div className="flex items-center gap-3">
                 <div className="font-mono text-xs text-gray-400">
                   {new Date(u.createdAt).toLocaleDateString("fr-FR")}
                 </div>
                 <div className="font-mono text-sm text-white">{u.email}</div>
-                <span className={`font-mono text-[10px] px-2 py-0.5 rounded-full border ${
-                  u.role === "CANDIDATE" ? "border-[#00c896] text-[#00c896]" :
-                  u.role === "RECRUITER" ? "border-[#ff4060] text-[#ff4060]" :
-                  "border-[#0084ff] text-[#0084ff]"
-                }`}>
+                <span
+                  className={`font-mono text-[10px] px-2 py-0.5 rounded-full border ${
+                    u.role === "CANDIDATE"
+                      ? "border-[#00c896] text-[#00c896]"
+                      : u.role === "RECRUITER"
+                        ? "border-[#ff4060] text-[#ff4060]"
+                        : "border-[#0084ff] text-[#0084ff]"
+                  }`}
+                >
                   {u.role}
                 </span>
               </div>
               <div className="font-mono text-xs text-gray-500">
-                {u.candidateProfile?.cyberScore != null && `Score: ${u.candidateProfile.cyberScore}`}
+                {u.candidateProfile?.cyberScore != null &&
+                  `Score: ${u.candidateProfile.cyberScore}`}
               </div>
             </div>
           ))}

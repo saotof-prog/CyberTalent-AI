@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/toast";
 
 export default function CreateJobPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     title: "",
@@ -22,7 +24,7 @@ export default function CreateJobPage() {
 
   async function handleSubmit() {
     if (!form.title || !form.description) {
-      alert("Remplis les champs obligatoires !");
+      toast("Remplis les champs obligatoires !", "error");
       return;
     }
 
@@ -36,7 +38,7 @@ export default function CreateJobPage() {
           salaryMin: form.salaryMin ? parseInt(form.salaryMin) : null,
           salaryMax: form.salaryMax ? parseInt(form.salaryMax) : null,
           minScore: form.minScore ? parseInt(form.minScore) : null,
-          tags: form.tags ? form.tags.split(",").map(t => t.trim()) : [],
+          tags: form.tags ? form.tags.split(",").map((t) => t.trim()) : [],
         }),
       });
 
@@ -44,7 +46,7 @@ export default function CreateJobPage() {
       router.push("/recruiter/jobs");
       router.refresh();
     } catch {
-      alert("Erreur lors de la création");
+      toast("Erreur lors de la création", "error");
     }
     setLoading(false);
   }
@@ -62,14 +64,13 @@ export default function CreateJobPage() {
         </div>
 
         <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-6 flex flex-col gap-4">
-
           {/* Titre */}
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Titre du poste *</label>
             <input
               className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
               value={form.title}
-              onChange={e => setForm({...form, title: e.target.value})}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
               placeholder="Senior Penetration Tester"
             />
           </div>
@@ -81,7 +82,7 @@ export default function CreateJobPage() {
               className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060] resize-none"
               rows={4}
               value={form.description}
-              onChange={e => setForm({...form, description: e.target.value})}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
               placeholder="Décris le poste, les responsabilités..."
             />
           </div>
@@ -93,7 +94,7 @@ export default function CreateJobPage() {
               className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060] resize-none"
               rows={3}
               value={form.requirements}
-              onChange={e => setForm({...form, requirements: e.target.value})}
+              onChange={(e) => setForm({ ...form, requirements: e.target.value })}
               placeholder="OSCP obligatoire, 3+ ans d'expérience..."
             />
           </div>
@@ -105,7 +106,7 @@ export default function CreateJobPage() {
               <select
                 className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
                 value={form.type}
-                onChange={e => setForm({...form, type: e.target.value})}
+                onChange={(e) => setForm({ ...form, type: e.target.value })}
               >
                 <option value="FULL_TIME">Temps plein</option>
                 <option value="PART_TIME">Temps partiel</option>
@@ -119,7 +120,7 @@ export default function CreateJobPage() {
               <select
                 className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
                 value={form.mode}
-                onChange={e => setForm({...form, mode: e.target.value})}
+                onChange={(e) => setForm({ ...form, mode: e.target.value })}
               >
                 <option value="REMOTE">Remote</option>
                 <option value="ONSITE">Présentiel</option>
@@ -135,7 +136,7 @@ export default function CreateJobPage() {
               <input
                 className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
                 value={form.location}
-                onChange={e => setForm({...form, location: e.target.value})}
+                onChange={(e) => setForm({ ...form, location: e.target.value })}
                 placeholder="Dakar"
               />
             </div>
@@ -144,7 +145,7 @@ export default function CreateJobPage() {
               <input
                 className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
                 value={form.country}
-                onChange={e => setForm({...form, country: e.target.value})}
+                onChange={(e) => setForm({ ...form, country: e.target.value })}
                 placeholder="SN"
               />
             </div>
@@ -153,22 +154,26 @@ export default function CreateJobPage() {
           {/* Salaire */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="font-mono text-xs text-gray-400 mb-1 block">Salaire min (USD/mois)</label>
+              <label className="font-mono text-xs text-gray-400 mb-1 block">
+                Salaire min (USD/mois)
+              </label>
               <input
                 type="number"
                 className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
                 value={form.salaryMin}
-                onChange={e => setForm({...form, salaryMin: e.target.value})}
+                onChange={(e) => setForm({ ...form, salaryMin: e.target.value })}
                 placeholder="3000"
               />
             </div>
             <div>
-              <label className="font-mono text-xs text-gray-400 mb-1 block">Salaire max (USD/mois)</label>
+              <label className="font-mono text-xs text-gray-400 mb-1 block">
+                Salaire max (USD/mois)
+              </label>
               <input
                 type="number"
                 className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
                 value={form.salaryMax}
-                onChange={e => setForm({...form, salaryMax: e.target.value})}
+                onChange={(e) => setForm({ ...form, salaryMax: e.target.value })}
                 placeholder="6000"
               />
             </div>
@@ -182,7 +187,7 @@ export default function CreateJobPage() {
                 type="number"
                 className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
                 value={form.minScore}
-                onChange={e => setForm({...form, minScore: e.target.value})}
+                onChange={(e) => setForm({ ...form, minScore: e.target.value })}
                 placeholder="70"
                 min="0"
                 max="100"
@@ -193,7 +198,7 @@ export default function CreateJobPage() {
                 type="checkbox"
                 id="urgent"
                 checked={form.isUrgent}
-                onChange={e => setForm({...form, isUrgent: e.target.checked})}
+                onChange={(e) => setForm({ ...form, isUrgent: e.target.checked })}
                 className="w-4 h-4 accent-[#ff4060]"
               />
               <label htmlFor="urgent" className="font-mono text-xs text-gray-400 cursor-pointer">
@@ -210,7 +215,7 @@ export default function CreateJobPage() {
             <input
               className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
               value={form.tags}
-              onChange={e => setForm({...form, tags: e.target.value})}
+              onChange={(e) => setForm({ ...form, tags: e.target.value })}
               placeholder="pentest, OSCP, red team, senior"
             />
           </div>

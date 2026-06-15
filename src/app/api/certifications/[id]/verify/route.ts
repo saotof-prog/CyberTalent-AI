@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
-import { calculateCyberScore } from "@/lib/score";
+import { recalculateAndTrack } from "@/lib/score-tracker";
 
-export async function POST(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
@@ -22,6 +19,10 @@ export async function POST(
       return NextResponse.json({ error: "Certification introuvable" }, { status: 404 });
     }
 
+    if (cert.candidate.user.clerkId !== userId) {
+      return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
+    }
+
     const url = cert.credentialUrl;
     if (!url) {
       return NextResponse.json({
@@ -31,7 +32,9 @@ export async function POST(
       });
     }
 
-    try { new URL(url); } catch {
+    try {
+      new URL(url);
+    } catch {
       return NextResponse.json({
         success: true,
         status: "PENDING",
@@ -50,7 +53,7 @@ export async function POST(
       },
     });
 
-    await recalculateScore(cert.candidate.id);
+    await recalculateAndTrack(cert.candidate.id, `CERT_VERIFIED: ${cert.name}`);
 
     return NextResponse.json({
       success: true,
@@ -62,28 +65,4 @@ export async function POST(
     console.error("CERT VERIFY ERROR:", error);
     return NextResponse.json({ error: "Erreur vérification" }, { status: 500 });
   }
-}
-
-async function recalculateScore(candidateId: string) {
-  const [certs, labs, skills, profile] = await Promise.all([
-    prisma.certification.findMany({ where: { candidateId } }),
-    prisma.labCompletion.findMany({ where: { candidateId } }),
-    prisma.candidateSkill.findMany({ where: { candidateId } }),
-    prisma.candidateProfile.findUnique({ where: { id: candidateId } }),
-  ]);
-
-  if (!profile) return;
-
-  const newScore = calculateCyberScore({
-    certifications: certs,
-    labs,
-    skills,
-    githubUsername: profile.githubUsername,
-    githubStats: profile.githubStats,
-  });
-
-  await prisma.candidateProfile.update({
-    where: { id: candidateId },
-    data: { cyberScore: newScore, scoreUpdatedAt: new Date() },
-  });
 }

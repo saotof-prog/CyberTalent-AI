@@ -35,9 +35,7 @@ function computeMatchScore(
   const verifiedCerts = candidate.certifications
     .filter((c) => c.status === "VERIFIED")
     .map((c) => c.name.toLowerCase());
-  const certMatches = kw.filter((k) =>
-    verifiedCerts.some((c) => c.includes(k) || k.includes(c))
-  );
+  const certMatches = kw.filter((k) => verifiedCerts.some((c) => c.includes(k) || k.includes(c)));
   const certScore = Math.min((certMatches.length / Math.max(kw.length, 1)) * 100, 100);
 
   // 4. Mots-clés headline/bio (10%)
@@ -50,28 +48,18 @@ function computeMatchScore(
 
   // Score final pondéré
   const final = Math.round(
-    skillScore * 0.4 +
-    cyberScore * 0.25 +
-    certScore * 0.2 +
-    textScore * 0.1 +
-    availScore * 0.05
+    skillScore * 0.4 + cyberScore * 0.25 + certScore * 0.2 + textScore * 0.1 + availScore * 0.05
   );
 
   // Reason lisible
   const parts: string[] = [];
-  if (skillMatches.length > 0)
-    parts.push(`skills: ${skillMatches.join(", ")}`);
-  if (certMatches.length > 0)
-    parts.push(`certs: ${certMatches.join(", ")}`);
-  if (textMatches.length > 0)
-    parts.push(`profil: ${textMatches.join(", ")}`);
-  if (candidate.isAvailable)
-    parts.push("disponible");
+  if (skillMatches.length > 0) parts.push(`skills: ${skillMatches.join(", ")}`);
+  if (certMatches.length > 0) parts.push(`certs: ${certMatches.join(", ")}`);
+  if (textMatches.length > 0) parts.push(`profil: ${textMatches.join(", ")}`);
+  if (candidate.isAvailable) parts.push("disponible");
 
   const reason =
-    parts.length > 0
-      ? `Correspond à — ${parts.join(" · ")}`
-      : "Aucune correspondance directe";
+    parts.length > 0 ? `Correspond à — ${parts.join(" · ")}` : "Aucune correspondance directe";
 
   return { score: final, reason };
 }
@@ -79,9 +67,33 @@ function computeMatchScore(
 function extractKeywords(query: string): string[] {
   // Mots à ignorer
   const stopWords = new Set([
-    "un", "une", "des", "le", "la", "les", "de", "du", "avec",
-    "pour", "qui", "que", "en", "et", "ou", "sur", "dans", "par",
-    "a", "an", "the", "with", "for", "and", "or", "in", "on",
+    "un",
+    "une",
+    "des",
+    "le",
+    "la",
+    "les",
+    "de",
+    "du",
+    "avec",
+    "pour",
+    "qui",
+    "que",
+    "en",
+    "et",
+    "ou",
+    "sur",
+    "dans",
+    "par",
+    "a",
+    "an",
+    "the",
+    "with",
+    "for",
+    "and",
+    "or",
+    "in",
+    "on",
   ]);
   return query
     .toLowerCase()
@@ -94,66 +106,67 @@ function extractKeywords(query: string): string[] {
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
-  if (!userId)
-    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
-  const recruiter = await prisma.recruiterProfile.findFirst({
-    where: { user: { clerkId: userId } },
-  });
-  if (!recruiter)
-    return NextResponse.json({ error: "Profil recruteur introuvable" }, { status: 404 });
+  try {
+    const recruiter = await prisma.recruiterProfile.findFirst({
+      where: { user: { clerkId: userId } },
+    });
+    if (!recruiter)
+      return NextResponse.json({ error: "Profil recruteur introuvable" }, { status: 404 });
 
-  const body = await req.json();
-  const { query, minScore, maxScore, country, skills, certifications, mode, jobType } = body;
+    const body = await req.json();
+    const { query, minScore, maxScore, country, skills, certifications, mode, jobType } = body;
 
-  const keywords = query ? extractKeywords(query) : [];
+    const keywords = query ? extractKeywords(query) : [];
 
-  // Fetch candidats avec filtres de base
-  const candidates = await prisma.candidateProfile.findMany({
-    where: {
-      isAvailable: true,
-      ...(minScore && { cyberScore: { gte: minScore } }),
-      ...(maxScore && { cyberScore: { lte: maxScore } }),
-      ...(country && { country: { equals: country, mode: "insensitive" } }),
-      ...(mode && { jobModes: { has: mode } }),
-      ...(jobType && { jobTypes: { has: jobType } }),
-      ...(skills?.length > 0 && {
-        skills: { some: { skill: { name: { in: skills } } } },
-      }),
-      ...(certifications?.length > 0 && {
-        certifications: {
-          some: { name: { in: certifications }, status: "VERIFIED" },
-        },
-      }),
-    },
-    include: {
-      skills: { include: { skill: true } },
-      certifications: { select: { name: true, status: true } },
-    },
-    take: 100,
-    orderBy: { cyberScore: "desc" },
-  });
+    const candidates = await prisma.candidateProfile.findMany({
+      where: {
+        isAvailable: true,
+        ...(minScore && { cyberScore: { gte: minScore } }),
+        ...(maxScore && { cyberScore: { lte: maxScore } }),
+        ...(country && { country: { equals: country, mode: "insensitive" } }),
+        ...(mode && { jobModes: { has: mode } }),
+        ...(jobType && { jobTypes: { has: jobType } }),
+        ...(skills?.length > 0 && {
+          skills: { some: { skill: { name: { in: skills } } } },
+        }),
+        ...(certifications?.length > 0 && {
+          certifications: {
+            some: { name: { in: certifications }, status: "VERIFIED" },
+          },
+        }),
+      },
+      include: {
+        skills: { include: { skill: true } },
+        certifications: { select: { name: true, status: true } },
+      },
+      take: 100,
+      orderBy: { cyberScore: "desc" },
+    });
 
-  // Scoring + tri
-  const ranked = candidates
-    .map((c) => {
-      const { score, reason } = computeMatchScore(c, keywords);
-      return { ...c, aiRelevance: score, aiReason: reason };
-    })
-    .sort((a, b) => b.aiRelevance - a.aiRelevance);
+    const ranked = candidates
+      .map((c) => {
+        const { score, reason } = computeMatchScore(c, keywords);
+        return { ...c, aiRelevance: score, aiReason: reason };
+      })
+      .sort((a, b) => b.aiRelevance - a.aiRelevance);
 
-  // Sauvegarder la recherche
-  await prisma.recruiterSearch.create({
-    data: {
-      recruiterId: recruiter.id,
-      query: query ?? null,
-      filters: body,
-      resultCount: ranked.length,
-    },
-  });
+    await prisma.recruiterSearch.create({
+      data: {
+        recruiterId: recruiter.id,
+        query: query ?? null,
+        filters: body,
+        resultCount: ranked.length,
+      },
+    });
 
-  return NextResponse.json({
-    candidates: ranked,
-    aiRanked: keywords.length > 0,
-  });
+    return NextResponse.json({
+      candidates: ranked,
+      aiRanked: keywords.length > 0,
+    });
+  } catch (error) {
+    console.error("ERREUR RECHERCHE:", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+  }
 }

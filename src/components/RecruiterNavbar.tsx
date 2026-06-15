@@ -8,6 +8,7 @@ import NotificationsBell from "@/components/NotificationsBell";
 const links = [
   { href: "/recruiter/dashboard", label: "Candidats", icon: "👥" },
   { href: "/recruiter/jobs", label: "Mes Offres", icon: "💼" },
+  { href: "/recruiter/analytics", label: "Analytics", icon: "📊" },
   { href: "/recruiter/search", label: "Recherche IA", icon: "⚡" },
   { href: "/recruiter/saved", label: "Sauvegardés", icon: "★" },
 ];
@@ -69,9 +70,7 @@ export default function RecruiterNavbar({ email }: { email?: string }) {
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className={`flex items-center gap-3 font-mono text-sm px-4 py-3 rounded-lg transition ${
-                  isActive
-                    ? "text-[#ff4060] bg-[#ff4060]/10"
-                    : "text-gray-400 hover:text-white"
+                  isActive ? "text-[#ff4060] bg-[#ff4060]/10" : "text-gray-400 hover:text-white"
                 }`}
               >
                 <span>{link.icon}</span>

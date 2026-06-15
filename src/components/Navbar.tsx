@@ -72,9 +72,7 @@ export default function Navbar({ email }: { email?: string }) {
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className={`flex items-center gap-3 font-mono text-sm px-4 py-3 rounded-lg transition ${
-                  isActive
-                    ? "text-[#00c896] bg-[#00c896]/10"
-                    : "text-gray-400 hover:text-white"
+                  isActive ? "text-[#00c896] bg-[#00c896]/10" : "text-gray-400 hover:text-white"
                 }`}
               >
                 <span>{link.icon}</span>

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useToast } from "@/components/toast";
 
 export default function SaveButton({
   candidateId,
@@ -8,6 +9,7 @@ export default function SaveButton({
   candidateId: string;
   initialSaved: boolean;
 }) {
+  const { toast } = useToast();
   const [saved, setSaved] = useState(initialSaved);
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +24,7 @@ export default function SaveButton({
       const data = await res.json();
       setSaved(data.saved);
     } catch {
-      alert("Erreur réseau");
+      toast("Erreur réseau", "error");
     }
     setLoading(false);
   }

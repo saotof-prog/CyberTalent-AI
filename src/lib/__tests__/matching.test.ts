@@ -25,10 +25,7 @@ const baseJob = {
   salaryMax: 80000,
   isUrgent: false,
   tags: ["security", "pentest"],
-  requiredSkills: [
-    { skill: { name: "Python" } },
-    { skill: { name: "Network Security" } },
-  ],
+  requiredSkills: [{ skill: { name: "Python" } }, { skill: { name: "Network Security" } }],
 };
 
 describe("computeMatchScore", () => {
@@ -119,10 +116,7 @@ describe("computeMatchScore", () => {
   });
 
   it("gives 0 for contract type mismatch", () => {
-    const score = computeMatchScore(
-      { ...baseCandidate, jobTypes: ["CONTRACT"] },
-      baseJob
-    );
+    const score = computeMatchScore({ ...baseCandidate, jobTypes: ["CONTRACT"] }, baseJob);
     expect(score).toBe(90);
   });
 
@@ -132,10 +126,7 @@ describe("computeMatchScore", () => {
   });
 
   it("gives 0 for country mismatch", () => {
-    const score = computeMatchScore(
-      { ...baseCandidate, country: "SN" },
-      baseJob
-    );
+    const score = computeMatchScore({ ...baseCandidate, country: "SN" }, baseJob);
     expect(score).toBe(95);
   });
 

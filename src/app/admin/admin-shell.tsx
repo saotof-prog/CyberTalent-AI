@@ -23,7 +23,10 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <span className="font-mono text-[#0084ff] font-bold text-sm">CYBERTALENT_ADMIN</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="font-mono text-xs text-gray-500 hover:text-white transition">
+            <Link
+              href="/dashboard"
+              className="font-mono text-xs text-gray-500 hover:text-white transition"
+            >
               ← Retour app
             </Link>
             <UserButton />

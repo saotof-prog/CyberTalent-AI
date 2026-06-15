@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -21,25 +22,20 @@ export default async function RecruiterDashboard({
   // Check if the user is actually a recruiter
   const user = await prisma.user.findUnique({
     where: { clerkId: userId },
-    select: { role: true }
+    select: { role: true },
   });
 
-  // If user is not a recruiter, redirect them to the appropriate dashboard
   if (user?.role !== "RECRUITER") {
-    // If they're a candidate, send them to candidate dashboard
     if (user?.role === "CANDIDATE") {
       redirect("/dashboard");
     } else {
-      // If no role is set, check if they have candidate data
-      const candidateProfile = await prisma.candidateProfile.findUnique({
-        where: { userId },
-        select: { id: true }
+      const candidateProfile = await prisma.candidateProfile.findFirst({
+        where: { user: { clerkId: userId } },
+        select: { id: true },
       });
-
       if (candidateProfile) {
         redirect("/dashboard");
       } else {
-        // No candidate data, assume they need to set up as recruiter
         redirect("/onboarding/recruiter");
       }
     }
@@ -105,13 +101,11 @@ export default async function RecruiterDashboard({
   return (
     <div className="min-h-screen bg-[#080c14]">
       <div className="p-4 md:p-6 md:max-w-7xl mx-auto">
-
         {/* HEADER */}
         <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="font-mono text-2xl md:text-3xl font-bold text-white mb-2">
-              Recherche de{" "}
-              <span className="text-[#ff4060]">Talents Cyber</span> 🎯
+              Recherche de <span className="text-[#ff4060]">Talents Cyber</span> 🎯
             </h1>
             <p className="text-gray-400 font-mono text-xs md:text-sm">
               {totalCount} candidat{totalCount > 1 ? "s" : ""} · Page {page}/{totalPages}
@@ -120,12 +114,17 @@ export default async function RecruiterDashboard({
           <RecalculateButton />
         </div>
 
-        <RecruiterDashboardClient
-          initialCandidates={candidates}
-          currentPage={page}
-          totalPages={totalPages}
-        />
-
+        <Suspense
+          fallback={
+            <div className="text-gray-500 font-mono text-sm text-center py-8">Chargement...</div>
+          }
+        >
+          <RecruiterDashboardClient
+            initialCandidates={candidates}
+            currentPage={page}
+            totalPages={totalPages}
+          />
+        </Suspense>
       </div>
     </div>
   );
