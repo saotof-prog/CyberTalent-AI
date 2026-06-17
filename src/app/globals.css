@@ -194,12 +194,14 @@ body.cyber-focus nav {
   border-bottom-color: rgba(0, 200, 150, 0.08) !important;
 }
 
-body.cyber-focus nav .md\\:flex,
-body.cyber-focus nav .flex.items-center.gap-1,
-body.cyber-focus nav .hidden.md\\:flex {
+body.cyber-focus nav .overflow-x-auto {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
 }
 
 /* Spotlight sur le contenu principal */
