@@ -95,7 +95,7 @@ export default async function CandidateProfilePage({
         </div>
 
         {/* STATS */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
           <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4 text-center">
             <div className="font-mono text-2xl md:text-3xl font-bold text-[#ff4060]">
               {candidate.certifications.length}

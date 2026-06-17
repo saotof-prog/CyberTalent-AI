@@ -23,32 +23,36 @@ export async function POST(req: NextRequest) {
 
     // Créer le skill s'il n'existe pas
     const slug = skillName.toLowerCase().replace(/\s+/g, "-");
-    const skill = await prisma.skill.upsert({
-      where: { slug },
-      update: {},
-      create: {
-        name: skillName,
-        slug,
-        category: category ?? "Autre",
-      },
-    });
+    let skill = await prisma.skill.findUnique({ where: { slug } });
+    if (!skill) {
+      skill = await prisma.skill.create({
+        data: { name: skillName, slug, category: category ?? "Autre" },
+      });
+    }
 
     // Ajouter au candidat
-    const candidateSkill = await prisma.candidateSkill.upsert({
+    const existing = await prisma.candidateSkill.findUnique({
       where: {
         candidateId_skillId: {
           candidateId: candidate.id,
           skillId: skill.id,
         },
       },
-      update: { level, yearsExp },
-      create: {
-        candidateId: candidate.id,
-        skillId: skill.id,
-        level: level ?? "BEGINNER",
-        yearsExp: yearsExp ?? null,
-      },
     });
+
+    const candidateSkill = existing
+      ? await prisma.candidateSkill.update({
+          where: { id: existing.id },
+          data: { level, yearsExp },
+        })
+      : await prisma.candidateSkill.create({
+          data: {
+            candidateId: candidate.id,
+            skillId: skill.id,
+            level: level ?? "BEGINNER",
+            yearsExp: yearsExp ?? null,
+          },
+        });
 
     const newScore = await recalculateAndTrack(
       candidate.id,

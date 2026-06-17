@@ -189,7 +189,7 @@ export default function CyberMenu({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-12 w-80 z-[100]">
+        <div className="absolute right-0 top-12 w-80 max-w-[calc(100vw-16px)] z-[100]">
           <div
             className="bg-[#0d1520]/95 backdrop-blur-xl rounded-2xl border overflow-hidden shadow-2xl"
             style={{ borderColor: `${levelColor}22` }}
@@ -335,6 +335,16 @@ export default function CyberMenu({
                 ▸ ACTIONS RAPIDES
               </div>
               <div className="grid grid-cols-2 gap-1">
+                {role === "admin" && (
+                  <Link
+                    href="/admin"
+                    className="col-span-2 flex items-center gap-2 font-mono text-xs text-[#0084ff] bg-[#0084ff]/10 hover:bg-[#0084ff]/20 rounded-lg px-3 py-2.5 transition border border-[#0084ff]/20"
+                  >
+                    <span>🛡️</span>
+                    <span className="font-bold">Admin Panel</span>
+                    <span className="ml-auto opacity-40">→</span>
+                  </Link>
+                )}
                 <MenuLink href="/dashboard/edit" icon="✎" label="Mon Profil" />
                 <MenuLink
                   href={role === "recruiter" ? "/recruiter/dashboard" : "/dashboard"}
@@ -347,11 +357,9 @@ export default function CyberMenu({
                 {role === "recruiter" && (
                   <MenuLink href="/recruiter/search" icon="🔍" label="Recherche" />
                 )}
-                <MenuLink
-                  href={role === "admin" ? "/admin" : "/dashboard/skills"}
-                  icon="💡"
-                  label="Skills"
-                />
+                {(role === "candidate" || !role) && (
+                  <MenuLink href="/dashboard/skills" icon="💡" label="Skills" />
+                )}
               </div>
             </div>
 

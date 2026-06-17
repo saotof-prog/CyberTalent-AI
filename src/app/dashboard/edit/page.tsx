@@ -106,7 +106,7 @@ export default function EditProfilePage() {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Prénom *</label>
               <input
@@ -147,7 +147,7 @@ export default function EditProfilePage() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Localisation</label>
               <input
@@ -168,7 +168,7 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">GitHub</label>
               <input
@@ -189,7 +189,7 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">LinkedIn</label>
               <input
@@ -210,7 +210,7 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Téléphone</label>
               <input
@@ -231,7 +231,7 @@ export default function EditProfilePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">
                 Salaire min (USD/mois)

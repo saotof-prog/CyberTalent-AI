@@ -34,7 +34,7 @@ export default async function AdminCertificationsPage() {
         <p className="font-mono text-xs text-gray-400">{total} certification(s)</p>
       </div>
 
-      <div className="grid grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         <div className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4">
           <div className="font-mono text-xs text-gray-400">Total</div>
           <div className="font-mono text-2xl font-bold text-white">{total}</div>

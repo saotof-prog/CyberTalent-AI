@@ -40,7 +40,7 @@ export default async function LabsPage() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-3 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
           {labs.map((lab) => (
             <div key={lab.id} className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">

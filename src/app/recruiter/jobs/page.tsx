@@ -27,7 +27,7 @@ export default async function RecruiterJobsPage() {
     <div className="min-h-screen bg-[#080c14] text-white">
       <div className="p-6 max-w-4xl mx-auto">
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4">
             <div className="font-mono text-xs text-gray-400 mb-1">TOTAL OFFRES</div>
             <div className="font-mono text-3xl font-bold text-white">{jobs.length}</div>

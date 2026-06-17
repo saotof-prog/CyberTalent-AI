@@ -1,6 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
 import CyberMenu from "@/components/CyberMenu";
 
 const links = [
@@ -13,6 +14,7 @@ const links = [
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#080c14]">
@@ -25,14 +27,20 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           <div className="flex items-center gap-4">
             <Link
               href="/dashboard"
-              className="font-mono text-xs text-gray-500 hover:text-white transition"
+              className="hidden md:inline font-mono text-xs text-gray-500 hover:text-white transition"
             >
               ← Retour app
             </Link>
             <CyberMenu role="admin" />
+            <button
+              className="md:hidden font-mono text-gray-400 text-xl"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? "✕" : "☰"}
+            </button>
           </div>
         </div>
-        <div className="flex items-center gap-1 px-4 py-2 overflow-x-auto">
+        <div className="hidden md:flex items-center gap-1 px-4 py-2 overflow-x-auto">
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -51,6 +59,33 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             );
           })}
         </div>
+        {menuOpen && (
+          <div className="md:hidden flex flex-col px-4 py-2 border-t border-[#0084ff]/10 bg-[#080c14]">
+            {links.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={`flex items-center gap-3 font-mono text-sm px-4 py-3 rounded-lg transition ${
+                    isActive ? "text-[#0084ff] bg-[#0084ff]/10" : "text-gray-400 hover:text-white"
+                  }`}
+                >
+                  <span>{link.icon}</span>
+                  {link.label}
+                </Link>
+              );
+            })}
+            <Link
+              href="/dashboard"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-3 font-mono text-sm px-4 py-3 rounded-lg text-gray-500 hover:text-white transition"
+            >
+              ← Retour app
+            </Link>
+          </div>
+        )}
       </nav>
       <main>{children}</main>
     </div>
