@@ -27,6 +27,13 @@
 
 ## ✨ Features
 
+### 🎮 CyberMenu — Immersive Profile Hub
+- ⬡ **CyberScore Ring** — animated SVG ring with counter animation and level colors (Débutant → Expert)
+- 🎯 **Daily Missions** — role-specific quests (candidate: sync GitHub, add cert; recruiter: publish job, search)
+- 📊 **Quick Stats** — certs, labs, score / jobs, searches, score at a glance
+- ⚡ **Quick Actions** — one-click access to profile, dashboard, certifications, skills
+- 🔊 **Ambient Sound** — cyber drone, rain, lofi generated via Web Audio API (0 files needed)
+
 ### 👨‍💻 Candidate Portal (`/dashboard`)
 - 🧠 **CyberScore™** — dynamic 0-100 score computed from certifications, labs, skills, and GitHub activity
 - 📜 **Certification Management** — upload with auto platform detection (Credly, Coursera, GitHub, .edu) and auto-verification
@@ -51,6 +58,19 @@
 - 🏢 **Company Management**
 - 📋 **Job Management**
 - 🎓 **Certification Management**
+
+### 🧘 Focus Mode — "Cyber Chamber"
+- ◉ **Deep Work** — vignette, CRT scanlines, matrix rain background, navigation hidden
+- 💫 **Content Spotlight** — halo pulsé autour de la zone active
+- ⏱️ **Focus Timer** — `FOCUS 05:23 ⎋ EXIT` flottant en bas d'écran
+- 🔊 **Auto-ambiance** — le drone cyber se lance en entrant
+- ⌨️ **Shortcut** — `Ctrl+Shift+F` pour basculer, `Échap` pour sortir
+
+### 🌙 CyberScreensaver
+- 🌧️ **Matrix Rain** — canvas katakana en temps réel
+- 🎵 **3 Sound Modes** — CYBER_DRONE, NUMB_RAIN, LOFI_PAD (volume adjustable)
+- 💚 **Full-screen** — fond semi-transparent, logo CYBERTALENT_AI central
+- ⎋ **Any key or click** to exit
 
 ### 🤖 AI Engine
 - **CyberScore™** — 4 weighted factors (certs 40%, labs 25%, skills 15%, GitHub 20%)
@@ -114,6 +134,9 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/choose-role
 
 # Google Gemini AI (free: https://aistudio.google.com/)
 GEMINI_API_KEY=AIza...
+
+# GitHub (pour GitHub Sync — https://github.com/settings/tokens)
+GITHUB_TOKEN=github_pat_...
 
 # UploadThing
 UPLOADTHING_TOKEN=...
@@ -191,9 +214,13 @@ cybertalent-ai/
 │   │   ├── admin/             # PANEL ADMIN
 │   │   └── api/               # Routes API REST
 │   ├── components/
-│   │   ├── cyber-background.tsx  # Canvas animé (particules, data streams)
-│   │   ├── Navbar.tsx
-│   │   ├── RecruiterNavbar.tsx
+│   │   ├── CyberMenu.tsx          # Immersive profile dropdown (missions, score ring, focus, sound)
+│   │   ├── CyberScreensaver.tsx   # Matrix rain fullscreen with ambient sound
+│   │   ├── FocusTimer.tsx         # Global focus mode timer with keyboard shortcuts
+│   │   ├── cyber-background.tsx   # Canvas animé (particules, data streams)
+│   │   ├── Navbar.tsx             # Candidate navbar (uses CyberMenu)
+│   │   ├── RecruiterNavbar.tsx    # Recruiter navbar (uses CyberMenu)
+│   │   ├── admin-shell.tsx        # Admin shell (uses CyberMenu)
 │   │   ├── CertificationUpload.tsx
 │   │   ├── LabUpload.tsx
 │   │   ├── SkillsManager.tsx
@@ -201,10 +228,11 @@ cybertalent-ai/
 │   │   ├── GithubSync.tsx
 │   │   └── NotificationsBell.tsx
 │   └── lib/
-│       ├── prisma.ts          # Prisma client singleton
-│       ├── score.ts           # CyberScore + AI analysis (Gemini + local fallback)
-│       ├── matching.ts        # Job/candidate matching algorithm
-│       ├── api-error.ts       # Unified API error handler
+│       ├── ambient-sound.ts    # Web Audio API ambient generator (drone, rain, lofi)
+│       ├── prisma.ts           # Prisma client singleton
+│       ├── score.ts            # CyberScore + AI analysis (Gemini + local fallback)
+│       ├── matching.ts         # Job/candidate matching algorithm
+│       ├── api-error.ts        # Unified API error handler
 │       └── certificate-validation/
 │           └── platform-detector.ts
 ```
@@ -245,6 +273,10 @@ npm run test:watch
 - [x] Real-time notifications
 - [x] Admin panel
 - [x] Unit tests (38 tests)
+- [x] CyberMenu with gamified daily missions (role-specific)
+- [x] Focus Mode "Cyber Chamber" (CRT scanlines, matrix rain, timer)
+- [x] CyberScreensaver (canvas matrix rain + 3 ambient sound modes)
+- [x] Web Audio API ambient sound engine (drone, rain, lofi)
 - [ ] Advanced full-text search (Elasticsearch / pg_search)
 - [ ] Automatic CV parsing
 - [ ] Public candidate profiles

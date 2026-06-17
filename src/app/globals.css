@@ -128,3 +128,141 @@ html {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ================================
+   FOCUS MODE — Cyber Chamber v2
+   ================================ */
+
+/* Animation des particules numériques (pseudo matrix CSS) */
+@keyframes cyber-rain {
+  0% { transform: translateY(-10vh); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+
+body.cyber-focus::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  background:
+    /* Vignette profonde */
+    radial-gradient(ellipse at 50% 50%, transparent 25%, rgba(0, 0, 0, 0.92) 100%),
+    /* Scanlines CRT */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 200, 150, 0.015) 2px,
+      rgba(0, 200, 150, 0.015) 4px
+    ),
+    /* Pluie numérique décorative — colonnes */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(0, 200, 150, 0.02) 60px,
+      rgba(0, 200, 150, 0.02) 61px
+    );
+  animation: none;
+  transition: opacity 0.8s ease;
+}
+
+body.cyber-focus::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 30px,
+      rgba(0, 200, 150, 0.008) 30px,
+      rgba(0, 200, 150, 0.008) 31px
+    );
+  animation: none;
+}
+
+/* Cacher la navigation sauf le strict minimum */
+body.cyber-focus nav {
+  filter: blur(0.5px);
+  transition: filter 0.6s ease;
+  border-bottom-color: rgba(0, 200, 150, 0.08) !important;
+}
+
+body.cyber-focus nav .md\\:flex,
+body.cyber-focus nav .flex.items-center.gap-1,
+body.cyber-focus nav .hidden.md\\:flex {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Spotlight sur le contenu principal */
+body.cyber-focus main > div {
+  filter: blur(0px) saturate(1);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.cyber-focus main > div > div:not(:has([class*="focus-ignore"])) {
+  position: relative;
+  animation: focus-glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes focus-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(0, 200, 150, 0.03), inset 0 0 30px rgba(0, 200, 150, 0.02);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(0, 200, 150, 0.06), inset 0 0 40px rgba(0, 200, 150, 0.03);
+  }
+}
+
+/* Petites gouttes de pluie numérique animées (pseudo-éléments sur le main) */
+body.cyber-focus main {
+  position: relative;
+}
+
+body.cyber-focus main::before {
+  content: "1 0 1 0 0 1 1 0 1 0 0 1 0 1 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0";
+  position: fixed;
+  top: -20px;
+  left: 0;
+  right: 0;
+  z-index: 9996;
+  pointer-events: none;
+  font-family: monospace;
+  font-size: 8px;
+  color: rgba(0, 200, 150, 0.04);
+  white-space: nowrap;
+  overflow: hidden;
+  letter-spacing: 8px;
+  line-height: 1.2;
+  animation: cyber-rain-text 60s linear infinite;
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+}
+
+@keyframes cyber-rain-text {
+  0% { transform: translateY(-20px); }
+  100% { transform: translateY(100vh); }
+}
+
+/* Effet de transition à l'activation */
+body.cyber-focus {
+  transition: background-color 0.8s ease;
+}
+
+body:not(.cyber-focus)::before {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+body:not(.cyber-focus)::after {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}

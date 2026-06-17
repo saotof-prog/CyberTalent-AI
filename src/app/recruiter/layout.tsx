@@ -12,23 +12,34 @@ export default async function RecruiterLayout({ children }: { children: React.Re
 
   const dbUser = await prisma.user.findUnique({
     where: { clerkId: userId },
-    select: { role: true },
+    include: {
+      recruiterProfile: {
+        select: {
+          firstName: true,
+          lastName: true,
+          totalSearches: true,
+          _count: { select: { jobs: true } },
+        },
+      },
+    },
   });
 
   if (dbUser?.role === "CANDIDATE") redirect("/dashboard");
-  if (dbUser?.role === "ADMIN") {
-    return (
-      <div className="min-h-screen bg-[#080c14]">
-        <RecruiterNavbar email={email} />
-        <main>{children}</main>
-      </div>
-    );
-  }
   if (!dbUser?.role) redirect("/choose-role");
+
+  const profile = dbUser?.recruiterProfile;
 
   return (
     <div className="min-h-screen bg-[#080c14]">
-      <RecruiterNavbar email={email} />
+      <RecruiterNavbar
+        email={email}
+        firstName={profile?.firstName ?? user?.firstName}
+        lastName={profile?.lastName ?? user?.lastName}
+        imageUrl={user?.imageUrl}
+        role={dbUser?.role === "ADMIN" ? "admin" : "recruiter"}
+        jobsCount={profile?._count.jobs ?? 0}
+        searchesCount={profile?.totalSearches ?? 0}
+      />
       <main>{children}</main>
     </div>
   );

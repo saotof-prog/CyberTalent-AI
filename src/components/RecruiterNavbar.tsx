@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
 import { useState } from "react";
 import NotificationsBell from "@/components/NotificationsBell";
+import CyberMenu from "@/components/CyberMenu";
 
 const links = [
   { href: "/recruiter/dashboard", label: "Candidats", icon: "👥" },
@@ -13,7 +13,25 @@ const links = [
   { href: "/recruiter/saved", label: "Sauvegardés", icon: "★" },
 ];
 
-export default function RecruiterNavbar({ email }: { email?: string }) {
+interface RecruiterNavbarProps {
+  email?: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  imageUrl?: string | null;
+  role?: "candidate" | "recruiter" | "admin";
+  jobsCount?: number;
+  searchesCount?: number;
+}
+
+export default function RecruiterNavbar({
+  email,
+  firstName,
+  lastName,
+  imageUrl,
+  role,
+  jobsCount,
+  searchesCount,
+}: RecruiterNavbarProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -28,7 +46,15 @@ export default function RecruiterNavbar({ email }: { email?: string }) {
         <div className="flex items-center gap-3">
           <NotificationsBell />
           <span className="hidden md:block font-mono text-xs text-gray-400">{email}</span>
-          <UserButton />
+          <CyberMenu
+            email={email}
+            firstName={firstName}
+            lastName={lastName}
+            imageUrl={imageUrl}
+            role={role}
+            jobsCount={jobsCount}
+            searchesCount={searchesCount}
+          />
           <button
             className="md:hidden font-mono text-gray-400 text-xl"
             onClick={() => setMenuOpen(!menuOpen)}

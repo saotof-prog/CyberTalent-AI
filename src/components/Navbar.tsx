@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
 import { useState } from "react";
 import NotificationsBell from "@/components/NotificationsBell";
+import CyberMenu from "@/components/CyberMenu";
 
 const links = [
   { href: "/dashboard", label: "Dashboard", icon: "⚡" },
@@ -14,7 +14,35 @@ const links = [
   { href: "/dashboard/jobs", label: "Offres", icon: "💼" },
 ];
 
-export default function Navbar({ email }: { email?: string }) {
+interface NavbarProps {
+  email?: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  imageUrl?: string | null;
+  score?: number;
+  scoreLevel?: string;
+  role?: "candidate" | "recruiter" | "admin";
+  certsCount?: number;
+  labsCount?: number;
+  reposCount?: number;
+  profileComplete?: number;
+  githubSynced?: boolean;
+}
+
+export default function Navbar({
+  email,
+  firstName,
+  lastName,
+  imageUrl,
+  score,
+  scoreLevel,
+  role,
+  certsCount,
+  labsCount,
+  reposCount,
+  profileComplete,
+  githubSynced,
+}: NavbarProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -29,7 +57,20 @@ export default function Navbar({ email }: { email?: string }) {
         <div className="flex items-center gap-3">
           <NotificationsBell />
           <span className="hidden md:block font-mono text-xs text-gray-400">{email}</span>
-          <UserButton />
+          <CyberMenu
+            email={email}
+            firstName={firstName}
+            lastName={lastName}
+            imageUrl={imageUrl}
+            score={score}
+            scoreLevel={scoreLevel}
+            role={role}
+            certsCount={certsCount}
+            labsCount={labsCount}
+            reposCount={reposCount}
+            profileComplete={profileComplete}
+            githubSynced={githubSynced}
+          />
           {/* Hamburger mobile */}
           <button
             className="md:hidden font-mono text-gray-400 text-xl"

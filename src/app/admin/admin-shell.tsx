@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import CyberMenu from "@/components/CyberMenu";
 
 const links = [
   { href: "/admin", label: "Dashboard", icon: "📊" },
@@ -29,7 +29,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             >
               ← Retour app
             </Link>
-            <UserButton />
+            <CyberMenu role="admin" />
           </div>
         </div>
         <div className="flex items-center gap-1 px-4 py-2 overflow-x-auto">
