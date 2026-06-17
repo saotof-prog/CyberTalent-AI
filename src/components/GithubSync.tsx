@@ -24,7 +24,7 @@ export default function GithubSync({
         setResult(`✓ ${data.reposCount} repos synchronisés`);
         router.refresh();
       } else {
-        setResult(`✗ ${data.error}`);
+        setResult(`✗ ${data.detail ?? data.error}`);
       }
     } catch {
       setResult("✗ Erreur réseau");

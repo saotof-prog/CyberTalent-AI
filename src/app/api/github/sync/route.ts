@@ -28,7 +28,12 @@ export async function POST() {
     ]);
 
     if (!userRes.ok || !reposRes.ok) {
-      return NextResponse.json({ error: "GitHub user introuvable" }, { status: 404 });
+      const status = !userRes.ok ? userRes.status : reposRes.status;
+      const errBody = await (!userRes.ok ? userRes : reposRes).text().catch(() => "unknown");
+      return NextResponse.json({
+        error: `GitHub API error (${status})`,
+        detail: errBody.includes("rate") ? "Rate limit atteint — attends ou configure un token" : errBody,
+      }, { status: 404 });
     }
 
     const userData: { public_repos: number; followers: number; following: number } =
@@ -60,27 +65,26 @@ export async function POST() {
       languages,
     };
 
-    await prisma.$transaction([
-      prisma.githubRepo.deleteMany({ where: { candidateId: candidate.id } }),
-      ...reposData.map((repo) =>
-        prisma.githubRepo.create({
-          data: {
-            candidateId: candidate.id,
-            repoId: repo.id,
-            name: repo.name,
-            fullName: repo.full_name,
-            description: repo.description,
-            url: repo.html_url,
-            isPrivate: repo.private,
-            stars: repo.stargazers_count,
-            forks: repo.forks_count,
-            language: repo.language,
-            topics: repo.topics ?? [],
-            pushedAt: repo.pushed_at ? new Date(repo.pushed_at) : null,
-          },
-        })
-      ),
-    ]);
+    await prisma.githubRepo.deleteMany({ where: { candidateId: candidate.id } });
+
+    for (const repo of reposData) {
+      await prisma.githubRepo.create({
+        data: {
+          candidateId: candidate.id,
+          repoId: repo.id,
+          name: repo.name,
+          fullName: repo.full_name,
+          description: repo.description,
+          url: repo.html_url,
+          isPrivate: repo.private,
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          language: repo.language,
+          topics: repo.topics ?? [],
+          pushedAt: repo.pushed_at ? new Date(repo.pushed_at) : null,
+        },
+      });
+    }
 
     await prisma.candidateProfile.update({
       where: { id: candidate.id },
