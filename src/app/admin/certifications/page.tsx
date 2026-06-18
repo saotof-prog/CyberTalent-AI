@@ -53,51 +53,94 @@ export default async function AdminCertificationsPage() {
         </div>
       </div>
 
-      <div className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-[#0084ff]/10">
-                <th className="font-mono text-xs text-gray-400 text-left p-3">Date</th>
-                <th className="font-mono text-xs text-gray-400 text-left p-3">Candidat</th>
-                <th className="font-mono text-xs text-gray-400 text-left p-3">Certification</th>
-                <th className="font-mono text-xs text-gray-400 text-left p-3">Organisme</th>
-                <th className="font-mono text-xs text-gray-400 text-left p-3">Score</th>
-                <th className="font-mono text-xs text-gray-400 text-left p-3">Statut</th>
-                <th className="font-mono text-xs text-gray-400 text-left p-3">Confiance IA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {certs.map((c) => (
-                <tr
-                  key={c.id}
-                  className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition"
-                >
-                  <td className="p-3 font-mono text-xs text-gray-500">
+      {certs.length === 0 ? (
+        <div className="text-center py-12 font-mono text-sm text-gray-500">Aucune certification</div>
+      ) : (
+        <>
+          {/* Mobile: card layout */}
+          <div className="flex flex-col gap-3 lg:hidden">
+            {certs.map((c) => (
+              <div
+                key={c.id}
+                className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 space-y-3"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-mono text-sm text-white truncate">{c.name}</div>
+                    <div className="font-mono text-xs text-gray-400 truncate">
+                      {c.candidate.firstName} {c.candidate.lastName}
+                    </div>
+                  </div>
+                  <span
+                    className={`shrink-0 font-mono text-[10px] px-2 py-0.5 rounded-full border ${statusColor[c.status] ?? "border-gray-500 text-gray-500"}`}
+                  >
+                    {c.status}
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center gap-3 text-xs">
+                  <span className="font-mono text-gray-500">
                     {new Date(c.createdAt).toLocaleDateString("fr-FR")}
-                  </td>
-                  <td className="p-3 font-mono text-sm text-white">
-                    {c.candidate.firstName} {c.candidate.lastName}
-                  </td>
-                  <td className="p-3 font-mono text-sm text-white">{c.name}</td>
-                  <td className="p-3 font-mono text-xs text-gray-400">{c.issuer}</td>
-                  <td className="p-3 font-mono text-sm text-white">{c.candidate.cyberScore}</td>
-                  <td className="p-3">
-                    <span
-                      className={`font-mono text-xs px-2 py-0.5 rounded-full border ${statusColor[c.status] ?? "border-gray-500 text-gray-500"}`}
+                  </span>
+                  <span className="font-mono text-gray-500">{c.issuer}</span>
+                  <span className="font-mono text-gray-500">
+                    Score: {c.candidate.cyberScore ?? "—"}
+                  </span>
+                  <span className="font-mono text-gray-500">
+                    Confiance: {c.aiConfidence != null ? `${Math.round(c.aiConfidence * 100)}%` : "—"}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: table layout */}
+          <div className="hidden lg:block bg-[#0d1520] border border-[#0084ff]/20 rounded-xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-[#0084ff]/10">
+                    <th className="font-mono text-xs text-gray-400 text-left p-3">Date</th>
+                    <th className="font-mono text-xs text-gray-400 text-left p-3">Candidat</th>
+                    <th className="font-mono text-xs text-gray-400 text-left p-3">Certification</th>
+                    <th className="font-mono text-xs text-gray-400 text-left p-3">Organisme</th>
+                    <th className="font-mono text-xs text-gray-400 text-left p-3">Score</th>
+                    <th className="font-mono text-xs text-gray-400 text-left p-3">Statut</th>
+                    <th className="font-mono text-xs text-gray-400 text-left p-3">Confiance IA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {certs.map((c) => (
+                    <tr
+                      key={c.id}
+                      className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition"
                     >
-                      {c.status}
-                    </span>
-                  </td>
-                  <td className="p-3 font-mono text-xs text-gray-400">
-                    {c.aiConfidence != null ? `${Math.round(c.aiConfidence * 100)}%` : "—"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                      <td className="p-3 font-mono text-xs text-gray-500">
+                        {new Date(c.createdAt).toLocaleDateString("fr-FR")}
+                      </td>
+                      <td className="p-3 font-mono text-sm text-white">
+                        {c.candidate.firstName} {c.candidate.lastName}
+                      </td>
+                      <td className="p-3 font-mono text-sm text-white">{c.name}</td>
+                      <td className="p-3 font-mono text-xs text-gray-400">{c.issuer}</td>
+                      <td className="p-3 font-mono text-sm text-white">{c.candidate.cyberScore}</td>
+                      <td className="p-3">
+                        <span
+                          className={`font-mono text-xs px-2 py-0.5 rounded-full border ${statusColor[c.status] ?? "border-gray-500 text-gray-500"}`}
+                        >
+                          {c.status}
+                        </span>
+                      </td>
+                      <td className="p-3 font-mono text-xs text-gray-400">
+                        {c.aiConfidence != null ? `${Math.round(c.aiConfidence * 100)}%` : "—"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
