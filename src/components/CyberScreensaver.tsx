@@ -17,6 +17,11 @@ export default function CyberScreensaver({ onExit }: { onExit: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [soundMode, setSoundMode] = useState<string>("drone");
   const [volume, setVol] = useState(0.6);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  }, []);
   const dropsRef = useRef<number[]>([]);
   const animRef = useRef<number>(0);
   const chars =
@@ -127,7 +132,7 @@ export default function CyberScreensaver({ onExit }: { onExit: () => void }) {
               className="mt-3 md:mt-4 font-mono text-xs md:text-sm tracking-[0.5em] opacity-60"
               style={{ color: "#00c896" }}
             >
-              SYSTÈME VERROUILLÉ — <span className="opacity-40">APPUYEZ SUR ESC</span>
+              SYSTÈME VERROUILLÉ — <span className="opacity-40">{isTouchDevice ? "TAPEZ L'ÉCRAN" : "APPUYEZ SUR ESC"}</span>
             </div>
           </div>
 
