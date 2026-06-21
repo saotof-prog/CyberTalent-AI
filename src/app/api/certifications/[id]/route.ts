@@ -23,6 +23,7 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
 
     const cert = await prisma.certification.findUnique({
       where: { id },
+      select: { candidateId: true, name: true },
     });
 
     if (!cert) {
@@ -33,13 +34,9 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: "Non autorisé" }, { status: 403 });
     }
 
-    const certToDelete = await prisma.certification.findUnique({
-      where: { id },
-      select: { name: true },
-    });
     await prisma.certification.delete({ where: { id } });
 
-    await recalculateAndTrack(profileId, `CERT_DELETED: ${certToDelete?.name ?? "unknown"}`);
+    await recalculateAndTrack(profileId, `CERT_DELETED: ${cert.name ?? "unknown"}`);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("ERREUR DELETE CERT:", error);

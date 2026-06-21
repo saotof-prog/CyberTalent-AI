@@ -228,6 +228,7 @@ model RecruiterProfile {
   savedCandidates SavedCandidate[]
   searches      RecruiterSearch[]
 
+  @@index([companyId])
   @@map("recruiter_profiles")
 }
 
@@ -495,6 +496,7 @@ model Education {
 
   createdAt     DateTime         @default(now())
 
+  @@index([candidateId])
   @@map("educations")
 }
 
@@ -559,6 +561,8 @@ model Job {
 
   @@index([isActive])
   @@index([country])
+  @@index([recruiterId])
+  @@index([companyId])
   @@map("jobs")
 }
 
@@ -631,6 +635,7 @@ model RecruiterSearch {
   resultCount   Int              @default(0)
   searchedAt    DateTime         @default(now())
 
+  @@index([recruiterId])
   @@map("recruiter_searches")
 }
 
@@ -663,6 +668,7 @@ model InterviewQuestion {
   hint        String?
   answer      String?                                        // réponse de référence (non montrée au candidat)
 
+  @@index([setId])
   @@map("interview_questions")
 }
 

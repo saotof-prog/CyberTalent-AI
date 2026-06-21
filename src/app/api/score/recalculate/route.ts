@@ -2,10 +2,16 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { calculateCyberScore, analyzeProfileWithAI } from "@/lib/score";
 import { handleApiError, unauthorized, notFound, success } from "@/lib/api-error";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
-export async function POST() {
+export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return unauthorized();
+
+  const rl = checkRateLimit(rateLimitKey(req, `:score:${userId}`), 5);
+  if (!rl.allowed) {
+    return Response.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
+  }
 
   try {
     const user = await prisma.user.findUnique({

@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
-export async function POST() {
+export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+
+  const rl = checkRateLimit(rateLimitKey(req, `:github:${userId}`), 5);
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
+  }
 
   try {
     const candidate = await prisma.candidateProfile.findFirst({
@@ -67,24 +73,22 @@ export async function POST() {
 
     await prisma.githubRepo.deleteMany({ where: { candidateId: candidate.id } });
 
-    for (const repo of reposData) {
-      await prisma.githubRepo.create({
-        data: {
-          candidateId: candidate.id,
-          repoId: repo.id,
-          name: repo.name,
-          fullName: repo.full_name,
-          description: repo.description,
-          url: repo.html_url,
-          isPrivate: repo.private,
-          stars: repo.stargazers_count,
-          forks: repo.forks_count,
-          language: repo.language,
-          topics: repo.topics ?? [],
-          pushedAt: repo.pushed_at ? new Date(repo.pushed_at) : null,
-        },
-      });
-    }
+    await prisma.githubRepo.createMany({
+      data: reposData.map((repo) => ({
+        candidateId: candidate.id,
+        repoId: repo.id,
+        name: repo.name,
+        fullName: repo.full_name,
+        description: repo.description,
+        url: repo.html_url,
+        isPrivate: repo.private,
+        stars: repo.stargazers_count,
+        forks: repo.forks_count,
+        language: repo.language,
+        topics: repo.topics ?? [],
+        pushedAt: repo.pushed_at ? new Date(repo.pushed_at) : null,
+      })),
+    });
 
     await prisma.candidateProfile.update({
       where: { id: candidate.id },

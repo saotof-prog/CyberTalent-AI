@@ -9,12 +9,14 @@ export async function GET() {
   try {
     const user = await prisma.user.findUnique({
       where: { clerkId: userId },
+      select: { id: true },
     });
 
     if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
 
     const notifications = await prisma.notification.findMany({
       where: { userId: user.id },
+      select: { id: true, title: true, body: true, type: true, link: true, isRead: true, createdAt: true },
       orderBy: { createdAt: "desc" },
       take: 50,
     });
@@ -33,7 +35,7 @@ export async function PATCH(req: Request) {
   const { id } = await req.json();
 
   try {
-    const user = await prisma.user.findUnique({ where: { clerkId: userId } });
+    const user = await prisma.user.findUnique({ where: { clerkId: userId }, select: { id: true } });
     if (!user) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
 
     await prisma.notification.update({

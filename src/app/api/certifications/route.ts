@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { detectCertificatePlatform } from "@/lib/certificate-validation/platform-detector";
 import { handleApiError, unauthorized, notFound, success } from "@/lib/api-error";
 import { recalculateAndTrack } from "@/lib/score-tracker";
+import { cacheHeaders } from "@/lib/cache";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
 function isShortener(url: string | null): boolean {
   if (!url) return false;
@@ -24,6 +26,11 @@ function isValidUrl(url: string | null): boolean {
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return unauthorized();
+
+  const rl = checkRateLimit(rateLimitKey(req, `:certs:${userId}`), 10);
+  if (!rl.allowed) {
+    return Response.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
+  }
 
   const body = await req.json();
 

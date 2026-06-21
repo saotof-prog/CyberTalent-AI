@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
 // ── Algorithme de matching maison ──────────────────────────
 
@@ -107,6 +108,11 @@ function extractKeywords(query: string): string[] {
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+
+  const rl = checkRateLimit(rateLimitKey(req, `:search:${userId}`), 20);
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
+  }
 
   try {
     const recruiter = await prisma.recruiterProfile.findFirst({

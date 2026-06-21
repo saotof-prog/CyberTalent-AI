@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { cacheHeaders } from "@/lib/cache";
 
 export async function GET() {
   const { userId } = await auth();
@@ -104,5 +105,5 @@ export async function GET() {
       status: a.status,
       appliedAt: a.appliedAt,
     })),
-  });
+  }, { headers: cacheHeaders(60, 300) });
 }
