@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useToast } from "@/components/toast";
 import { useRouter } from "next/navigation";
 
 export default function AdminUserActions({
@@ -12,31 +13,56 @@ export default function AdminUserActions({
   role: string;
 }) {
   const [loading, setLoading] = useState<string | null>(null);
+  const { toast } = useToast();
   const router = useRouter();
 
   async function toggleBan() {
     setLoading("ban");
     try {
-      await fetch("/api/admin/users", {
+      const res = await fetch("/api/admin/users", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, isBanned: !isBanned }),
       });
-      router.refresh();
-    } catch {}
+      const data = await res.json();
+      if (res.ok) {
+        toast(isBanned ? "Compte débanni" : "Compte banni", "success");
+        router.refresh();
+      } else {
+        toast(data.error || "Erreur lors du bannissement", "error");
+      }
+    } catch (e) {
+      toast("Erreur réseau", "error");
+    }
     setLoading(null);
   }
 
   async function changeRole(newRole: string) {
     setLoading("role");
     try {
-      await fetch("/api/admin/users", {
+      const res = await fetch("/api/admin/users", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, role: newRole }),
       });
-      router.refresh();
-    } catch {}
+      const data = await res.json();
+      if (res.ok) {
+        if (data.createdProfile) {
+          toast(`${data.createdProfile} profile créé`, "success");
+        }
+        if (data.deletedProfile) {
+          toast(`${data.deletedProfile} profile supprimé`, "info");
+        }
+        if (!data.createdProfile && !data.deletedProfile) {
+          toast(`Rôle changé vers ${newRole}`, "success");
+        }
+        router.refresh();
+      } else {
+        toast(data.error || "Erreur lors du changement de rôle", "error");
+      }
+    } catch (e) {
+      toast("Erreur réseau", "error");
+    }
     setLoading(null);
   }
 
