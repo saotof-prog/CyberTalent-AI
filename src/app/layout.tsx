@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ToastProvider } from "@/components/toast";
+import BannedGuard from "@/components/BannedGuard";
 import FocusTimer from "@/components/FocusTimer";
 
 export const metadata: Metadata = {
@@ -54,7 +55,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
           <ToastProvider>
-            {children}
+            <BannedGuard>{children}</BannedGuard>
             <FocusTimer />
           </ToastProvider>
         </ClerkProvider>
