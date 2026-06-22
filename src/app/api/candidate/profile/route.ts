@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { rejectIfBanned } from "@/lib/auth-utils";
 
 const ALLOWED_FIELDS = [
   "firstName",
@@ -24,6 +25,8 @@ const ALLOWED_FIELDS = [
 export async function GET() {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  const bannedResp = await rejectIfBanned(userId);
+  if (bannedResp) return bannedResp;
 
   try {
     const user = await prisma.user.findUnique({
@@ -52,6 +55,8 @@ export async function GET() {
 export async function PATCH(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  const bannedResp = await rejectIfBanned(userId);
+  if (bannedResp) return bannedResp;
 
   try {
     const user = await prisma.user.findUnique({

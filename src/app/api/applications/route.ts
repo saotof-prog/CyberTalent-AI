@@ -1,10 +1,13 @@
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { rejectIfBanned } from "@/lib/auth-utils";
 import { handleApiError, unauthorized, notFound, badRequest, success } from "@/lib/api-error";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return unauthorized();
+  const bannedResp = await rejectIfBanned(userId);
+  if (bannedResp) return bannedResp;
 
   const { jobId } = await req.json();
 
@@ -65,6 +68,8 @@ export async function POST(req: Request) {
 export async function GET() {
   const { userId } = await auth();
   if (!userId) return unauthorized();
+  const bannedResp = await rejectIfBanned(userId);
+  if (bannedResp) return bannedResp;
 
   try {
     const user = await prisma.user.findUnique({

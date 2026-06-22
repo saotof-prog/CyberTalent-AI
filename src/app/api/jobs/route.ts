@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { rejectIfBanned } from "@/lib/auth-utils";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  const bannedResp = await rejectIfBanned(userId);
+  if (bannedResp) return bannedResp;
 
   const recruiter = await prisma.recruiterProfile.findFirst({
     where: { user: { clerkId: userId } },

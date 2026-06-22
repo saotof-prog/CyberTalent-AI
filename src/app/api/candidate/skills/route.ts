@@ -3,12 +3,15 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 import { candidateSkillSchema } from "@/lib/validation/candidateSkill";
+import { rejectIfBanned } from "@/lib/auth-utils";
 import { badRequest } from "@/lib/api-error";
 import { recalculateAndTrack } from "@/lib/score-tracker";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  const bannedResp = await rejectIfBanned(userId);
+  if (bannedResp) return bannedResp;
 
   const rl = checkRateLimit(rateLimitKey(req, `:skill:${userId}`), 10);
   if (!rl.allowed) {
@@ -30,14 +33,14 @@ export async function POST(req: NextRequest) {
 
     if (!candidate) return NextResponse.json({ error: "Profil introuvable" }, { status: 404 });
 
-    // Créer le skill s'il n'existe pas
+    // Create skill if it doesn't exist
     const slug = skillName.toLowerCase().replace(/\s+/g, "-");
     let skill = await prisma.skill.findUnique({ where: { slug } });
     if (!skill) {
       skill = await prisma.skill.create({ data: { name: skillName, slug, category: category ?? "Autre" } });
     }
 
-    // Ajouter au candidat
+    // Add or update candidate skill
     const existing = await prisma.candidateSkill.findUnique({
       where: { candidateId_skillId: { candidateId: candidate.id, skillId: skill.id } },
     });
@@ -68,6 +71,8 @@ export async function POST(req: NextRequest) {
 export async function GET(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  const bannedResp = await rejectIfBanned(userId);
+  if (bannedResp) return bannedResp;
 
   const rl = checkRateLimit(rateLimitKey(req, `:skill:${userId}`), 10);
   if (!rl.allowed) {

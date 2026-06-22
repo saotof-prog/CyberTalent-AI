@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { computeMatchScore } from "@/lib/matching";
+import { rejectIfBanned } from "@/lib/auth-utils";
 
 export async function GET() {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  const bannedResp = await rejectIfBanned(userId);
+  if (bannedResp) return bannedResp;
 
   try {
     const candidate = await prisma.candidateProfile.findFirst({
