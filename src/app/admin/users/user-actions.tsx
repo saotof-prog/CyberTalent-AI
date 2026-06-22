@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import ConfirmModal from "@/components/ConfirmModal";
 import { useToast } from "@/components/toast";
 import { useRouter } from "next/navigation";
 
@@ -14,36 +15,39 @@ export default function AdminUserActions({
 }) {
   const [loading, setLoading] = useState<string | null>(null);
   const { toast } = useToast();
+  const [showBanModal, setShowBanModal] = useState(false);
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const [pendingRole, setPendingRole] = useState<string>("");
   const router = useRouter();
+
+  async function banUser() {
+    const res = await fetch("/api/admin/users", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, isBanned: !isBanned }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      toast(isBanned ? "Compte débanni" : "Compte banni", "success");
+      router.refresh();
+    } else {
+      toast(data.error || "Erreur lors du bannissement", "error");
+    }
+  }
 
   async function toggleBan() {
     setLoading("ban");
-    try {
-      const res = await fetch("/api/admin/users", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, isBanned: !isBanned }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        toast(isBanned ? "Compte débanni" : "Compte banni", "success");
-        router.refresh();
-      } else {
-        toast(data.error || "Erreur lors du bannissement", "error");
-      }
-    } catch (e) {
-      toast("Erreur réseau", "error");
-    }
+    setShowBanModal(true);
     setLoading(null);
   }
 
-  async function changeRole(newRole: string) {
+  async function applyRoleChange() {
     setLoading("role");
     try {
       const res = await fetch("/api/admin/users", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, role: newRole }),
+        body: JSON.stringify({ userId, role: pendingRole }),
       });
       const data = await res.json();
       if (res.ok) {
@@ -54,7 +58,7 @@ export default function AdminUserActions({
           toast(`${data.deletedProfile} profile supprimé`, "info");
         }
         if (!data.createdProfile && !data.deletedProfile) {
-          toast(`Rôle changé vers ${newRole}`, "success");
+          toast(`Rôle changé vers ${pendingRole}`, "success");
         }
         router.refresh();
       } else {
@@ -64,6 +68,13 @@ export default function AdminUserActions({
       toast("Erreur réseau", "error");
     }
     setLoading(null);
+    setShowRoleModal(false);
+    setPendingRole("");
+  }
+
+  function openRoleModal(newRole: string) {
+    setPendingRole(newRole);
+    setShowRoleModal(true);
   }
 
   return (
@@ -82,7 +93,7 @@ export default function AdminUserActions({
       {role !== "ADMIN" && (
         <select
           value={role}
-          onChange={(e) => changeRole(e.target.value)}
+          onChange={(e) => openRoleModal(e.target.value)}
           disabled={loading !== null}
           className="bg-[#111d2e] border border-[#0084ff]/30 rounded px-2 py-1 font-mono text-xs text-white disabled:opacity-50"
         >
@@ -91,5 +102,19 @@ export default function AdminUserActions({
         </select>
       )}
     </div>
+      <ConfirmModal
+        open={showBanModal}
+        title={isBanned ? "Débannir le compte ?" : "Bannir le compte ?"}
+        message={isBanned ? "Confirmer le débannissement." : "Confirmer le bannissement."}
+        onConfirm={banUser}
+        onCancel={() => setShowBanModal(false)}
+      />
+      <ConfirmModal
+        open={showRoleModal}
+        title="Confirmer le changement de rôle"
+        message={`Êtes‑vous sûr de changer le rôle vers ${pendingRole} ?`}
+        onConfirm={applyRoleChange}
+        onCancel={() => setShowRoleModal(false)}
+      />
   );
 }
