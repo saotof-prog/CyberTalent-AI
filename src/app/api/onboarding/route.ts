@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   const body = await req.json();
   const parseResult = onboardingSchema.safeParse(body);
   if (!parseResult.success) {
-    return badRequest(parseResult.error.errors.map(e => e.message).join(", "));
+    return badRequest(parseResult.error.message);
   }
   const validBody = parseResult.data;
 

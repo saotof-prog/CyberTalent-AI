@@ -6,24 +6,8 @@ import { handleApiError, unauthorized, notFound, success, badRequest } from "@/l
 import { certificationSchema } from "@/lib/validation/certification";
 import { sanitizeUrl } from "@/lib/url";
 import { recalculateAndTrack } from "@/lib/score-tracker";
-// import { cacheHeaders } from "@/lib/cache"; // Removed unused import
-import { NextResponse } from "next/server";\nimport { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
-
-// function isShortener(url: string | null): boolean {
-  if (!url) return false;
-  const shorteners = [/bit\.ly/i, /tinyurl\.com/i, /short\.link/i, /cutt\.ly/i, /rb\.gy/i];
-  return shorteners.some((p) => p.test(url));
-}
-
-// function isValidUrl(url: string | null): boolean {
-  if (!url) return false;
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-}
+import { NextResponse } from "next/server";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
@@ -31,14 +15,13 @@ export async function POST(req: Request) {
 
   const rl = checkRateLimit(rateLimitKey(req, `:certs:${userId}`), 10);
   if (!rl.allowed) {
-    return NextResponse.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
+    return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });
   }
 
-  const body = await req.json();
-  // Validate payload
-  const parseResult = certificationSchema.safeParse(body);
+  const rawBody = await req.json();
+  const parseResult = certificationSchema.safeParse(rawBody);
   if (!parseResult.success) {
-    return badRequest(parseResult.error.errors.map(e => e.message).join(", "));
+    return badRequest(parseResult.error.message);
   }
   const validBody = parseResult.data;
 
@@ -59,13 +42,12 @@ export async function POST(req: Request) {
 
     let platform: string | null = null;
     let platformData: Record<string, unknown> | null = null;
-    if (hasValidUrl) {
+    if (hasValidUrl && url) {
       const detection = detectCertificatePlatform(url);
       platform = detection.platform;
       platformData = detection.platformSpecificData as Record<string, unknown> | null;
     }
 
-    // Créer la certification — auto-VERIFIED si URL valide
     const cert = await prisma.certification.create({
       data: {
         candidateId: user.candidateProfile.id,
