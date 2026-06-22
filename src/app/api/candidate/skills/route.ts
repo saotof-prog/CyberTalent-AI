@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";\nimport { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";\nimport { candidateSkillSchema } from "@/lib/validation/candidateSkill";\nimport { badRequest } from "@/lib/api-error";
 import { recalculateAndTrack } from "@/lib/score-tracker";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
-  if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });\n\n\n  if (!rl.allowed) {\n    return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });\n  }
 
-  const { skillName, category, level, yearsExp } = await req.json();
+  const rawBody = await req.json();\n  const parseResult = candidateSkillSchema.safeParse(rawBody);\n  if (!parseResult.success) {\n    return badRequest(parseResult.error.errors.map(e => e.message).join(", "));\n  }\n  const { skillName, category, level, yearsExp } = parseResult.data;
 
   try {
     const candidate = await prisma.candidateProfile.findFirst({
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   const { userId } = await auth();
-  if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });\n\n\n  if (!rl.allowed) {\n    return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });\n  }
 
   try {
     const candidate = await prisma.candidateProfile.findFirst({

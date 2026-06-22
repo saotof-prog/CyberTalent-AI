@@ -1,4 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
+import { labSchema } from "@/lib/validation/lab";
+import { badRequest } from "@/lib/api-error";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { recalculateAndTrack } from "@/lib/score-tracker";

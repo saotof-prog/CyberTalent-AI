@@ -2,18 +2,20 @@ import { auth } from "@clerk/nextjs/server";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { detectCertificatePlatform } from "@/lib/certificate-validation/platform-detector";
-import { handleApiError, unauthorized, notFound, success } from "@/lib/api-error";
+import { handleApiError, unauthorized, notFound, success, badRequest } from "@/lib/api-error";
+import { certificationSchema } from "@/lib/validation/certification";
+import { sanitizeUrl } from "@/lib/url";
 import { recalculateAndTrack } from "@/lib/score-tracker";
-import { cacheHeaders } from "@/lib/cache";
-import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
+// import { cacheHeaders } from "@/lib/cache"; // Removed unused import
+import { NextResponse } from "next/server";\nimport { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
-function isShortener(url: string | null): boolean {
+// function isShortener(url: string | null): boolean {
   if (!url) return false;
   const shorteners = [/bit\.ly/i, /tinyurl\.com/i, /short\.link/i, /cutt\.ly/i, /rb\.gy/i];
   return shorteners.some((p) => p.test(url));
 }
 
-function isValidUrl(url: string | null): boolean {
+// function isValidUrl(url: string | null): boolean {
   if (!url) return false;
   try {
     new URL(url);
@@ -29,10 +31,16 @@ export async function POST(req: Request) {
 
   const rl = checkRateLimit(rateLimitKey(req, `:certs:${userId}`), 10);
   if (!rl.allowed) {
-    return Response.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
+    return NextResponse.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
   }
 
   const body = await req.json();
+  // Validate payload
+  const parseResult = certificationSchema.safeParse(body);
+  if (!parseResult.success) {
+    return badRequest(parseResult.error.errors.map(e => e.message).join(", "));
+  }
+  const validBody = parseResult.data;
 
   try {
     const user = await prisma.user.findUnique({
@@ -46,8 +54,8 @@ export async function POST(req: Request) {
 
     if (!user?.candidateProfile) return notFound("Profil introuvable");
 
-    const url = body.credentialUrl ?? null;
-    const hasValidUrl = url && isValidUrl(url) && !isShortener(url);
+    const url = validBody.credentialUrl ?? null;
+    const hasValidUrl = sanitizeUrl(url);
 
     let platform: string | null = null;
     let platformData: Record<string, unknown> | null = null;
@@ -61,14 +69,14 @@ export async function POST(req: Request) {
     const cert = await prisma.certification.create({
       data: {
         candidateId: user.candidateProfile.id,
-        name: body.name,
-        fullName: body.fullName ?? "",
-        issuer: body.issuer,
-        issuedAt: new Date(body.issuedAt),
-        expiresAt: body.expiresAt ? new Date(body.expiresAt) : null,
-        hasExpiry: !!body.expiresAt,
+        name: validBody.name,
+        fullName: validBody.fullName ?? "",
+        issuer: validBody.issuer,
+        issuedAt: new Date(validBody.issuedAt),
+        expiresAt: validBody.expiresAt ? new Date(validBody.expiresAt) : null,
+        hasExpiry: !!validBody.expiresAt,
         credentialUrl: url,
-        fileUrl: body.fileUrl ?? null,
+        fileUrl: validBody.fileUrl ?? null,
         status: hasValidUrl ? "VERIFIED" : "PENDING",
         platform,
         platformSpecificData: (platformData as unknown as Prisma.InputJsonValue) ?? Prisma.JsonNull,
