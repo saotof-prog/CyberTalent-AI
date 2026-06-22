@@ -77,7 +77,7 @@ export default function AdminUserActions({
     setShowRoleModal(true);
   }
 
-  return (<>>
+  return (<>)
     <div className="flex items-center gap-2">
       <button
         onClick={toggleBan}
