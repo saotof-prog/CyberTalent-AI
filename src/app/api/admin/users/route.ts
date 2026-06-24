@@ -15,6 +15,9 @@ export async function PATCH(req: Request) {
   }
 
   const { userId: targetId, isBanned, role } = await req.json();
+  if (!targetId) {
+    return NextResponse.json({ error: "userId manquant" }, { status: 400 });
+  }
 
   try {
     // Update role / ban flag
