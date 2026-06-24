@@ -10,6 +10,7 @@ const links = [
   { href: "/admin/companies", label: "Entreprises", icon: "🏢" },
   { href: "/admin/jobs", label: "Offres", icon: "💼" },
   { href: "/admin/certifications", label: "Certifications", icon: "🏆" },
+  { href: "/admin/labs", label: "Labs", icon: "🧪" },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {

@@ -68,7 +68,7 @@ export default function CertificationUpload() {
       const res = await fetch("/api/certifications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, fileUrl: null }),
+        body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error("Erreur");
 

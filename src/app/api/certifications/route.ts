@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { detectCertificatePlatform } from "@/lib/certificate-validation/platform-detector";
+import { verifyCertificationWithAI } from "@/lib/certificate-validation/ai-verifier";
 import { handleApiError, unauthorized, notFound, success, badRequest } from "@/lib/api-error";
 import { certificationSchema } from "@/lib/validation/certification";
 import { sanitizeUrl } from "@/lib/url";
@@ -48,6 +49,11 @@ export async function POST(req: Request) {
       platformData = detection.platformSpecificData as Record<string, unknown> | null;
     }
 
+    let aiResult = null;
+    if (hasValidUrl && url) {
+      aiResult = await verifyCertificationWithAI(validBody.name, validBody.issuer, url);
+    }
+
     const cert = await prisma.certification.create({
       data: {
         candidateId: user.candidateProfile.id,
@@ -58,14 +64,13 @@ export async function POST(req: Request) {
         expiresAt: validBody.expiresAt ? new Date(validBody.expiresAt) : null,
         hasExpiry: !!validBody.expiresAt,
         credentialUrl: url,
-        fileUrl: validBody.fileUrl ?? null,
-        status: hasValidUrl ? "VERIFIED" : "PENDING",
+        status: aiResult?.status ?? (hasValidUrl ? "VERIFIED" : "PENDING"),
         platform,
         platformSpecificData: (platformData as unknown as Prisma.InputJsonValue) ?? Prisma.JsonNull,
-        aiVerifiedAt: hasValidUrl ? new Date() : null,
-        aiConfidence: hasValidUrl ? 1.0 : null,
-        aiNotes: hasValidUrl ? `Auto-validé — lien ${platform || "direct"} détecté` : null,
-        scoreImpact: hasValidUrl ? 10 : 0,
+        aiVerifiedAt: aiResult || hasValidUrl ? new Date() : null,
+        aiConfidence: aiResult?.confidence ?? (hasValidUrl ? 1.0 : null),
+        aiNotes: aiResult?.notes ?? (hasValidUrl ? `Auto-validé — lien ${platform || "direct"} détecté` : null),
+        scoreImpact: aiResult?.status === "VERIFIED" ? 10 : 0,
       },
     });
 
@@ -75,7 +80,7 @@ export async function POST(req: Request) {
       user.candidateProfile.cyberScore
     );
 
-    return success({ success: true, cert, newScore, autoVerified: hasValidUrl });
+    return success({ success: true, cert, newScore, autoVerified: hasValidUrl, aiResult });
   } catch (error) {
     return handleApiError(error);
   }

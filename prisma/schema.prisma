@@ -147,7 +147,7 @@ model CandidateProfile {
   website         String?
   linkedinUrl     String?
   twitterUrl      String?
-  resumeUrl       String?                       // Upload via UploadThing
+  resumeUrl       String?
 
   // Disponibilité
   isAvailable     Boolean   @default(true)
@@ -271,7 +271,6 @@ model Certification {
   issuer            String                                   // "Offensive Security"
   credentialId      String?                                  // ID fourni par l'organisme
   credentialUrl     String?                                  // Lien de vérification officiel
-  fileUrl           String?                                  // PDF uploadé via UploadThing
   issuedAt          DateTime
   expiresAt         DateTime?
   hasExpiry         Boolean             @default(false)

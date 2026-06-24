@@ -116,6 +116,13 @@ export default async function AdminDashboard() {
           <div className="font-mono text-2xl mb-1">🏆</div>
           <div className="font-mono text-xs text-gray-400">Gérer les certifications</div>
         </Link>
+        <Link
+          href="/admin/labs"
+          className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
+        >
+          <div className="font-mono text-2xl mb-1">🧪</div>
+          <div className="font-mono text-xs text-gray-400">Gérer les labs</div>
+        </Link>
       </div>
 
       {/* Recent users */}

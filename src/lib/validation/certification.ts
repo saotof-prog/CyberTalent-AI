@@ -11,5 +11,4 @@ export const certificationSchema = z.object({
     .optional()
     .refine((val) => (val ? !isNaN(Date.parse(val)) : true), { message: "Date d'expiration invalide" }),
   credentialUrl: z.string().url().optional(),
-  fileUrl: z.string().url().optional(),
 });

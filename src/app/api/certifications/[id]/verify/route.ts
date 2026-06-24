@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { verifyCertificationWithAI } from "@/lib/certificate-validation/ai-verifier";
 import { recalculateAndTrack } from "@/lib/score-tracker";
 
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -32,34 +33,29 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
       });
     }
 
-    try {
-      new URL(url);
-    } catch {
-      return NextResponse.json({
-        success: true,
-        status: "PENDING",
-        notes: "Le lien fourni n'est pas valide.",
-      });
-    }
+    const aiResult = await verifyCertificationWithAI(cert.name, cert.issuer, url);
+    const newStatus = aiResult.status;
 
     await prisma.certification.update({
       where: { id },
       data: {
-        status: "VERIFIED",
+        status: newStatus,
         aiVerifiedAt: new Date(),
-        aiConfidence: 1.0,
-        aiNotes: "Validé — lien de vérification reconnu",
-        scoreImpact: 10,
+        aiConfidence: aiResult.confidence,
+        aiNotes: aiResult.notes,
+        scoreImpact: newStatus === "VERIFIED" ? 10 : 0,
       },
     });
 
-    await recalculateAndTrack(cert.candidate.id, `CERT_VERIFIED: ${cert.name}`);
+    if (newStatus === "VERIFIED") {
+      await recalculateAndTrack(cert.candidate.id, `CERT_VERIFIED: ${cert.name}`);
+    }
 
     return NextResponse.json({
       success: true,
-      status: "VERIFIED",
-      confidence: 1.0,
-      notes: "Certification validée via le lien de vérification",
+      status: newStatus,
+      confidence: aiResult.confidence,
+      notes: aiResult.notes,
     });
   } catch (error) {
     console.error("CERT VERIFY ERROR:", error);
