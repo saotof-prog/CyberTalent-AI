@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import AdminCertVerifyActions from "./verify-actions";
 
@@ -34,12 +35,12 @@ export default async function AdminCertDetailPage(props: { params: Promise<{ id:
   return (
     <div className="p-4 md:p-6 max-w-4xl mx-auto">
       <div className="mb-8">
-        <a
+        <Link
           href="/admin/certifications"
           className="font-mono text-xs text-gray-500 hover:text-white transition"
         >
           ← Retour certifications
-        </a>
+        </Link>
         <h1 className="font-mono text-2xl font-bold text-white mt-2">
           🏆 {cert.name}
         </h1>

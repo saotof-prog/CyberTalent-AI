@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 
 export default function AdminCertVerifyActions({
   certId,
-  certName,
 }: {
   certId: string;
   certName: string;

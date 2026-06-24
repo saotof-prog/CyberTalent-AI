@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 
 export default function AdminLabVerifyActions({
   labId,
-  labName,
 }: {
   labId: string;
   labName: string;

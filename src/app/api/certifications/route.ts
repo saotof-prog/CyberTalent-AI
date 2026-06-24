@@ -67,7 +67,7 @@ export async function POST(req: Request) {
         status: aiResult?.status ?? (hasValidUrl ? "VERIFIED" : "PENDING"),
         platform,
         platformSpecificData: (platformData as unknown as Prisma.InputJsonValue) ?? Prisma.JsonNull,
-        aiVerifiedAt: aiResult || hasValidUrl ? new Date() : null,
+        aiVerifiedAt: aiResult !== null || hasValidUrl ? new Date() : null,
         aiConfidence: aiResult?.confidence ?? (hasValidUrl ? 1.0 : null),
         aiNotes: aiResult?.notes ?? (hasValidUrl ? `Auto-validé — lien ${platform || "direct"} détecté` : null),
         scoreImpact: aiResult?.status === "VERIFIED" ? 10 : 0,
