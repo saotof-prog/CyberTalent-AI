@@ -27,6 +27,7 @@ export default clerkMiddleware(async (auth, request) => {
 
   if (isPublicRoute(request)) {
     const response = NextResponse.next();
+    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
     response.headers.set("X-Content-Type-Options", "nosniff");
     response.headers.set("X-Frame-Options", "DENY");
     response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -40,6 +41,7 @@ export default clerkMiddleware(async (auth, request) => {
   }
 
   const response = NextResponse.next();
+  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
