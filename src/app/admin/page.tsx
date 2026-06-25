@@ -38,8 +38,8 @@ export default async function AdminDashboard() {
 
   const stats = [
     { label: "Utilisateurs", value: totalUsers, color: "text-[#0084ff]" },
-    { label: "Candidats", value: totalCandidates, color: "text-[#00c896]" },
-    { label: "Recruteurs", value: totalRecruiters, color: "text-[#ff4060]" },
+    { label: "Candidats", value: totalCandidates, color: "text-[#00FF41]" },
+    { label: "Recruteurs", value: totalRecruiters, color: "text-[#FF3333]" },
     { label: "Entreprises", value: totalCompanies, color: "text-purple-400" },
     { label: "Offres", value: totalJobs, color: "text-yellow-400" },
     { label: "Candidatures", value: totalApplications, color: "text-pink-400" },
@@ -79,7 +79,7 @@ export default async function AdminDashboard() {
         <div className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4">
           <div className="font-mono text-xs text-gray-400 mb-1">Certifications en attente</div>
           <div
-            className={`font-mono text-3xl font-bold ${pendingCerts > 0 ? "text-[#ffaa00]" : "text-[#00c896]"}`}
+            className={`font-mono text-3xl font-bold ${pendingCerts > 0 ? "text-[#ffaa00]" : "text-[#00FF41]"}`}
           >
             {pendingCerts}
           </div>
@@ -145,9 +145,9 @@ export default async function AdminDashboard() {
                 <span
                   className={`font-mono text-[10px] px-2 py-0.5 rounded-full border ${
                     u.role === "CANDIDATE"
-                      ? "border-[#00c896] text-[#00c896]"
+                      ? "border-[#00FF41] text-[#00FF41]"
                       : u.role === "RECRUITER"
-                        ? "border-[#ff4060] text-[#ff4060]"
+                        ? "border-[#FF3333] text-[#FF3333]"
                         : "border-[#0084ff] text-[#0084ff]"
                   }`}
                 >

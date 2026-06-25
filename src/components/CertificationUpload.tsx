@@ -95,10 +95,10 @@ export default function CertificationUpload() {
   }
 
   return (
-    <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
+    <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-6">
       <div className="flex items-center gap-2 mb-6">
-        <div className="w-1 h-4 bg-[#00c896] rounded" />
-        <span className="font-mono text-sm text-[#00c896]">AJOUTER UNE CERTIFICATION</span>
+        <div className="w-1 h-4 bg-[#00FF41] rounded" />
+        <span className="font-mono text-sm text-[#00FF41]">AJOUTER UNE CERTIFICATION</span>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -106,7 +106,7 @@ export default function CertificationUpload() {
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Sigle * (ex: OSCP)</label>
             <input
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="OSCP"
@@ -115,7 +115,7 @@ export default function CertificationUpload() {
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Nom complet</label>
             <input
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
               value={form.fullName}
               onChange={(e) => setForm({ ...form, fullName: e.target.value })}
               placeholder="Offensive Security Certified Professional"
@@ -126,7 +126,7 @@ export default function CertificationUpload() {
         <div>
           <label className="font-mono text-xs text-gray-400 mb-1 block">Organisme *</label>
           <input
-            className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+            className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
             value={form.issuer}
             onChange={(e) => setForm({ ...form, issuer: e.target.value })}
             placeholder="Offensive Security"
@@ -136,10 +136,10 @@ export default function CertificationUpload() {
         <div>
           <label className="font-mono text-xs text-gray-400 mb-1 block">
             Lien de vérification{" "}
-            <span className="text-[#00c896]">(recommandé — validation automatique)</span>
+            <span className="text-[#00FF41]">(recommandé — validation automatique)</span>
           </label>
           <input
-            className={`w-full bg-[#111d2e] border ${urlError ? "border-[#ff4060]" : "border-[#00c896]/20"} rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]`}
+            className={`w-full bg-[#0A0A0A] border ${urlError ? "border-[#FF3333]" : "border-[#00FF41]/20"} rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]`}
             value={form.credentialUrl}
             onChange={(e) => {
               setForm({ ...form, credentialUrl: e.target.value });
@@ -147,12 +147,12 @@ export default function CertificationUpload() {
             }}
             placeholder="https://credly.com/badges/..."
           />
-          {urlError && <p className="font-mono text-[10px] text-[#ff4060] mt-1">{urlError}</p>}
+          {urlError && <p className="font-mono text-[10px] text-[#FF3333] mt-1">{urlError}</p>}
         </div>
 
         {platformInfo && platformInfo.platform !== "unknown" && (
-          <div className="p-3 bg-[#111d2e] rounded">
-            <div className="font-mono text-xs text-[#00c896]">
+          <div className="p-3 bg-[#0A0A0A] rounded">
+            <div className="font-mono text-xs text-[#00FF41]">
               ✓ Plateforme reconnue : <strong>{platformInfo.platform}</strong>
             </div>
           </div>
@@ -165,7 +165,7 @@ export default function CertificationUpload() {
             </label>
             <input
               type="date"
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
               value={form.issuedAt}
               onChange={(e) => setForm({ ...form, issuedAt: e.target.value })}
             />
@@ -176,7 +176,7 @@ export default function CertificationUpload() {
             </label>
             <input
               type="date"
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
               value={form.expiresAt}
               onChange={(e) => setForm({ ...form, expiresAt: e.target.value })}
             />
@@ -186,7 +186,7 @@ export default function CertificationUpload() {
         <button
           onClick={handleSubmit}
           disabled={loading || done}
-          className="w-full font-mono text-sm font-bold py-3 bg-[#00c896] text-black rounded-lg hover:bg-[#00ff9d] transition disabled:opacity-50"
+          className="w-full font-mono text-sm font-bold py-3 bg-[#00FF41] text-black rounded-lg hover:bg-[#00FF41] transition disabled:opacity-50"
         >
           {done
             ? "✓ Certification ajoutée et vérifiée !"

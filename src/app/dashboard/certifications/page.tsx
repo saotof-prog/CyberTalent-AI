@@ -21,7 +21,7 @@ export default async function CertificationsPage() {
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold text-white mb-1">
-          Mes <span className="text-[#00c896]">Certifications</span> 🏆
+          Mes <span className="text-[#00FF41]">Certifications</span> 🏆
         </h1>
         <p className="font-mono text-xs text-gray-400">
           {certs.length} certification(s) ajoutée(s)
@@ -33,7 +33,7 @@ export default async function CertificationsPage() {
           {certs.map((cert) => (
             <div
               key={cert.id}
-              className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-5 flex items-center justify-between"
+              className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-5 flex items-center justify-between"
             >
               <div>
                 <div className="font-mono text-base font-bold text-white">{cert.name}</div>
@@ -45,7 +45,7 @@ export default async function CertificationsPage() {
                   <a
                     href={cert.credentialUrl}
                     target="_blank"
-                    className="font-mono text-xs text-[#00c896] hover:underline"
+                    className="font-mono text-xs text-[#00FF41] hover:underline"
                   >
                     Vérifier →
                   </a>
@@ -55,9 +55,9 @@ export default async function CertificationsPage() {
                 <div
                   className={`font-mono text-xs px-3 py-1 rounded-full ${
                     cert.status === "VERIFIED"
-                      ? "border-[#00c896] text-[#00c896] bg-[#00c896]/10"
+                      ? "border-[#00FF41] text-[#00FF41] bg-[#00FF41]/10"
                       : cert.status === "REJECTED"
-                        ? "border-[#ff4060] text-[#ff4060] bg-[#ff4060]/10"
+                        ? "border-[#FF3333] text-[#FF3333] bg-[#FF3333]/10"
                         : cert.status === "VERIFYING"
                           ? "border-[#ffaa00] text-[#ffaa00] bg-[#ffaa00]/10"
                           : "border-[#ffaa00] text-[#ffaa00] bg-[#ffaa00]/10"
@@ -70,14 +70,14 @@ export default async function CertificationsPage() {
                       : "⏳ En attente"}
                 </div>
                 {cert.platform && (
-                  <div className="font-mono text-[10px] text-[#00c896] mt-1">
+                  <div className="font-mono text-[10px] text-[#00FF41] mt-1">
                     Plateforme: {cert.platform}
                   </div>
                 )}
                 {cert.platformSpecificData &&
                   typeof cert.platformSpecificData === "object" &&
                   Object.keys(cert.platformSpecificData).length > 0 && (
-                    <div className="font-mono text-[10px] text-[#00c896] mt-1 max-w-xs">
+                    <div className="font-mono text-[10px] text-[#00FF41] mt-1 max-w-xs">
                       Détails: {JSON.stringify(cert.platformSpecificData)}
                     </div>
                   )}

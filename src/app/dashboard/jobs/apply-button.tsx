@@ -34,7 +34,7 @@ export default function ApplyButton({
 
   if (applied) {
     return (
-      <span className="font-mono text-xs px-4 py-2 rounded-lg border border-[#00c896]/30 text-[#00c896] flex-shrink-0">
+      <span className="font-mono text-xs px-4 py-2 rounded-lg border border-[#00FF41]/30 text-[#00FF41] flex-shrink-0">
         ✓ Postulé
       </span>
     );
@@ -42,7 +42,7 @@ export default function ApplyButton({
 
   if (scoreTooLow) {
     return (
-      <span className="font-mono text-xs px-4 py-2 rounded-lg border border-[#ff4060]/30 text-[#ff4060] flex-shrink-0">
+      <span className="font-mono text-xs px-4 py-2 rounded-lg border border-[#FF3333]/30 text-[#FF3333] flex-shrink-0">
         Score insuffisant
       </span>
     );

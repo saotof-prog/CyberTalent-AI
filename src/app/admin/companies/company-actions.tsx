@@ -28,7 +28,7 @@ export default function AdminCompanyActions({
   return (
     <div className="flex items-center gap-2">
       {isVerified && (
-        <span className="font-mono text-xs text-[#00c896] border border-[#00c896]/30 px-2 py-1 rounded">
+        <span className="font-mono text-xs text-[#00FF41] border border-[#00FF41]/30 px-2 py-1 rounded">
           ✓ Vérifié
         </span>
       )}
@@ -38,7 +38,7 @@ export default function AdminCompanyActions({
         className={`font-mono text-xs px-3 py-1 rounded border transition disabled:opacity-50 ${
           isVerified
             ? "border-yellow-400/30 text-yellow-400 hover:bg-yellow-400/10"
-            : "border-[#00c896]/30 text-[#00c896] hover:bg-[#00c896]/10"
+            : "border-[#00FF41]/30 text-[#00FF41] hover:bg-[#00FF41]/10"
         }`}
       >
         {loading ? "..." : isVerified ? "Révoquer" : "Vérifier"}

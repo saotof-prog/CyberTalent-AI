@@ -105,7 +105,7 @@ export default async function RecruiterDashboard({
         <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="font-mono text-2xl md:text-3xl font-bold text-white mb-2">
-              Recherche de <span className="text-[#ff4060]">Talents Cyber</span> 🎯
+              Recherche de <span className="text-[#FF3333]">Talents Cyber</span> 🎯
             </h1>
             <p className="text-gray-400 font-mono text-xs md:text-sm">
               {totalCount} candidat{totalCount > 1 ? "s" : ""} · Page {page}/{totalPages}

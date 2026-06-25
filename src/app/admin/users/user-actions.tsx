@@ -84,8 +84,8 @@ export default function AdminUserActions({
         disabled={loading !== null}
         className={`font-mono text-xs px-2 py-1 rounded border transition ${
           isBanned
-            ? "border-[#00c896]/30 text-[#00c896] hover:bg-[#00c896]/10"
-            : "border-[#ff4060]/30 text-[#ff4060] hover:bg-[#ff4060]/10"
+            ? "border-[#00FF41]/30 text-[#00FF41] hover:bg-[#00FF41]/10"
+            : "border-[#FF3333]/30 text-[#FF3333] hover:bg-[#FF3333]/10"
         } disabled:opacity-50`}
       >
         {loading === "ban" ? "..." : isBanned ? "Dé-bannir" : "Bannir"}
@@ -95,7 +95,7 @@ export default function AdminUserActions({
           value={role}
           onChange={(e) => openRoleModal(e.target.value)}
           disabled={loading !== null}
-          className="bg-[#111d2e] border border-[#0084ff]/30 rounded px-2 py-1 font-mono text-xs text-white disabled:opacity-50"
+          className="bg-[#0A0A0A] border border-[#0084ff]/30 rounded px-2 py-1 font-mono text-xs text-white disabled:opacity-50"
         >
           <option value="CANDIDATE">Candidat</option>
           <option value="RECRUITER">Recruteur</option>

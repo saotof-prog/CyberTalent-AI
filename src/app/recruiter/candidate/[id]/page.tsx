@@ -45,9 +45,9 @@ export default async function CandidateProfilePage({
   const mailtoUrl = "mailto:" + candidate.user.email;
 
   const diffColor: Record<string, string> = {
-    EASY: "text-[#00c896] border-[#00c896]",
+    EASY: "text-[#00FF41] border-[#00FF41]",
     MEDIUM: "text-[#ffaa00] border-[#ffaa00]",
-    HARD: "text-[#ff4060] border-[#ff4060]",
+    HARD: "text-[#FF3333] border-[#FF3333]",
     INSANE: "text-purple-400 border-purple-400",
   };
 
@@ -55,13 +55,13 @@ export default async function CandidateProfilePage({
     <div className="min-h-screen bg-[#080c14] text-white">
       <div className="p-4 md:p-6 max-w-4xl mx-auto">
         {/* HEADER PROFIL */}
-        <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5 md:p-8 mb-6">
+        <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-5 md:p-8 mb-6">
           <div className="flex flex-col md:flex-row items-start justify-between gap-4">
             <div className="flex-1">
               <h1 className="font-mono text-2xl md:text-3xl font-bold text-white mb-1">
                 {candidate.firstName} {candidate.lastName}
               </h1>
-              <p className="font-mono text-[#ff4060] text-sm mb-3">{candidate.headline}</p>
+              <p className="font-mono text-[#FF3333] text-sm mb-3">{candidate.headline}</p>
               <div className="flex flex-wrap items-center gap-3 text-gray-400 font-mono text-xs">
                 {candidate.location && (
                   <span>
@@ -69,19 +69,19 @@ export default async function CandidateProfilePage({
                   </span>
                 )}
                 {candidate.githubUsername && (
-                  <a href={githubUrl} target="_blank" className="text-[#00c896] hover:underline">
+                  <a href={githubUrl} target="_blank" className="text-[#00FF41] hover:underline">
                     ⬡ @{candidate.githubUsername}
                   </a>
                 )}
                 {candidate.isAvailable && (
-                  <span className="px-2 py-1 rounded bg-[#00c896]/10 border border-[#00c896]/30 text-[#00c896]">
+                  <span className="px-2 py-1 rounded bg-[#00FF41]/10 border border-[#00FF41]/30 text-[#00FF41]">
                     ✓ Disponible
                   </span>
                 )}
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center w-24 h-24 md:w-28 md:h-28 bg-[#111d2e] border-2 border-[#ff4060]/50 rounded-xl flex-shrink-0">
-              <div className="font-mono text-3xl md:text-4xl font-bold text-[#ff4060]">
+            <div className="flex flex-col items-center justify-center w-24 h-24 md:w-28 md:h-28 bg-[#111d2e] border-2 border-[#FF3333]/50 rounded-xl flex-shrink-0">
+              <div className="font-mono text-3xl md:text-4xl font-bold text-[#FF3333]">
                 {candidate.cyberScore}
               </div>
               <div className="font-mono text-xs text-gray-500">CyberScore</div>
@@ -96,19 +96,19 @@ export default async function CandidateProfilePage({
 
         {/* STATS */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-          <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4 text-center">
-            <div className="font-mono text-2xl md:text-3xl font-bold text-[#ff4060]">
+          <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-4 text-center">
+            <div className="font-mono text-2xl md:text-3xl font-bold text-[#FF3333]">
               {candidate.certifications.length}
             </div>
             <div className="font-mono text-xs text-gray-400 mt-1">Certifications</div>
           </div>
-          <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4 text-center">
+          <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-4 text-center">
             <div className="font-mono text-2xl md:text-3xl font-bold text-[#0084ff]">
               {candidate.labs.length}
             </div>
             <div className="font-mono text-xs text-gray-400 mt-1">Labs</div>
           </div>
-          <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4 text-center">
+          <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-4 text-center">
             <div className="font-mono text-2xl md:text-3xl font-bold text-[#ffaa00]">
               {candidate.skills.length}
             </div>
@@ -119,10 +119,10 @@ export default async function CandidateProfilePage({
         {/* CERTIFICATIONS + SKILLS */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           {/* CERTIFICATIONS */}
-          <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5">
+          <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-5">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-1 h-4 bg-[#ff4060] rounded" />
-              <span className="font-mono text-sm text-[#ff4060]">
+              <div className="w-1 h-4 bg-[#FF3333] rounded" />
+              <span className="font-mono text-sm text-[#FF3333]">
                 CERTIFICATIONS ({candidate.certifications.length})
               </span>
             </div>
@@ -142,7 +142,7 @@ export default async function CandidateProfilePage({
                     <span
                       className={
                         cert.status === "VERIFIED"
-                          ? "font-mono text-xs px-2 py-0.5 rounded bg-[#00c896]/10 text-[#00c896] border border-[#00c896]/30"
+                          ? "font-mono text-xs px-2 py-0.5 rounded bg-[#00FF41]/10 text-[#00FF41] border border-[#00FF41]/30"
                           : "font-mono text-xs px-2 py-0.5 rounded bg-gray-800 text-gray-500"
                       }
                     >
@@ -155,10 +155,10 @@ export default async function CandidateProfilePage({
           </div>
 
           {/* SKILLS */}
-          <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5">
+          <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-5">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-1 h-4 bg-[#ff4060] rounded" />
-              <span className="font-mono text-sm text-[#ff4060]">
+              <div className="w-1 h-4 bg-[#FF3333] rounded" />
+              <span className="font-mono text-sm text-[#FF3333]">
                 SKILLS ({candidate.skills.length})
               </span>
             </div>
@@ -169,7 +169,7 @@ export default async function CandidateProfilePage({
                 {candidate.skills.map((skill) => (
                   <span
                     key={skill.id}
-                    className="font-mono text-xs px-3 py-1 rounded-full bg-[#ff4060]/10 border border-[#ff4060]/20 text-[#ff4060]"
+                    className="font-mono text-xs px-3 py-1 rounded-full bg-[#FF3333]/10 border border-[#FF3333]/20 text-[#FF3333]"
                   >
                     {skill.skill?.name ?? skill.skillId} · {skill.level}
                   </span>
@@ -180,10 +180,10 @@ export default async function CandidateProfilePage({
         </div>
 
         {/* LABS */}
-        <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5 mb-6">
+        <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-5 mb-6">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-1 h-4 bg-[#ff4060] rounded" />
-            <span className="font-mono text-sm text-[#ff4060]">LABS ({candidate.labs.length})</span>
+            <div className="w-1 h-4 bg-[#FF3333] rounded" />
+            <span className="font-mono text-sm text-[#FF3333]">LABS ({candidate.labs.length})</span>
           </div>
           {candidate.labs.length === 0 ? (
             <p className="font-mono text-xs text-gray-600">Aucun lab complété</p>
@@ -214,7 +214,7 @@ export default async function CandidateProfilePage({
           <SaveButton candidateId={candidate.id} initialSaved={isSaved} />
           <a
             href={mailtoUrl}
-            className="font-mono text-sm px-6 py-3 bg-[#ff4060] hover:bg-[#ff2040] text-white rounded-lg transition font-bold text-center"
+            className="font-mono text-sm px-6 py-3 bg-[#FF3333] hover:bg-[#ff2040] text-white rounded-lg transition font-bold text-center"
           >
             ✉ Contacter ce candidat
           </a>

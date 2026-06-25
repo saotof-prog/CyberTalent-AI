@@ -46,7 +46,7 @@ export default function GithubSync({
       <button
         onClick={handleSync}
         disabled={loading}
-        className="font-mono text-xs px-4 py-2 rounded-lg border border-[#00c896]/30 text-[#00c896] hover:bg-[#00c896]/10 transition disabled:opacity-50"
+        className="font-mono text-xs px-4 py-2 rounded-lg border border-[#00FF41]/30 text-[#00FF41] hover:bg-[#00FF41]/10 transition disabled:opacity-50"
       >
         {loading ? "⏳ Sync en cours..." : "⬡ Sync GitHub"}
       </button>

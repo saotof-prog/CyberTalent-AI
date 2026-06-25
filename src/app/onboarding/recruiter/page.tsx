@@ -59,29 +59,29 @@ export default function RecruiterOnboardingPage() {
   }
 
   const inputClass = (field: string) =>
-    `w-full bg-[#111d2e] border ${errors[field] ? "border-[#ff4060]" : "border-[#ff4060]/20"} rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]`;
+    `w-full bg-[#0A0A0A] border ${errors[field] ? "border-[#FF3333]" : "border-[#FF3333]/20"} rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]`;
 
   return (
     <div className="min-h-screen bg-[#080c14] text-white flex items-center justify-center p-6">
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-2 h-2 rounded-full bg-[#ff4060] animate-pulse" />
-            <span className="font-mono text-[#ff4060] font-bold text-sm">
+            <div className="w-2 h-2 rounded-full bg-[#FF3333] animate-pulse" />
+            <span className="font-mono text-[#FF3333] font-bold text-sm">
               CYBERTALENT_RECRUITER
             </span>
           </div>
           <h1 className="font-mono text-2xl font-bold text-white mb-2">
-            Setup ton profil <span className="text-[#ff4060]">Recruteur</span>
+            Setup ton profil <span className="text-[#FF3333]">Recruteur</span>
           </h1>
           <p className="font-mono text-xs text-gray-400">
             Configure ton espace pour trouver les meilleurs talents cyber
           </p>
         </div>
 
-        <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-6 flex flex-col gap-4">
+        <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-6 flex flex-col gap-4">
           {errors.submit && (
-            <div className="font-mono text-xs text-[#ff4060] bg-[#ff4060]/10 border border-[#ff4060]/30 rounded-lg px-3 py-2">
+            <div className="font-mono text-xs text-[#FF3333] bg-[#FF3333]/10 border border-[#FF3333]/30 rounded-lg px-3 py-2">
               {errors.submit}
             </div>
           )}
@@ -96,7 +96,7 @@ export default function RecruiterOnboardingPage() {
                 placeholder="Mariam"
               />
               {errors.firstName && (
-                <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.firstName}</p>
+                <p className="font-mono text-[10px] text-[#FF3333] mt-1">{errors.firstName}</p>
               )}
             </div>
             <div>
@@ -108,7 +108,7 @@ export default function RecruiterOnboardingPage() {
                 placeholder="Diop"
               />
               {errors.lastName && (
-                <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.lastName}</p>
+                <p className="font-mono text-[10px] text-[#FF3333] mt-1">{errors.lastName}</p>
               )}
             </div>
           </div>
@@ -132,7 +132,7 @@ export default function RecruiterOnboardingPage() {
               placeholder="SecureCorp"
             />
             {errors.companyName && (
-              <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.companyName}</p>
+              <p className="font-mono text-[10px] text-[#FF3333] mt-1">{errors.companyName}</p>
             )}
           </div>
 
@@ -195,7 +195,7 @@ export default function RecruiterOnboardingPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full font-mono text-sm font-bold py-3 bg-[#ff4060] text-white rounded-lg hover:bg-[#ff2040] transition disabled:opacity-50"
+            className="w-full font-mono text-sm font-bold py-3 bg-[#FF3333] text-white rounded-lg hover:bg-[#ff2040] transition disabled:opacity-50"
           >
             {loading ? "Création en cours..." : "Accéder au dashboard recruteur →"}
           </button>

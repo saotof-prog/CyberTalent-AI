@@ -51,7 +51,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
                 className={`flex items-center gap-2 font-mono text-xs px-4 py-2 rounded-lg whitespace-nowrap transition ${
                   isActive
                     ? "bg-[#0084ff]/15 text-[#0084ff] border border-[#0084ff]/30"
-                    : "text-gray-400 hover:text-white hover:bg-[#111d2e]"
+                    : "text-gray-400 hover:text-white hover:bg-[#0A0A0A]"
                 }`}
               >
                 <span>{link.icon}</span>

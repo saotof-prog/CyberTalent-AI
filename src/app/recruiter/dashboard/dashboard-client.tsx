@@ -48,7 +48,7 @@ function PaginationLink({
 
   if (active) {
     return (
-      <span className="font-mono text-xs text-white bg-[#ff4060] px-3 py-1.5 rounded border border-[#ff4060]">
+      <span className="font-mono text-xs text-white bg-[#FF3333] px-3 py-1.5 rounded border border-[#FF3333]">
         {page}
       </span>
     );
@@ -57,7 +57,7 @@ function PaginationLink({
   return (
     <Link
       href={`/recruiter/dashboard?${params.toString()}`}
-      className="font-mono text-xs text-gray-400 hover:text-white px-3 py-1.5 rounded border border-gray-800 hover:border-[#ff4060]/30 transition"
+      className="font-mono text-xs text-gray-400 hover:text-white px-3 py-1.5 rounded border border-gray-800 hover:border-[#FF3333]/30 transition"
     >
       {label ?? page}
     </Link>
@@ -89,7 +89,7 @@ export default function RecruiterDashboardClient({
 
       {aiRanked && (
         <div className="flex items-center gap-2 mb-4">
-          <span className="font-mono text-xs text-[#ff4060] bg-[#ff4060]/10 border border-[#ff4060]/30 px-3 py-1 rounded-full">
+          <span className="font-mono text-xs text-[#FF3333] bg-[#FF3333]/10 border border-[#FF3333]/30 px-3 py-1 rounded-full">
             ⚡ Résultats classés par matching
           </span>
           <button
@@ -112,19 +112,19 @@ export default function RecruiterDashboardClient({
       <div className="flex flex-col gap-3">
         {displayCandidates.map((candidate, idx) => (
           <Link key={candidate.id} href={`/recruiter/candidate/${candidate.id}`}>
-            <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5 hover:border-[#ff4060] transition cursor-pointer">
+            <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-5 hover:border-[#FF3333] transition cursor-pointer">
               <div className="flex items-center gap-4">
-                <div className="flex flex-col items-center justify-center w-16 h-16 bg-[#111d2e] border border-[#ff4060]/30 rounded-lg shrink-0">
+                <div className="flex flex-col items-center justify-center w-16 h-16 bg-[#0A0A0A] border border-[#FF3333]/30 rounded-lg shrink-0">
                   {candidate.aiRelevance !== undefined && aiRanked ? (
                     <>
-                      <div className="font-mono text-lg font-bold text-[#ff4060]">
+                      <div className="font-mono text-lg font-bold text-[#FF3333]">
                         {candidate.aiRelevance}%
                       </div>
                       <div className="font-mono text-[10px] text-gray-500">match</div>
                     </>
                   ) : (
                     <>
-                      <div className="font-mono text-xl font-bold text-[#ff4060]">#{idx + 1}</div>
+                      <div className="font-mono text-xl font-bold text-[#FF3333]">#{idx + 1}</div>
                       <div className="font-mono text-xs text-gray-500">rank</div>
                     </>
                   )}
@@ -140,7 +140,7 @@ export default function RecruiterDashboardClient({
                       {candidate.country}
                     </span>
                     {candidate.isAvailable && (
-                      <span className="font-mono text-xs px-2 py-1 rounded bg-[#00c896]/10 border border-[#00c896]/30 text-[#00c896]">
+                      <span className="font-mono text-xs px-2 py-1 rounded bg-[#00FF41]/10 border border-[#00FF41]/30 text-[#00FF41]">
                         ✓ Disponible
                       </span>
                     )}
@@ -151,7 +151,7 @@ export default function RecruiterDashboardClient({
                   )}
 
                   {aiRanked && candidate.aiReason && (
-                    <p className="font-mono text-xs text-[#ff4060]/60 italic mb-2">
+                    <p className="font-mono text-xs text-[#FF3333]/60 italic mb-2">
                       ↳ {candidate.aiReason}
                     </p>
                   )}
@@ -167,15 +167,15 @@ export default function RecruiterDashboardClient({
                       ⚡ {candidate.skills.length} skills
                     </span>
                     {candidate.githubUsername && (
-                      <span className="font-mono text-xs text-[#00c896]">
+                      <span className="font-mono text-xs text-[#00FF41]">
                         @{candidate.githubUsername}
                       </span>
                     )}
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center justify-center w-24 h-24 bg-[#111d2e] border border-[#ff4060]/30 rounded-lg shrink-0">
-                  <div className="font-mono text-3xl font-bold text-[#ff4060]">
+                <div className="flex flex-col items-center justify-center w-24 h-24 bg-[#0A0A0A] border border-[#FF3333]/30 rounded-lg shrink-0">
+                  <div className="font-mono text-3xl font-bold text-[#FF3333]">
                     {candidate.cyberScore}
                   </div>
                   <div className="font-mono text-xs text-gray-500">score</div>

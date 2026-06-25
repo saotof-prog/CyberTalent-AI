@@ -45,7 +45,7 @@ export default function JobRecommendations() {
 
   if (loading) {
     return (
-      <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
+      <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-6">
         <div className="flex items-center gap-2 mb-6">
           <div className="w-1 h-4 bg-[#0084ff] rounded" />
           <span className="font-mono text-sm text-[#0084ff]">
@@ -60,7 +60,7 @@ export default function JobRecommendations() {
   }
 
   return (
-    <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
+    <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-6">
       <div className="flex items-center gap-2 mb-6">
         <div className="w-1 h-4 bg-[#0084ff] rounded" />
         <span className="font-mono text-sm text-[#0084ff]">OFFRES RECOMMANDÉES PAR L&apos;IA</span>
@@ -80,14 +80,14 @@ export default function JobRecommendations() {
           {jobs.map((job) => (
             <div
               key={job.id}
-              className="bg-[#111d2e] border border-gray-800 hover:border-[#0084ff]/40 rounded-xl p-4 transition"
+              className="bg-[#0A0A0A] border border-gray-800 hover:border-[#0084ff]/40 rounded-xl p-4 transition"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-mono text-sm font-bold text-white">{job.title}</h3>
                     {job.isUrgent && (
-                      <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#ff4060]/10 border border-[#ff4060]/30 text-[#ff4060]">
+                      <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#FF3333]/10 border border-[#FF3333]/30 text-[#FF3333]">
                         URGENT
                       </span>
                     )}
@@ -101,7 +101,7 @@ export default function JobRecommendations() {
                       {MODE_LABELS[job.mode]} · {TYPE_LABELS[job.type]}
                     </span>
                     {job.salaryMin && (
-                      <span className="font-mono text-xs text-[#00c896]">
+                      <span className="font-mono text-xs text-[#00FF41]">
                         ${job.salaryMin.toLocaleString()} — $
                         {job.salaryMax?.toLocaleString() ?? "?"}/mois
                       </span>
@@ -125,7 +125,7 @@ export default function JobRecommendations() {
                     className={
                       "font-mono text-xl font-bold " +
                       (job.matchScore >= 70
-                        ? "text-[#00c896]"
+                        ? "text-[#00FF41]"
                         : job.matchScore >= 40
                           ? "text-[#ffaa00]"
                           : "text-gray-400")

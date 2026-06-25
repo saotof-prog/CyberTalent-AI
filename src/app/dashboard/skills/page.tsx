@@ -22,7 +22,7 @@ export default async function SkillsPage() {
     BEGINNER: "text-gray-400 border-gray-600",
     INTERMEDIATE: "text-[#0084ff] border-[#0084ff]",
     ADVANCED: "text-[#ffaa00] border-[#ffaa00]",
-    EXPERT: "text-[#00c896] border-[#00c896]",
+    EXPERT: "text-[#00FF41] border-[#00FF41]",
   };
 
   return (

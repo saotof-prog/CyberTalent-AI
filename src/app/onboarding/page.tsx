@@ -57,17 +57,17 @@ export default function OnboardingPage() {
   }
 
   const inputClass = (field: string) =>
-    `w-full bg-[#111d2e] border ${errors[field] ? "border-[#ff4060]" : "border-[#00c896]/20"} rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]`;
+    `w-full bg-[#0A0A0A] border ${errors[field] ? "border-[#FF3333]" : "border-[#00FF41]/20"} rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]`;
 
   return (
     <div className="min-h-screen bg-[#080c14] text-white flex items-center justify-center p-6">
       <div className="w-full max-w-lg">
-        <div className="font-mono text-[#00c896] text-xl font-bold mb-2">{"// SETUP PROFIL"}</div>
+        <div className="font-mono text-[#00FF41] text-xl font-bold mb-2">{"// SETUP PROFIL"}</div>
         <p className="text-gray-400 font-mono text-sm mb-8">Configure ton profil CyberTalent AI</p>
 
-        <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6 flex flex-col gap-4">
+        <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-6 flex flex-col gap-4">
           {errors.submit && (
-            <div className="font-mono text-xs text-[#ff4060] bg-[#ff4060]/10 border border-[#ff4060]/30 rounded-lg px-3 py-2">
+            <div className="font-mono text-xs text-[#FF3333] bg-[#FF3333]/10 border border-[#FF3333]/30 rounded-lg px-3 py-2">
               {errors.submit}
             </div>
           )}
@@ -82,7 +82,7 @@ export default function OnboardingPage() {
                 placeholder="Amine"
               />
               {errors.firstName && (
-                <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.firstName}</p>
+                <p className="font-mono text-[10px] text-[#FF3333] mt-1">{errors.firstName}</p>
               )}
             </div>
             <div>
@@ -94,7 +94,7 @@ export default function OnboardingPage() {
                 placeholder="Koné"
               />
               {errors.lastName && (
-                <p className="font-mono text-[10px] text-[#ff4060] mt-1">{errors.lastName}</p>
+                <p className="font-mono text-[10px] text-[#FF3333] mt-1">{errors.lastName}</p>
               )}
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function OnboardingPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full font-mono text-sm font-bold py-3 bg-[#00c896] text-black rounded-lg hover:bg-[#00ff9d] transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full font-mono text-sm font-bold py-3 bg-[#00FF41] text-black rounded-lg hover:bg-[#00FF41] transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Création en cours..." : "Créer mon profil →"}
           </button>

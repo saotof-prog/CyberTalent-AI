@@ -36,7 +36,7 @@ export default function SaveButton({
       className={`font-mono text-sm px-6 py-3 rounded-lg transition font-bold border ${
         saved
           ? "border-[#ffaa00] text-[#ffaa00] hover:bg-[#ffaa00]/10"
-          : "border-[#ff4060]/30 text-[#ff4060] hover:bg-[#ff4060]/10"
+          : "border-[#FF3333]/30 text-[#FF3333] hover:bg-[#FF3333]/10"
       }`}
     >
       {loading ? "..." : saved ? "★ Sauvegardé" : "☆ Sauvegarder"}

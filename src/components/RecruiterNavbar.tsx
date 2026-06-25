@@ -36,12 +36,12 @@ export default function RecruiterNavbar({
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#080c14]/95 backdrop-blur border-b border-[#ff4060]/20">
+    <nav className="sticky top-0 z-50 bg-[#080c14]/95 backdrop-blur border-b border-[#FF3333]/20">
       {/* TOP BAR */}
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#ff4060] animate-pulse" />
-          <span className="font-mono text-[#ff4060] font-bold text-sm">CYBERTALENT_RECRUITER</span>
+          <div className="w-2 h-2 rounded-full bg-[#FF3333] animate-pulse" />
+          <span className="font-mono text-[#FF3333] font-bold text-sm">CYBERTALENT_RECRUITER</span>
         </div>
         <div className="flex items-center gap-3">
           <NotificationsBell />
@@ -74,8 +74,8 @@ export default function RecruiterNavbar({
               href={link.href}
               className={`flex items-center gap-2 font-mono text-xs px-4 py-2 rounded-lg whitespace-nowrap transition ${
                 isActive
-                  ? "bg-[#ff4060]/15 text-[#ff4060] border border-[#ff4060]/30"
-                  : "text-gray-400 hover:text-white hover:bg-[#111d2e]"
+                  ? "bg-[#FF3333]/15 text-[#FF3333] border border-[#FF3333]/30"
+                  : "text-gray-400 hover:text-white hover:bg-[#0A0A0A]"
               }`}
             >
               <span>{link.icon}</span>
@@ -87,7 +87,7 @@ export default function RecruiterNavbar({
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden flex flex-col px-4 py-2 border-t border-[#ff4060]/10 bg-[#080c14]">
+        <div className="md:hidden flex flex-col px-4 py-2 border-t border-[#FF3333]/10 bg-[#080c14]">
           {links.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -96,7 +96,7 @@ export default function RecruiterNavbar({
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className={`flex items-center gap-3 font-mono text-sm px-4 py-3 rounded-lg transition ${
-                  isActive ? "text-[#ff4060] bg-[#ff4060]/10" : "text-gray-400 hover:text-white"
+                  isActive ? "text-[#FF3333] bg-[#FF3333]/10" : "text-gray-400 hover:text-white"
                 }`}
               >
                 <span>{link.icon}</span>

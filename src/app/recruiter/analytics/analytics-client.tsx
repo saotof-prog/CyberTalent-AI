@@ -34,8 +34,8 @@ const STATUS_COLORS: Record<string, string> = {
   VIEWED: "bg-blue-500",
   SHORTLISTED: "bg-purple-500",
   INTERVIEW: "bg-indigo-500",
-  OFFER: "bg-[#00c896]",
-  REJECTED: "bg-[#ff4060]",
+  OFFER: "bg-[#00FF41]",
+  REJECTED: "bg-[#FF3333]",
 };
 
 function StatCard({
@@ -50,7 +50,7 @@ function StatCard({
   color?: string;
 }) {
   return (
-    <div className="bg-[#0d1520] border border-[#00c896]/10 rounded-xl p-5">
+    <div className="bg-[#0d1520] border border-[#00FF41]/10 rounded-xl p-5">
       <div className="font-mono text-xs text-gray-500 mb-2">{label}</div>
       <div className={`font-mono text-2xl md:text-3xl font-bold ${color ?? "text-white"}`}>
         {value}
@@ -67,7 +67,7 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl md:text-3xl font-bold text-white mb-1">
-          📊 Tableau de <span className="text-[#ff4060]">Bord</span>
+          📊 Tableau de <span className="text-[#FF3333]">Bord</span>
         </h1>
         <p className="font-mono text-xs text-gray-400">
           Vue d&apos;ensemble de ton activité recrutement
@@ -86,7 +86,7 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
           label="Offres publiées"
           value={`${data.jobs.active}/${data.jobs.total}`}
           sub="actives / total"
-          color="text-[#00c896]"
+          color="text-[#00FF41]"
         />
         <StatCard
           label="Candidats sauvegardés"
@@ -98,14 +98,14 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
           label="Score moyen du pool"
           value={data.candidatePool.averageScore}
           sub={`sur ${data.candidatePool.total} candidats`}
-          color="text-[#ff4060]"
+          color="text-[#FF3333]"
         />
       </div>
 
       {/* Funnel & Sparkline */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-8">
         {/* Funnel */}
-        <div className="bg-[#0d1520] border border-[#00c896]/10 rounded-xl p-5">
+        <div className="bg-[#0d1520] border border-[#00FF41]/10 rounded-xl p-5">
           <h2 className="font-mono text-sm font-bold text-white mb-4">Entonnoir des candidatures</h2>
           <div className="flex flex-col gap-2">
             {Object.entries(data.applications.funnel).map(([key, count]) => {
@@ -124,7 +124,7 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
                     </div>
                     <span className="font-mono text-xs text-white font-bold">{count}</span>
                   </div>
-                  <div className="w-full h-2 bg-[#111d2e] rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-[#0A0A0A] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${STATUS_COLORS[key] ?? "bg-gray-500"}`}
                       style={{ width: `${pct}%` }}
@@ -137,7 +137,7 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
         </div>
 
         {/* Sparkline: apps last 30 days */}
-        <div className="bg-[#0d1520] border border-[#00c896]/10 rounded-xl p-5">
+        <div className="bg-[#0d1520] border border-[#00FF41]/10 rounded-xl p-5">
           <h2 className="font-mono text-sm font-bold text-white mb-4">
             Candidatures — 30 derniers jours
           </h2>
@@ -168,7 +168,7 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
       {/* Top Skills & Recent */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {/* Top skills */}
-        <div className="bg-[#0d1520] border border-[#00c896]/10 rounded-xl p-5">
+        <div className="bg-[#0d1520] border border-[#00FF41]/10 rounded-xl p-5">
           <h2 className="font-mono text-sm font-bold text-white mb-4">
             Compétences les plus recherchées
           </h2>
@@ -187,9 +187,9 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
                       </div>
                       <span className="font-mono text-xs text-gray-500">{s.count}</span>
                     </div>
-                    <div className="w-full h-1.5 bg-[#111d2e] rounded-full overflow-hidden">
+                    <div className="w-full h-1.5 bg-[#0A0A0A] rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-[#ff4060] rounded-full"
+                        className="h-full bg-[#FF3333] rounded-full"
                         style={{ width: `${(s.count / max) * 100}%` }}
                       />
                     </div>
@@ -201,7 +201,7 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
         </div>
 
         {/* Recent applications */}
-        <div className="bg-[#0d1520] border border-[#00c896]/10 rounded-xl p-5">
+        <div className="bg-[#0d1520] border border-[#00FF41]/10 rounded-xl p-5">
           <h2 className="font-mono text-sm font-bold text-white mb-4">
             Dernières candidatures
           </h2>
@@ -212,7 +212,7 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
               {data.recentApplications.map((app) => (
                 <div
                   key={app.id}
-                  className="flex items-center justify-between py-2 border-b border-[#00c896]/5 last:border-0"
+                  className="flex items-center justify-between py-2 border-b border-[#00FF41]/5 last:border-0"
                 >
                   <div>
                     <div className="font-mono text-xs text-white">{app.jobTitle}</div>
@@ -223,9 +223,9 @@ export default function AnalyticsDashboard({ data }: { data: AnalyticsData }) {
                   <span
                     className={`font-mono text-[10px] px-2 py-1 rounded-full ${
                       app.status === "OFFER"
-                        ? "bg-[#00c896]/10 text-[#00c896]"
+                        ? "bg-[#00FF41]/10 text-[#00FF41]"
                         : app.status === "REJECTED"
-                          ? "bg-[#ff4060]/10 text-[#ff4060]"
+                          ? "bg-[#FF3333]/10 text-[#FF3333]"
                           : app.status === "INTERVIEW"
                             ? "bg-purple-500/10 text-purple-400"
                             : "bg-gray-500/10 text-gray-400"

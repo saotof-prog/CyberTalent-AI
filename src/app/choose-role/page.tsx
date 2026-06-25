@@ -36,8 +36,8 @@ export default function ChooseRolePage() {
         {/* HEADER */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-2 h-2 rounded-full bg-[#00c896] animate-pulse" />
-            <span className="font-mono text-[#00c896] font-bold text-sm">CYBERTALENT_AI</span>
+            <div className="w-2 h-2 rounded-full bg-[#00FF41] animate-pulse" />
+            <span className="font-mono text-[#00FF41] font-bold text-sm">CYBERTALENT_AI</span>
           </div>
           <h1 className="font-mono text-3xl font-bold text-white mb-3">Bienvenue ! Tu es...</h1>
           <p className="font-mono text-sm text-gray-400">
@@ -52,8 +52,8 @@ export default function ChooseRolePage() {
             onClick={() => setSelected("CANDIDATE")}
             className={`cursor-pointer rounded-2xl p-8 border-2 transition-all ${
               selected === "CANDIDATE"
-                ? "border-[#00c896] bg-[#00c896]/10"
-                : "border-[#00c896]/20 bg-[#0d1520] hover:border-[#00c896]/50"
+                ? "border-[#00FF41] bg-[#00FF41]/10"
+                : "border-[#00FF41]/20 bg-[#0d1520] hover:border-[#00FF41]/50"
             }`}
           >
             <div className="text-5xl mb-4 text-center">👨‍💻</div>
@@ -70,12 +70,12 @@ export default function ChooseRolePage() {
                 "Être découvert",
               ].map((f) => (
                 <div key={f} className="flex items-center gap-2 font-mono text-xs text-gray-400">
-                  <span className="text-[#00c896]">✓</span> {f}
+                  <span className="text-[#00FF41]">✓</span> {f}
                 </div>
               ))}
             </div>
             {selected === "CANDIDATE" && (
-              <div className="mt-4 text-center font-mono text-xs text-[#00c896] font-bold">
+              <div className="mt-4 text-center font-mono text-xs text-[#00FF41] font-bold">
                 ✓ Sélectionné
               </div>
             )}
@@ -86,8 +86,8 @@ export default function ChooseRolePage() {
             onClick={() => setSelected("RECRUITER")}
             className={`cursor-pointer rounded-2xl p-8 border-2 transition-all ${
               selected === "RECRUITER"
-                ? "border-[#ff4060] bg-[#ff4060]/10"
-                : "border-[#ff4060]/20 bg-[#0d1520] hover:border-[#ff4060]/50"
+                ? "border-[#FF3333] bg-[#FF3333]/10"
+                : "border-[#FF3333]/20 bg-[#0d1520] hover:border-[#FF3333]/50"
             }`}
           >
             <div className="text-5xl mb-4 text-center">🎯</div>
@@ -103,12 +103,12 @@ export default function ChooseRolePage() {
                 "Publier des offres",
               ].map((f) => (
                 <div key={f} className="flex items-center gap-2 font-mono text-xs text-gray-400">
-                  <span className="text-[#ff4060]">✓</span> {f}
+                  <span className="text-[#FF3333]">✓</span> {f}
                 </div>
               ))}
             </div>
             {selected === "RECRUITER" && (
-              <div className="mt-4 text-center font-mono text-xs text-[#ff4060] font-bold">
+              <div className="mt-4 text-center font-mono text-xs text-[#FF3333] font-bold">
                 ✓ Sélectionné
               </div>
             )}
@@ -121,8 +121,8 @@ export default function ChooseRolePage() {
           disabled={!selected || loading}
           className={`w-full font-mono text-sm font-bold py-4 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed ${
             selected === "RECRUITER"
-              ? "bg-[#ff4060] text-white hover:bg-[#ff2040]"
-              : "bg-[#00c896] text-black hover:bg-[#00ff9d]"
+              ? "bg-[#FF3333] text-white hover:bg-[#ff2040]"
+              : "bg-[#00FF41] text-black hover:bg-[#00FF41]"
           }`}
         >
           {loading

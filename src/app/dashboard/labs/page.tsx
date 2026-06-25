@@ -16,9 +16,9 @@ export default async function LabsPage() {
   const labs = user.candidateProfile.labs;
 
   const diffColor: Record<string, string> = {
-    EASY: "text-[#00c896] border-[#00c896]",
+    EASY: "text-[#00FF41] border-[#00FF41]",
     MEDIUM: "text-[#ffaa00] border-[#ffaa00]",
-    HARD: "text-[#ff4060] border-[#ff4060]",
+    HARD: "text-[#FF3333] border-[#FF3333]",
     INSANE: "text-purple-400 border-purple-400",
   };
 

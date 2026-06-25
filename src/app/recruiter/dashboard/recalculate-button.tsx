@@ -22,7 +22,7 @@ export default function RecalculateButton() {
     <button
       onClick={handleClick}
       disabled={loading}
-      className="font-mono text-xs px-4 py-2 rounded-lg border border-[#ff4060]/40 text-[#ff4060] hover:bg-[#ff4060]/10 transition disabled:opacity-50"
+      className="font-mono text-xs px-4 py-2 rounded-lg border border-[#FF3333]/40 text-[#FF3333] hover:bg-[#FF3333]/10 transition disabled:opacity-50"
     >
       {loading
         ? "⏳ Calcul en cours..."

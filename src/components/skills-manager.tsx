@@ -20,7 +20,7 @@ const LEVELS = ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"];
 const LEVEL_COLORS: Record<string, string> = {
   BEGINNER: "text-gray-400 border-gray-600",
   INTERMEDIATE: "text-blue-400 border-blue-600",
-  ADVANCED: "text-[#00c896] border-[#00c896]/60",
+  ADVANCED: "text-[#00FF41] border-[#00FF41]/60",
   EXPERT: "text-yellow-400 border-yellow-600",
 };
 
@@ -116,10 +116,10 @@ export default function SkillsManager() {
   }
 
   return (
-    <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
+    <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-6">
       <div className="flex items-center gap-2 mb-6">
-        <div className="w-1 h-4 bg-[#00c896] rounded" />
-        <span className="font-mono text-sm text-[#00c896]">SKILLS ({mySkills.length})</span>
+        <div className="w-1 h-4 bg-[#00FF41] rounded" />
+        <span className="font-mono text-sm text-[#00FF41]">SKILLS ({mySkills.length})</span>
       </div>
 
       {/* MES SKILLS */}
@@ -129,7 +129,7 @@ export default function SkillsManager() {
             <div
               key={cs.skillId}
               className={
-                "flex items-center gap-2 px-3 py-1.5 rounded-full border bg-[#111d2e] " +
+                "flex items-center gap-2 px-3 py-1.5 rounded-full border bg-[#0A0A0A] " +
                 (LEVEL_COLORS[cs.level] ?? LEVEL_COLORS.BEGINNER)
               }
             >
@@ -157,15 +157,15 @@ export default function SkillsManager() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Rechercher ou taper un skill..."
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
             />
             {results.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-[#111d2e] border border-[#00c896]/20 rounded-lg overflow-hidden z-10">
+              <div className="absolute top-full left-0 right-0 mt-1 bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg overflow-hidden z-10">
                 {results.map((skill) => (
                   <button
                     key={skill.id}
                     onClick={() => addSkill(skill.name, skill.category)}
-                    className="w-full text-left px-3 py-2 font-mono text-sm text-white hover:bg-[#00c896]/10 transition"
+                    className="w-full text-left px-3 py-2 font-mono text-sm text-white hover:bg-[#00FF41]/10 transition"
                   >
                     {skill.name}
                     <span className="text-xs text-gray-500 ml-2">{skill.category}</span>
@@ -179,7 +179,7 @@ export default function SkillsManager() {
             <select
               value={selectedLevel}
               onChange={(e) => setSelectedLevel(e.target.value)}
-              className="bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-auto"
+              className="bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-auto"
             >
               {LEVELS.map((l) => (
                 <option key={l} value={l}>
@@ -193,14 +193,14 @@ export default function SkillsManager() {
               value={yearsExp}
               onChange={(e) => setYearsExp(e.target.value)}
               placeholder="Années"
-              className="bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-24"
+              className="bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none w-full sm:w-24"
             />
 
             {search.trim() && (
               <button
                 onClick={() => addSkill(search.trim())}
                 disabled={adding}
-                className="font-mono text-xs px-4 py-2 bg-[#00c896] hover:bg-[#00c896]/80 text-black rounded-lg transition disabled:opacity-50 font-bold w-full sm:w-auto"
+                className="font-mono text-xs px-4 py-2 bg-[#00FF41] hover:bg-[#00FF41]/80 text-black rounded-lg transition disabled:opacity-50 font-bold w-full sm:w-auto"
               >
                 {adding ? "..." : "+ Ajouter"}
               </button>
@@ -218,7 +218,7 @@ export default function SkillsManager() {
                 <button
                   key={s.name}
                   onClick={() => addSkill(s.name, s.category)}
-                  className="font-mono text-xs px-3 py-1 rounded-full border border-gray-700 text-gray-400 hover:border-[#00c896]/40 hover:text-[#00c896] transition"
+                  className="font-mono text-xs px-3 py-1 rounded-full border border-gray-700 text-gray-400 hover:border-[#00FF41]/40 hover:text-[#00FF41] transition"
                 >
                   + {s.name}
                 </button>

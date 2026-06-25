@@ -153,7 +153,7 @@ export default function CyberBackground() {
         }
       }
 
-      ctx.fillStyle = "#00c896";
+      ctx.fillStyle = "#00FF41";
       for (const p of particles) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);

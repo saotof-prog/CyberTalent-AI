@@ -100,21 +100,21 @@ export default async function LandingPage() {
       <CyberBackground />
 
       <div className="fixed inset-0 z-[1] pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#00c896] rounded-full blur-[120px] opacity-[0.04] animate-orb" />
-        <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-[#00ff9d] rounded-full blur-[150px] opacity-[0.03] animate-orb2" />
-        <div className="absolute top-2/3 left-1/3 w-[400px] h-[400px] bg-[#00c896] rounded-full blur-[100px] opacity-[0.025] animate-orb3" />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#00FF41] rounded-full blur-[120px] opacity-[0.04] animate-orb" />
+        <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-[#00FF41] rounded-full blur-[150px] opacity-[0.03] animate-orb2" />
+        <div className="absolute top-2/3 left-1/3 w-[400px] h-[400px] bg-[#00FF41] rounded-full blur-[100px] opacity-[0.025] animate-orb3" />
       </div>
 
       <LandingNav />
 
       <section className="relative z-10 flex flex-col items-center justify-center text-center px-4 md:px-6 py-20 md:py-32">
-        <div className="font-mono text-xs text-[#00c896] border border-[#00c896]/30 px-4 py-2 rounded-full mb-8 bg-[#00c896]/5 animate-glow-pulse">
+        <div className="font-mono text-xs text-[#00FF41] border border-[#00FF41]/30 px-4 py-2 rounded-full mb-8 bg-[#00FF41]/5 animate-glow-pulse">
           ⚡ Propulsé par Google Gemini AI
         </div>
         <h1 className="font-mono text-4xl md:text-7xl font-bold text-white mb-6 leading-tight">
           Le recrutement
           <br />
-          <span className="text-[#00c896]">cybersécurité</span>
+          <span className="text-[#00FF41]">cybersécurité</span>
           <br />
           réinventé
         </h1>
@@ -125,24 +125,24 @@ export default async function LandingPage() {
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <Link
             href="/sign-up"
-            className="font-mono text-sm px-8 py-4 bg-[#00c896] text-black font-bold rounded-xl hover:bg-[#00ff9d] transition w-full sm:w-auto text-center shadow-lg shadow-[#00c896]/20"
+            className="font-mono text-sm px-8 py-4 bg-[#00FF41] text-black font-bold rounded-xl hover:bg-[#00FF41] transition w-full sm:w-auto text-center shadow-lg shadow-[#00FF41]/20"
           >
             Créer mon profil 👨‍💻
           </Link>
           <Link
             href="/sign-up"
-            className="font-mono text-sm px-8 py-4 border border-[#ff4060]/30 text-[#ff4060] rounded-xl hover:bg-[#ff4060]/10 transition w-full sm:w-auto text-center"
+            className="font-mono text-sm px-8 py-4 border border-[#FF3333]/30 text-[#FF3333] rounded-xl hover:bg-[#FF3333]/10 transition w-full sm:w-auto text-center"
           >
             Espace recruteur 🎯
           </Link>
         </div>
 
-        <div className="flex items-center gap-8 md:gap-12 mt-16 pt-12 border-t border-[#00c896]/10">
+        <div className="flex items-center gap-8 md:gap-12 mt-16 pt-12 border-t border-[#00FF41]/10">
           <div className="text-center">
             <AnimatedCounter
               value={100}
               suffix="%"
-              className="font-mono text-2xl md:text-3xl font-bold text-[#00c896]"
+              className="font-mono text-2xl md:text-3xl font-bold text-[#00FF41]"
             />
             <div className="font-mono text-xs text-gray-500 mt-1">Compétences vérifiées</div>
           </div>
@@ -158,7 +158,7 @@ export default async function LandingPage() {
             <AnimatedCounter
               value={0}
               suffix=""
-              className="font-mono text-2xl md:text-3xl font-bold text-[#ff4060]"
+              className="font-mono text-2xl md:text-3xl font-bold text-[#FF3333]"
             />
             <div className="font-mono text-xs text-gray-500 mt-1">Fake skills tolérés</div>
           </div>
@@ -167,7 +167,7 @@ export default async function LandingPage() {
 
       <section id="features" className="relative z-10 px-4 md:px-8 py-16 md:py-20 max-w-7xl mx-auto">
         <div className="text-center mb-12 md:mb-16">
-          <div className="font-mono text-xs text-[#00c896] mb-4">/ POUR LES CANDIDATS</div>
+          <div className="font-mono text-xs text-[#00FF41] mb-4">/ POUR LES CANDIDATS</div>
           <h2 className="font-mono text-2xl md:text-3xl font-bold text-white">
             Prouve tes vraies compétences
           </h2>
@@ -176,7 +176,7 @@ export default async function LandingPage() {
           {CANDIDATE_FEATURES.map((f, i) => (
             <div
               key={i}
-              className="bg-[#0d1520] border border-[#00c896]/10 rounded-xl p-6 hover:border-[#00c896]/30 transition hover:-translate-y-1 duration-300"
+              className="bg-[#0A0A0A] border border-[#00FF41]/10 rounded-xl p-6 hover:border-[#00FF41]/30 transition hover:-translate-y-1 duration-300"
             >
               <div className="text-3xl mb-4">{f.icon}</div>
               <h3 className="font-mono text-sm font-bold text-white mb-2">{f.title}</h3>
@@ -186,10 +186,10 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      <section id="recruiters" className="relative z-10 px-4 md:px-8 py-16 md:py-20 bg-[#0d1520]/50">
+      <section id="recruiters" className="relative z-10 px-4 md:px-8 py-16 md:py-20 bg-[#0A0A0A]/50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 md:mb-16">
-            <div className="font-mono text-xs text-[#ff4060] mb-4">/ POUR LES RECRUTEURS</div>
+            <div className="font-mono text-xs text-[#FF3333] mb-4">/ POUR LES RECRUTEURS</div>
             <h2 className="font-mono text-2xl md:text-3xl font-bold text-white">
               Trouve le bon talent en secondes
             </h2>
@@ -198,7 +198,7 @@ export default async function LandingPage() {
             {RECRUITER_FEATURES.map((f, i) => (
               <div
                 key={i}
-                className="bg-[#080c14] border border-[#ff4060]/10 rounded-xl p-6 hover:border-[#ff4060]/30 transition hover:-translate-y-1 duration-300"
+                className="bg-[#080c14] border border-[#FF3333]/10 rounded-xl p-6 hover:border-[#FF3333]/30 transition hover:-translate-y-1 duration-300"
               >
                 <div className="text-3xl mb-4">{f.icon}</div>
                 <h3 className="font-mono text-sm font-bold text-white mb-2">{f.title}</h3>
@@ -211,13 +211,13 @@ export default async function LandingPage() {
 
       <section id="how-it-works" className="relative z-10 px-4 md:px-8 py-16 md:py-20 max-w-7xl mx-auto">
         <div className="text-center mb-12 md:mb-16">
-          <div className="font-mono text-xs text-[#00c896] mb-4">/ COMMENT CA MARCHE</div>
+          <div className="font-mono text-xs text-[#00FF41] mb-4">/ COMMENT CA MARCHE</div>
           <h2 className="font-mono text-2xl md:text-3xl font-bold text-white">3 étapes simples</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {STEPS.map((s, i) => (
             <div key={i} className="text-center">
-              <div className="font-mono text-6xl font-bold text-[#00c896]/20 mb-4">{s.step}</div>
+              <div className="font-mono text-6xl font-bold text-[#00FF41]/20 mb-4">{s.step}</div>
               <h3 className="font-mono text-lg font-bold text-white mb-3">{s.title}</h3>
               <p className="font-mono text-xs text-gray-400 leading-relaxed">{s.desc}</p>
             </div>
@@ -236,13 +236,13 @@ export default async function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/sign-up"
-              className="font-mono text-sm px-10 py-4 bg-[#00c896] text-black font-bold rounded-xl hover:bg-[#00ff9d] transition shadow-lg shadow-[#00c896]/20"
+              className="font-mono text-sm px-10 py-4 bg-[#00FF41] text-black font-bold rounded-xl hover:bg-[#00FF41] transition shadow-lg shadow-[#00FF41]/20"
             >
               Créer mon profil
             </Link>
             <Link
               href="/sign-up"
-              className="font-mono text-sm px-10 py-4 border border-[#ff4060]/30 text-[#ff4060] rounded-xl hover:bg-[#ff4060]/10 transition"
+              className="font-mono text-sm px-10 py-4 border border-[#FF3333]/30 text-[#FF3333] rounded-xl hover:bg-[#FF3333]/10 transition"
             >
               Espace recruteur →
             </Link>
@@ -250,7 +250,7 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-[#00c896]/10 px-4 md:px-8 py-8 text-center">
+      <footer className="relative z-10 border-t border-[#00FF41]/10 px-4 md:px-8 py-8 text-center">
         <div className="font-mono text-xs text-gray-600">
           © Mouhamed Dia 2026 CyberTalent AI · Propulsé par Google Gemini · Fait avec ❤️ pour la
           communauté cyber africaine

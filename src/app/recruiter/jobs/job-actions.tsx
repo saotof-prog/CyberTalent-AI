@@ -35,7 +35,7 @@ export default function JobActions({ jobId, isActive }: { jobId: string; isActiv
           "font-mono text-xs px-3 py-1.5 rounded-lg border transition disabled:opacity-50 " +
           (isActive
             ? "border-gray-700 text-gray-400 hover:border-gray-500"
-            : "border-[#00c896]/40 text-[#00c896] hover:bg-[#00c896]/10")
+            : "border-[#00FF41]/40 text-[#00FF41] hover:bg-[#00FF41]/10")
         }
       >
         {isActive ? "Désactiver" : "Activer"}
@@ -43,7 +43,7 @@ export default function JobActions({ jobId, isActive }: { jobId: string; isActiv
       <button
         onClick={remove}
         disabled={loading}
-        className="font-mono text-xs px-3 py-1.5 rounded-lg border border-[#ff4060]/20 text-[#ff4060]/60 hover:text-[#ff4060] hover:border-[#ff4060]/40 transition disabled:opacity-50"
+        className="font-mono text-xs px-3 py-1.5 rounded-lg border border-[#FF3333]/20 text-[#FF3333]/60 hover:text-[#FF3333] hover:border-[#FF3333]/40 transition disabled:opacity-50"
       >
         Supprimer
       </button>

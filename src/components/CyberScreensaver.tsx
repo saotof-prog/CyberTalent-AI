@@ -122,15 +122,15 @@ export default function CyberScreensaver({ onExit }: { onExit: () => void }) {
             <div
               className="text-2xl md:text-5xl font-mono font-bold tracking-[0.3em] animate-pulse"
               style={{
-                color: "#00c896",
-                textShadow: "0 0 40px #00c89644, 0 0 80px #00c89622",
+                color: "#00FF41",
+                textShadow: "0 0 40px #00FF4144, 0 0 80px #00FF4122",
               }}
             >
               CYBERTALENT_AI
             </div>
             <div
               className="mt-3 md:mt-4 font-mono text-xs md:text-sm tracking-[0.5em] opacity-60"
-              style={{ color: "#00c896" }}
+              style={{ color: "#00FF41" }}
             >
               SYSTÈME VERROUILLÉ — <span className="opacity-40">{isTouchDevice ? "TAPEZ L'ÉCRAN" : "APPUYEZ SUR ESC"}</span>
             </div>
@@ -144,7 +144,7 @@ export default function CyberScreensaver({ onExit }: { onExit: () => void }) {
                 className="h-[1px] rounded-full animate-pulse"
                 style={{
                   width: `${20 + i * 15}px`,
-                  backgroundColor: "#00c896",
+                  backgroundColor: "#00FF41",
                   opacity: 0.2 + i * 0.12,
                   animationDelay: `${i * 0.3}s`,
                 }}
@@ -158,8 +158,8 @@ export default function CyberScreensaver({ onExit }: { onExit: () => void }) {
       <div className="absolute bottom-4 left-4 flex items-center gap-3 pointer-events-auto select-none">
         <button
           onClick={(e) => { e.stopPropagation(); cycleSound(); }}
-          className="font-mono text-[10px] tracking-widest px-3 py-1.5 rounded border border-[#00c896]/20 hover:bg-[#00c896]/10 transition flex items-center gap-2"
-          style={{ color: "#00c896", opacity: 0.6 }}
+          className="font-mono text-[10px] tracking-widest px-3 py-1.5 rounded border border-[#00FF41]/20 hover:bg-[#00FF41]/10 transition flex items-center gap-2"
+          style={{ color: "#00FF41", opacity: 0.6 }}
         >
           <span>
             {SOUND_MODES.find((m) => m.id === soundMode)?.icon}
@@ -177,13 +177,13 @@ export default function CyberScreensaver({ onExit }: { onExit: () => void }) {
           value={volume}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => setVol(parseFloat(e.target.value))}
-          className="w-20 h-[2px] accent-[#00c896] opacity-50 hover:opacity-100 transition cursor-pointer"
+          className="w-20 h-[2px] accent-[#00FF41] opacity-50 hover:opacity-100 transition cursor-pointer"
         />
       </div>
 
       {/* Bit counter en bas à droite */}
       <div className="absolute bottom-4 right-4 font-mono text-[10px] tracking-widest pointer-events-none select-none opacity-30">
-        <span style={{ color: "#00c896" }}>
+        <span style={{ color: "#00FF41" }}>
           {">"} SYS_IDLE{" "}
           <span className="animate-pulse">_</span>
         </span>

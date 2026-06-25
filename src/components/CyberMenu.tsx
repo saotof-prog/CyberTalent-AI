@@ -24,12 +24,12 @@ interface CyberMenuProps {
 
 function getLevelColor(level?: string | null) {
   const colors: Record<string, string> = {
-    BEGINNER: "#00c896",
+    BEGINNER: "#00FF41",
     INTERMEDIATE: "#00e5ff",
     ADVANCED: "#aa66ff",
     EXPERT: "#ff6600",
   };
-  return colors[level ?? ""] ?? "#00c896";
+  return colors[level ?? ""] ?? "#00FF41";
 }
 
 function getLevelLabel(level?: string | null) {
@@ -170,7 +170,7 @@ export default function CyberMenu({
         aria-label="Menu profil"
       >
         <div
-          className="w-9 h-9 rounded-full flex items-center justify-center font-mono text-xs font-bold text-white bg-[#111d2e] border-2 overflow-hidden shadow-lg transition-all duration-300"
+          className="w-9 h-9 rounded-full flex items-center justify-center font-mono text-xs font-bold text-white bg-[#0A0A0A] border-2 overflow-hidden shadow-lg transition-all duration-300"
           style={{
             borderColor: levelColor,
             boxShadow: open ? `0 0 16px ${levelColor}44` : undefined,
@@ -206,7 +206,7 @@ export default function CyberMenu({
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center font-mono text-lg font-bold text-white bg-[#111d2e] border-2 overflow-hidden"
+                    className="w-14 h-14 rounded-full flex items-center justify-center font-mono text-lg font-bold text-white bg-[#0A0A0A] border-2 overflow-hidden"
                     style={{ borderColor: levelColor }}
                   >
                     {imageUrl ? (
@@ -254,12 +254,12 @@ export default function CyberMenu({
               <div className="flex gap-5">
                 {(role === "recruiter"
                   ? [
-                      { label: "OFFRES", value: jobsCount, color: "#ff4060" },
+                      { label: "OFFRES", value: jobsCount, color: "#FF3333" },
                       { label: "RECHERCHES", value: searchesCount, color: "#ff8800" },
                       { label: "SCORE", value: score, color: levelColor },
                     ]
                   : [
-                      { label: "CERT", value: certsCount, color: "#00c896" },
+                      { label: "CERT", value: certsCount, color: "#00FF41" },
                       { label: "LABS", value: reposCount, color: "#00e5ff" },
                       { label: "SCORE", value: score, color: levelColor },
                     ]
@@ -291,18 +291,18 @@ export default function CyberMenu({
                       label="Profil complété"
                       done={profileComplete >= 80}
                       value={`${profileComplete}%`}
-                      color="#ff4060"
+                      color="#FF3333"
                     />
                     <MissionItem
                       label="Offre publiée"
                       done={jobsCount > 0}
                       value={jobsCount > 0 ? `${jobsCount}` : undefined}
-                      color="#ff4060"
+                      color="#FF3333"
                     />
                     <MissionItem
                       label="Recherche IA effectuée"
                       done={searchesCount > 0}
-                      color="#ff4060"
+                      color="#FF3333"
                     />
                   </>
                 ) : (
@@ -311,18 +311,18 @@ export default function CyberMenu({
                       label="Profil complété"
                       done={profileComplete >= 80}
                       value={`${profileComplete}%`}
-                      color="#00c896"
+                      color="#00FF41"
                     />
                     <MissionItem
                       label="GitHub synchronisé"
                       done={githubSynced}
-                      color="#00c896"
+                      color="#00FF41"
                     />
                     <MissionItem
                       label="Certification ajoutée"
                       done={certsCount > 0}
                       value={certsCount > 0 ? `${certsCount}` : undefined}
-                      color="#00c896"
+                      color="#00FF41"
                     />
                   </>
                 )}
@@ -373,8 +373,8 @@ export default function CyberMenu({
                   onClick={toggleFocus}
                   className={`flex items-center gap-2 font-mono text-xs rounded-lg px-3 py-2.5 transition ${
                     focusMode
-                      ? "text-[#00c896] bg-[#00c896]/10"
-                      : "text-gray-400 hover:text-white hover:bg-[#111d2e]"
+                      ? "text-[#00FF41] bg-[#00FF41]/10"
+                      : "text-gray-400 hover:text-white hover:bg-[#0A0A0A]"
                   }`}
                 >
                   <span className="text-sm">{focusMode ? "◉" : "○"}</span>
@@ -385,7 +385,7 @@ export default function CyberMenu({
                   className={`flex items-center gap-2 font-mono text-xs rounded-lg px-3 py-2.5 transition ${
                     ambientOn
                       ? "text-[#00e5ff] bg-[#00e5ff]/10"
-                      : "text-gray-400 hover:text-white hover:bg-[#111d2e]"
+                      : "text-gray-400 hover:text-white hover:bg-[#0A0A0A]"
                   }`}
                 >
                   <span className="text-sm">{ambientOn ? "♪" : "♩"}</span>
@@ -393,7 +393,7 @@ export default function CyberMenu({
                 </button>
                 <button
                   onClick={() => window.dispatchEvent(new CustomEvent("cyber:screensaver"))}
-                  className="flex items-center gap-2 font-mono text-xs text-gray-400 hover:text-white hover:bg-[#111d2e] rounded-lg px-3 py-2.5 transition"
+                  className="flex items-center gap-2 font-mono text-xs text-gray-400 hover:text-white hover:bg-[#0A0A0A] rounded-lg px-3 py-2.5 transition"
                 >
                   <span className="text-sm">▣</span>
                   <span>Écran veille</span>
@@ -406,7 +406,7 @@ export default function CyberMenu({
               <div className="flex items-center justify-between">
                 <button
                   onClick={() => signOut()}
-                  className="flex items-center gap-2 font-mono text-xs text-[#ff4060] hover:text-white hover:bg-[#ff4060]/10 rounded-lg px-3 py-2 transition w-full"
+                  className="flex items-center gap-2 font-mono text-xs text-[#FF3333] hover:text-white hover:bg-[#FF3333]/10 rounded-lg px-3 py-2 transition w-full"
                 >
                   <span className="text-sm">⏻</span>
                   <span>Déconnexion</span>
@@ -433,7 +433,7 @@ function MissionItem({
   color: string;
 }) {
   return (
-    <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#080c14]/60 hover:bg-[#111d2e] transition group">
+    <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#080c14]/60 hover:bg-[#0A0A0A] transition group">
       <div className="flex items-center gap-2.5">
         <div
           className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
@@ -472,7 +472,7 @@ function MenuLink({
   return (
     <Link
       href={href}
-      className="flex items-center gap-2 font-mono text-xs text-gray-400 hover:text-white hover:bg-[#111d2e] rounded-lg px-3 py-2.5 transition"
+      className="flex items-center gap-2 font-mono text-xs text-gray-400 hover:text-white hover:bg-[#0A0A0A] rounded-lg px-3 py-2.5 transition"
     >
       <span className="text-sm">{icon}</span>
       {label}

@@ -88,7 +88,7 @@ export default function EditProfilePage() {
   }
 
   const inputClass =
-    "bg-[#111d2e] border border-[#ff4060]/30 rounded-lg px-3 py-2 font-mono text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4060] w-full";
+    "bg-[#0A0A0A] border border-[#FF3333]/30 rounded-lg px-3 py-2 font-mono text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#FF3333] w-full";
 
   return (
     <div className="min-h-screen bg-[#080c14] text-white p-6">
@@ -96,12 +96,12 @@ export default function EditProfilePage() {
         <div className="mb-8">
           <button
             onClick={() => router.back()}
-            className="font-mono text-xs text-[#00c896] hover:underline mb-4 inline-block"
+            className="font-mono text-xs text-[#00FF41] hover:underline mb-4 inline-block"
           >
             ← Retour
           </button>
           <h1 className="font-mono text-2xl font-bold text-white mb-1">
-            Modifier mon <span className="text-[#00c896]">Profil</span>
+            Modifier mon <span className="text-[#00FF41]">Profil</span>
           </h1>
         </div>
 
@@ -264,7 +264,7 @@ export default function EditProfilePage() {
               id="available"
               checked={form.isAvailable}
               onChange={(e) => update("isAvailable", e.target.checked)}
-              className="accent-[#00c896]"
+              className="accent-[#00FF41]"
             />
             <label htmlFor="available" className="font-mono text-sm text-gray-300">
               Disponible pour des opportunités
@@ -275,7 +275,7 @@ export default function EditProfilePage() {
             <button
               type="submit"
               disabled={loading}
-              className="font-mono text-sm px-6 py-3 bg-[#00c896] text-[#080c14] font-bold rounded-lg hover:bg-[#00b884] transition disabled:opacity-50"
+              className="font-mono text-sm px-6 py-3 bg-[#00FF41] text-[#080c14] font-bold rounded-lg hover:bg-[#00b884] transition disabled:opacity-50"
             >
               {loading ? "⏳ Sauvegarde..." : "💾 Sauvegarder"}
             </button>

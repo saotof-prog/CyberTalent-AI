@@ -64,7 +64,7 @@ export default function NotificationsBell() {
       >
         🔔
         {unread > 0 && (
-          <span className="absolute -top-1 -right-2 w-4 h-4 bg-[#ff4060] rounded-full text-[10px] flex items-center justify-center text-white font-bold">
+          <span className="absolute -top-1 -right-2 w-4 h-4 bg-[#FF3333] rounded-full text-[10px] flex items-center justify-center text-white font-bold">
             {unread > 9 ? "9+" : unread}
           </span>
         )}
@@ -73,9 +73,9 @@ export default function NotificationsBell() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-full mt-2 w-80 bg-[#0d1520] border border-[#ff4060]/20 rounded-xl shadow-2xl z-50 max-h-96 overflow-y-auto">
-            <div className="p-3 border-b border-[#ff4060]/10">
-              <span className="font-mono text-xs text-[#ff4060]">NOTIFICATIONS</span>
+          <div className="absolute right-0 top-full mt-2 w-80 bg-[#0d1520] border border-[#FF3333]/20 rounded-xl shadow-2xl z-50 max-h-96 overflow-y-auto">
+            <div className="p-3 border-b border-[#FF3333]/10">
+              <span className="font-mono text-xs text-[#FF3333]">NOTIFICATIONS</span>
             </div>
             {notifs.length === 0 ? (
               <div className="p-6 text-center font-mono text-xs text-gray-500">
@@ -85,7 +85,7 @@ export default function NotificationsBell() {
               notifs.slice(0, 20).map((n) => (
                 <div
                   key={n.id}
-                  className={`p-3 border-b border-[#ff4060]/5 hover:bg-[#111d2e] transition ${n.isRead ? "" : "bg-[#ff4060]/5"}`}
+                  className={`p-3 border-b border-[#FF3333]/5 hover:bg-[#0A0A0A] transition ${n.isRead ? "" : "bg-[#FF3333]/5"}`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
@@ -121,7 +121,7 @@ export default function NotificationsBell() {
                           e.stopPropagation();
                           markRead(n.id);
                         }}
-                        className="font-mono text-[10px] text-[#ff4060] hover:underline shrink-0"
+                        className="font-mono text-[10px] text-[#FF3333] hover:underline shrink-0"
                       >
                         Lu
                       </button>

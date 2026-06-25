@@ -26,7 +26,7 @@ export default function AdminJobActions({ jobId, isActive }: { jobId: string; is
       className={`font-mono text-xs px-3 py-1 rounded border transition disabled:opacity-50 ${
         isActive
           ? "border-yellow-400/30 text-yellow-400 hover:bg-yellow-400/10"
-          : "border-[#00c896]/30 text-[#00c896] hover:bg-[#00c896]/10"
+          : "border-[#00FF41]/30 text-[#00FF41] hover:bg-[#00FF41]/10"
       }`}
     >
       {loading ? "..." : isActive ? "Désactiver" : "Activer"}

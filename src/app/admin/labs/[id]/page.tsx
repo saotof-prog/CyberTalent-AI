@@ -21,8 +21,8 @@ export default async function AdminLabDetailPage(props: { params: Promise<{ id: 
   if (!lab) notFound();
 
   const platformColors: Record<string, string> = {
-    HACKTHEBOX: "text-[#00c896] border-[#00c896]/40",
-    TRYHACKME: "text-[#ff4060] border-[#ff4060]/40",
+    HACKTHEBOX: "text-[#00FF41] border-[#00FF41]/40",
+    TRYHACKME: "text-[#FF3333] border-[#FF3333]/40",
     VULNHUB: "text-purple-400 border-purple-400/40",
     PWNEDLABS: "text-yellow-400 border-yellow-400/40",
     OFFENSIVESECURITY: "text-[#ffaa00] border-[#ffaa00]/40",
@@ -55,7 +55,7 @@ export default async function AdminLabDetailPage(props: { params: Promise<{ id: 
                 <span
                   className={`font-mono text-xs px-2 py-0.5 rounded-full border ${
                     lab.isVerified
-                      ? "border-[#00c896] text-[#00c896]"
+                      ? "border-[#00FF41] text-[#00FF41]"
                       : "border-[#ffaa00] text-[#ffaa00]"
                   }`}
                 >

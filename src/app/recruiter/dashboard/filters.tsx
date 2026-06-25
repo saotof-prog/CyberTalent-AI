@@ -62,10 +62,10 @@ export default function RecruiterFilters({ onAiResults }: Props) {
   };
 
   return (
-    <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-6 mb-8">
+    <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-6 mb-8">
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-1 h-4 bg-[#ff4060] rounded" />
-        <span className="font-mono text-sm text-[#ff4060]">FILTRES DE RECHERCHE</span>
+        <div className="w-1 h-4 bg-[#FF3333] rounded" />
+        <span className="font-mono text-sm text-[#FF3333]">FILTRES DE RECHERCHE</span>
       </div>
 
       {/* Barre de recherche par matching */}
@@ -75,12 +75,12 @@ export default function RecruiterFilters({ onAiResults }: Props) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          className="flex-1 bg-[#111d2e] border border-[#ff4060]/40 rounded-lg px-3 py-2 font-mono text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4060]"
+          className="flex-1 bg-[#0A0A0A] border border-[#FF3333]/40 rounded-lg px-3 py-2 font-mono text-sm text-white placeholder-gray-600 focus:outline-none focus:border-[#FF3333]"
         />
         <button
           onClick={handleSearch}
           disabled={loading || !query.trim()}
-          className="bg-[#ff4060] hover:bg-[#ff2040] disabled:opacity-40 px-5 py-2 rounded-lg font-mono text-sm text-white flex items-center gap-2 transition-colors"
+          className="bg-[#FF3333] hover:bg-[#ff2040] disabled:opacity-40 px-5 py-2 rounded-lg font-mono text-sm text-white flex items-center gap-2 transition-colors"
         >
           {loading ? (
             <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -96,12 +96,12 @@ export default function RecruiterFilters({ onAiResults }: Props) {
           placeholder="Rechercher..."
           defaultValue={searchParams.get("search") ?? ""}
           onChange={(e) => updateFilter("search", e.target.value)}
-          className="bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
+          className="bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]"
         />
         <select
           defaultValue={searchParams.get("score") ?? ""}
           onChange={(e) => updateFilter("score", e.target.value)}
-          className="bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
+          className="bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
         >
           <option value="">Score minimum</option>
           <option value="70">70+</option>
@@ -111,7 +111,7 @@ export default function RecruiterFilters({ onAiResults }: Props) {
         <select
           defaultValue={searchParams.get("cert") ?? ""}
           onChange={(e) => updateFilter("cert", e.target.value)}
-          className="bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
+          className="bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
         >
           <option value="">Certification</option>
           <option value="OSCP">OSCP</option>
@@ -121,7 +121,7 @@ export default function RecruiterFilters({ onAiResults }: Props) {
         <select
           defaultValue={searchParams.get("country") ?? ""}
           onChange={(e) => updateFilter("country", e.target.value)}
-          className="bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
+          className="bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
         >
           <option value="">Tous les pays</option>
           <option value="SN">Sénégal</option>

@@ -51,9 +51,9 @@ export default async function AdminUsersPage() {
                     <span
                       className={`shrink-0 font-mono text-[10px] px-2 py-0.5 rounded-full border ${
                         u.role === "CANDIDATE"
-                          ? "border-[#00c896] text-[#00c896]"
+                          ? "border-[#00FF41] text-[#00FF41]"
                           : u.role === "RECRUITER"
-                            ? "border-[#ff4060] text-[#ff4060]"
+                            ? "border-[#FF3333] text-[#FF3333]"
                             : "border-[#0084ff] text-[#0084ff]"
                       }`}
                     >
@@ -70,9 +70,9 @@ export default async function AdminUsersPage() {
                     <span
                       className={`font-mono px-2 py-0.5 rounded-full border ${
                         u.isBanned
-                          ? "border-[#ff4060] text-[#ff4060]"
+                          ? "border-[#FF3333] text-[#FF3333]"
                           : u.isActive
-                            ? "border-[#00c896] text-[#00c896]"
+                            ? "border-[#00FF41] text-[#00FF41]"
                             : "border-gray-500 text-gray-500"
                       }`}
                     >
@@ -110,7 +110,7 @@ export default async function AdminUsersPage() {
                     return (
                       <tr
                         key={u.id}
-                        className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition"
+                        className="border-b border-[#0084ff]/5 hover:bg-[#0A0A0A] transition"
                       >
                         <td className="p-3 font-mono text-xs text-gray-500">
                           {new Date(u.createdAt).toLocaleDateString("fr-FR")}
@@ -121,9 +121,9 @@ export default async function AdminUsersPage() {
                           <span
                             className={`font-mono text-xs px-2 py-0.5 rounded-full border ${
                               u.role === "CANDIDATE"
-                                ? "border-[#00c896] text-[#00c896]"
+                                ? "border-[#00FF41] text-[#00FF41]"
                                 : u.role === "RECRUITER"
-                                  ? "border-[#ff4060] text-[#ff4060]"
+                                  ? "border-[#FF3333] text-[#FF3333]"
                                   : "border-[#0084ff] text-[#0084ff]"
                             }`}
                           >
@@ -137,9 +137,9 @@ export default async function AdminUsersPage() {
                           <span
                             className={`font-mono text-xs px-2 py-0.5 rounded-full border ${
                               u.isBanned
-                                ? "border-[#ff4060] text-[#ff4060]"
+                                ? "border-[#FF3333] text-[#FF3333]"
                                 : u.isActive
-                                  ? "border-[#00c896] text-[#00c896]"
+                                  ? "border-[#00FF41] text-[#00FF41]"
                                   : "border-gray-500 text-gray-500"
                             }`}
                           >

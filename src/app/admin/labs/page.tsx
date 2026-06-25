@@ -19,8 +19,8 @@ export default async function AdminLabsPage() {
   const pending = labs.filter((l) => !l.isVerified).length;
 
   const platformColors: Record<string, string> = {
-    HACKTHEBOX: "text-[#00c896] border-[#00c896]/40",
-    TRYHACKME: "text-[#ff4060] border-[#ff4060]/40",
+    HACKTHEBOX: "text-[#00FF41] border-[#00FF41]/40",
+    TRYHACKME: "text-[#FF3333] border-[#FF3333]/40",
     VULNHUB: "text-purple-400 border-purple-400/40",
     PWNEDLABS: "text-yellow-400 border-yellow-400/40",
     OFFENSIVESECURITY: "text-[#ffaa00] border-[#ffaa00]/40",
@@ -42,9 +42,9 @@ export default async function AdminLabsPage() {
           <div className="font-mono text-xs text-gray-400">Total</div>
           <div className="font-mono text-2xl font-bold text-white">{total}</div>
         </div>
-        <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4">
+        <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-4">
           <div className="font-mono text-xs text-gray-400">Vérifiés</div>
-          <div className="font-mono text-2xl font-bold text-[#00c896]">{verified}</div>
+          <div className="font-mono text-2xl font-bold text-[#00FF41]">{verified}</div>
         </div>
         <div className="bg-[#0d1520] border border-[#ffaa00]/20 rounded-xl p-4">
           <div className="font-mono text-xs text-gray-400">En attente</div>
@@ -74,7 +74,7 @@ export default async function AdminLabsPage() {
                 {labs.map((l) => (
                   <tr
                     key={l.id}
-                    className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition"
+                    className="border-b border-[#0084ff]/5 hover:bg-[#0A0A0A] transition"
                   >
                     <td className="p-3 font-mono text-xs text-gray-500">
                       {new Date(l.createdAt).toLocaleDateString("fr-FR")}
@@ -96,7 +96,7 @@ export default async function AdminLabsPage() {
                       <span
                         className={`font-mono text-xs px-2 py-0.5 rounded-full border ${
                           l.isVerified
-                            ? "border-[#00c896] text-[#00c896]"
+                            ? "border-[#00FF41] text-[#00FF41]"
                             : "border-[#ffaa00] text-[#ffaa00]"
                         }`}
                       >

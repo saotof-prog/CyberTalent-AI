@@ -44,7 +44,7 @@ export default async function ScorePage() {
           : "BEGINNER";
 
   const levelColor = {
-    EXPERT: "text-[#00c896]",
+    EXPERT: "text-[#00FF41]",
     ADVANCED: "text-[#0084ff]",
     INTERMEDIATE: "text-[#ffaa00]",
     BEGINNER: "text-gray-400",
@@ -54,19 +54,19 @@ export default async function ScorePage() {
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold text-white mb-1">
-          Mon <span className="text-[#00c896]">Score IA</span> 📊
+          Mon <span className="text-[#00FF41]">Score IA</span> 📊
         </h1>
         <p className="font-mono text-xs text-gray-400">Calculé par Google Gemini AI</p>
       </div>
 
       {/* Score principal */}
-      <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-8 mb-6 text-center">
-        <div className="font-mono text-8xl font-bold text-[#00c896] mb-2">{profile.cyberScore}</div>
+      <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-8 mb-6 text-center">
+        <div className="font-mono text-8xl font-bold text-[#00FF41] mb-2">{profile.cyberScore}</div>
         <div className={`font-mono text-sm font-bold mb-1 ${levelColor}`}>{scoreLevel}</div>
         <div className="font-mono text-xs text-gray-400 mb-4">CyberScore / 100</div>
-        <div className="w-full h-3 bg-[#111d2e] rounded-full overflow-hidden mb-6 max-w-md mx-auto">
+        <div className="w-full h-3 bg-[#0A0A0A] rounded-full overflow-hidden mb-6 max-w-md mx-auto">
           <div
-            className="h-full bg-[#00c896] rounded-full transition-all"
+            className="h-full bg-[#00FF41] rounded-full transition-all"
             style={{ width: `${profile.cyberScore}%` }}
           />
         </div>
@@ -87,8 +87,8 @@ export default async function ScorePage() {
 
       {/* Alerte fake skills */}
       {fakeDetected && (
-        <div className="bg-[#ff4060]/10 border border-[#ff4060]/30 rounded-xl p-4 mb-6">
-          <div className="flex items-center gap-2 font-mono text-sm text-[#ff4060] font-bold">
+        <div className="bg-[#FF3333]/10 border border-[#FF3333]/30 rounded-xl p-4 mb-6">
+          <div className="flex items-center gap-2 font-mono text-sm text-[#FF3333] font-bold">
             ⚠ Incohérence détectée
           </div>
           <p className="font-mono text-xs text-gray-400 mt-1">
@@ -103,15 +103,15 @@ export default async function ScorePage() {
         <div className="grid gap-4 sm:grid-cols-2 mb-6">
           {/* Points forts */}
           {strengths.length > 0 && (
-            <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
+            <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-6">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-1 h-4 bg-[#00c896] rounded" />
-                <span className="font-mono text-sm text-[#00c896]">POINTS FORTS</span>
+                <div className="w-1 h-4 bg-[#00FF41] rounded" />
+                <span className="font-mono text-sm text-[#00FF41]">POINTS FORTS</span>
               </div>
               <div className="flex flex-col gap-2">
                 {strengths.map((s, i) => (
                   <div key={i} className="flex items-start gap-2 font-mono text-xs text-gray-300">
-                    <span className="text-[#00c896] mt-0.5">✓</span>
+                    <span className="text-[#00FF41] mt-0.5">✓</span>
                     {s}
                   </div>
                 ))}
@@ -150,7 +150,7 @@ export default async function ScorePage() {
           </div>
           <div className="flex flex-col gap-3">
             {questions.map((q, i) => (
-              <div key={i} className="p-3 bg-[#111d2e] rounded-lg border border-[#0084ff]/10">
+              <div key={i} className="p-3 bg-[#0A0A0A] rounded-lg border border-[#0084ff]/10">
                 <span className="font-mono text-xs text-[#0084ff] mr-2">Q{i + 1}.</span>
                 <span className="font-mono text-xs text-gray-300">{q}</span>
               </div>
@@ -161,16 +161,16 @@ export default async function ScorePage() {
 
       {/* Historique */}
       {profile.scoreHistory.length > 0 && (
-        <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
+        <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-1 h-4 bg-[#00c896] rounded" />
-            <span className="font-mono text-sm text-[#00c896]">HISTORIQUE</span>
+            <div className="w-1 h-4 bg-[#00FF41] rounded" />
+            <span className="font-mono text-sm text-[#00FF41]">HISTORIQUE</span>
           </div>
           <div className="flex flex-col gap-3">
             {profile.scoreHistory.map((h) => (
               <div
                 key={h.id}
-                className="flex items-center justify-between p-3 bg-[#111d2e] rounded-lg"
+                className="flex items-center justify-between p-3 bg-[#0A0A0A] rounded-lg"
               >
                 <div>
                   <div className="font-mono text-xs text-gray-400">{h.reason}</div>
@@ -181,9 +181,9 @@ export default async function ScorePage() {
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-xs text-gray-500">{h.scoreBefore}</span>
                   <span className="font-mono text-xs text-gray-500">→</span>
-                  <span className="font-mono text-sm font-bold text-[#00c896]">{h.scoreAfter}</span>
+                  <span className="font-mono text-sm font-bold text-[#00FF41]">{h.scoreAfter}</span>
                   <span
-                    className={`font-mono text-xs ${h.delta >= 0 ? "text-[#00c896]" : "text-[#ff4060]"}`}
+                    className={`font-mono text-xs ${h.delta >= 0 ? "text-[#00FF41]" : "text-[#FF3333]"}`}
                   >
                     {h.delta >= 0 ? "+" : ""}
                     {h.delta}

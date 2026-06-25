@@ -56,19 +56,19 @@ export default function CreateJobPage() {
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
           <h1 className="font-mono text-2xl font-bold text-white mb-1">
-            Publier une <span className="text-[#ff4060]">offre demploi</span>
+            Publier une <span className="text-[#FF3333]">offre demploi</span>
           </h1>
           <p className="font-mono text-xs text-gray-400">
             L IA matchera automatiquement les meilleurs candidats
           </p>
         </div>
 
-        <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-6 flex flex-col gap-4">
+        <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-6 flex flex-col gap-4">
           {/* Titre */}
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Titre du poste *</label>
             <input
-              className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
+              className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
               placeholder="Senior Penetration Tester"
@@ -79,7 +79,7 @@ export default function CreateJobPage() {
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Description *</label>
             <textarea
-              className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060] resize-none"
+              className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333] resize-none"
               rows={4}
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -91,7 +91,7 @@ export default function CreateJobPage() {
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Prérequis</label>
             <textarea
-              className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060] resize-none"
+              className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333] resize-none"
               rows={3}
               value={form.requirements}
               onChange={(e) => setForm({ ...form, requirements: e.target.value })}
@@ -104,7 +104,7 @@ export default function CreateJobPage() {
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Type de contrat</label>
               <select
-                className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
+                className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
                 value={form.type}
                 onChange={(e) => setForm({ ...form, type: e.target.value })}
               >
@@ -118,7 +118,7 @@ export default function CreateJobPage() {
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Mode de travail</label>
               <select
-                className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
+                className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none"
                 value={form.mode}
                 onChange={(e) => setForm({ ...form, mode: e.target.value })}
               >
@@ -134,7 +134,7 @@ export default function CreateJobPage() {
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Ville</label>
               <input
-                className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
+                className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]"
                 value={form.location}
                 onChange={(e) => setForm({ ...form, location: e.target.value })}
                 placeholder="Dakar"
@@ -143,7 +143,7 @@ export default function CreateJobPage() {
             <div>
               <label className="font-mono text-xs text-gray-400 mb-1 block">Pays</label>
               <input
-                className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
+                className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]"
                 value={form.country}
                 onChange={(e) => setForm({ ...form, country: e.target.value })}
                 placeholder="SN"
@@ -159,7 +159,7 @@ export default function CreateJobPage() {
               </label>
               <input
                 type="number"
-                className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
+                className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]"
                 value={form.salaryMin}
                 onChange={(e) => setForm({ ...form, salaryMin: e.target.value })}
                 placeholder="3000"
@@ -171,7 +171,7 @@ export default function CreateJobPage() {
               </label>
               <input
                 type="number"
-                className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
+                className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]"
                 value={form.salaryMax}
                 onChange={(e) => setForm({ ...form, salaryMax: e.target.value })}
                 placeholder="6000"
@@ -185,7 +185,7 @@ export default function CreateJobPage() {
               <label className="font-mono text-xs text-gray-400 mb-1 block">Score IA minimum</label>
               <input
                 type="number"
-                className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
+                className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]"
                 value={form.minScore}
                 onChange={(e) => setForm({ ...form, minScore: e.target.value })}
                 placeholder="70"
@@ -199,7 +199,7 @@ export default function CreateJobPage() {
                 id="urgent"
                 checked={form.isUrgent}
                 onChange={(e) => setForm({ ...form, isUrgent: e.target.checked })}
-                className="w-4 h-4 accent-[#ff4060]"
+                className="w-4 h-4 accent-[#FF3333]"
               />
               <label htmlFor="urgent" className="font-mono text-xs text-gray-400 cursor-pointer">
                 Offre urgente 🔥
@@ -213,7 +213,7 @@ export default function CreateJobPage() {
               Tags (séparés par des virgules)
             </label>
             <input
-              className="w-full bg-[#111d2e] border border-[#ff4060]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#ff4060]"
+              className="w-full bg-[#0A0A0A] border border-[#FF3333]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#FF3333]"
               value={form.tags}
               onChange={(e) => setForm({ ...form, tags: e.target.value })}
               placeholder="pentest, OSCP, red team, senior"
@@ -224,7 +224,7 @@ export default function CreateJobPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full font-mono text-sm font-bold py-3 bg-[#ff4060] text-white rounded-lg hover:bg-[#ff2040] transition disabled:opacity-50"
+            className="w-full font-mono text-sm font-bold py-3 bg-[#FF3333] text-white rounded-lg hover:bg-[#ff2040] transition disabled:opacity-50"
           >
             {loading ? "Publication en cours..." : "🚀 Publier l'offre →"}
           </button>

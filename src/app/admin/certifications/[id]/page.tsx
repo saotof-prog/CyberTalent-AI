@@ -25,8 +25,8 @@ export default async function AdminCertDetailPage(props: { params: Promise<{ id:
   const statusColor: Record<string, string> = {
     PENDING: "border-[#ffaa00] text-[#ffaa00]",
     VERIFYING: "border-[#0084ff] text-[#0084ff]",
-    VERIFIED: "border-[#00c896] text-[#00c896]",
-    REJECTED: "border-[#ff4060] text-[#ff4060]",
+    VERIFIED: "border-[#00FF41] text-[#00FF41]",
+    REJECTED: "border-[#FF3333] text-[#FF3333]",
     EXPIRED: "border-gray-500 text-gray-500",
   };
 

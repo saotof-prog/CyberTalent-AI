@@ -71,13 +71,13 @@ export default function FocusTimer() {
       <div
         className="font-mono text-[11px] tracking-[0.2em] flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-sm"
         style={{
-          color: "#00c896",
-          borderColor: "#00c89622",
+          color: "#00FF41",
+          borderColor: "#00FF4122",
           backgroundColor: "rgba(8, 12, 20, 0.6)",
           boxShadow: "0 0 30px rgba(0, 200, 150, 0.06)",
         }}
       >
-        <span className="w-2 h-2 rounded-full bg-[#00c896] animate-pulse" />
+        <span className="w-2 h-2 rounded-full bg-[#00FF41] animate-pulse" />
         <span>FOCUS</span>
         <span className="opacity-60">
           {String(mins).padStart(2, "0")}:{String(secs).padStart(2, "0")}

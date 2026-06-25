@@ -21,8 +21,8 @@ export default async function AdminCertificationsPage() {
   const statusColor: Record<string, string> = {
     PENDING: "border-[#ffaa00] text-[#ffaa00]",
     VERIFYING: "border-[#0084ff] text-[#0084ff]",
-    VERIFIED: "border-[#00c896] text-[#00c896]",
-    REJECTED: "border-[#ff4060] text-[#ff4060]",
+    VERIFIED: "border-[#00FF41] text-[#00FF41]",
+    REJECTED: "border-[#FF3333] text-[#FF3333]",
   };
 
   return (
@@ -39,17 +39,17 @@ export default async function AdminCertificationsPage() {
           <div className="font-mono text-xs text-gray-400">Total</div>
           <div className="font-mono text-2xl font-bold text-white">{total}</div>
         </div>
-        <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-4">
+        <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-4">
           <div className="font-mono text-xs text-gray-400">Vérifiées</div>
-          <div className="font-mono text-2xl font-bold text-[#00c896]">{verified}</div>
+          <div className="font-mono text-2xl font-bold text-[#00FF41]">{verified}</div>
         </div>
         <div className="bg-[#0d1520] border border-[#ffaa00]/20 rounded-xl p-4">
           <div className="font-mono text-xs text-gray-400">En attente</div>
           <div className="font-mono text-2xl font-bold text-[#ffaa00]">{pending}</div>
         </div>
-        <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4">
+        <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-4">
           <div className="font-mono text-xs text-gray-400">Rejetées</div>
-          <div className="font-mono text-2xl font-bold text-[#ff4060]">{rejected}</div>
+          <div className="font-mono text-2xl font-bold text-[#FF3333]">{rejected}</div>
         </div>
       </div>
 
@@ -112,7 +112,7 @@ export default async function AdminCertificationsPage() {
                   {certs.map((c) => (
                     <tr
                       key={c.id}
-                      className="border-b border-[#0084ff]/5 hover:bg-[#111d2e] transition"
+                      className="border-b border-[#0084ff]/5 hover:bg-[#0A0A0A] transition"
                     >
                       <td className="p-3 font-mono text-xs text-gray-500">
                         {new Date(c.createdAt).toLocaleDateString("fr-FR")}

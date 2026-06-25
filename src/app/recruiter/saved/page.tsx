@@ -33,20 +33,20 @@ export default async function SavedCandidatesPage() {
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold text-white mb-1">
-          Candidats <span className="text-[#ff4060]">Sauvegardés</span> ★
+          Candidats <span className="text-[#FF3333]">Sauvegardés</span> ★
         </h1>
         <p className="font-mono text-xs text-gray-400">{saved.length} candidat(s) sauvegardé(s)</p>
       </div>
 
       {saved.length === 0 ? (
-        <div className="text-center py-16 bg-[#0d1520] border border-[#ff4060]/20 rounded-xl">
+        <div className="text-center py-16 bg-[#0d1520] border border-[#FF3333]/20 rounded-xl">
           <div className="text-4xl mb-4">★</div>
           <p className="font-mono text-sm text-gray-500 mb-4">
             Aucun candidat sauvegardé pour linstant.
           </p>
           <Link
             href="/recruiter/dashboard"
-            className="font-mono text-xs px-6 py-3 bg-[#ff4060] text-white rounded-lg hover:bg-[#ff2040] transition inline-block"
+            className="font-mono text-xs px-6 py-3 bg-[#FF3333] text-white rounded-lg hover:bg-[#ff2040] transition inline-block"
           >
             Parcourir les candidats
           </Link>
@@ -60,11 +60,11 @@ export default async function SavedCandidatesPage() {
               <Link
                 key={s.id}
                 href={`/recruiter/candidate/${s.candidateId}`}
-                className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5 hover:border-[#ff4060] transition block"
+                className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-5 hover:border-[#FF3333] transition block"
               >
                 <div className="flex items-center gap-4">
-                  <div className="flex flex-col items-center justify-center w-16 h-16 bg-[#111d2e] border border-[#ff4060]/30 rounded-lg flex-shrink-0">
-                    <div className="font-mono text-xl font-bold text-[#ff4060]">
+                  <div className="flex flex-col items-center justify-center w-16 h-16 bg-[#0A0A0A] border border-[#FF3333]/30 rounded-lg flex-shrink-0">
+                    <div className="font-mono text-xl font-bold text-[#FF3333]">
                       {candidate.cyberScore}
                     </div>
                     <div className="font-mono text-xs text-gray-500">score</div>
@@ -75,7 +75,7 @@ export default async function SavedCandidatesPage() {
                         {candidate.firstName} {candidate.lastName}
                       </h3>
                       {candidate.isAvailable && (
-                        <span className="font-mono text-xs px-2 py-1 rounded bg-[#00c896]/10 border border-[#00c896]/30 text-[#00c896]">
+                        <span className="font-mono text-xs px-2 py-1 rounded bg-[#00FF41]/10 border border-[#00FF41]/30 text-[#00FF41]">
                           Disponible
                         </span>
                       )}
@@ -95,7 +95,7 @@ export default async function SavedCandidatesPage() {
                         ⚡ {candidate.skills.length} skills
                       </span>
                       {candidate.githubUsername && (
-                        <span className="font-mono text-xs text-[#00c896]">
+                        <span className="font-mono text-xs text-[#00FF41]">
                           @{candidate.githubUsername}
                         </span>
                       )}

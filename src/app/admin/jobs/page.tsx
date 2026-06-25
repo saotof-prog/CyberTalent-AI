@@ -42,7 +42,7 @@ export default async function AdminJobsPage() {
               <span
                 className={`font-mono px-2 py-0.5 rounded border ${
                   j.type === "FULL_TIME"
-                    ? "text-[#00c896] border-[#00c896]"
+                    ? "text-[#00FF41] border-[#00FF41]"
                     : j.type === "CONTRACT"
                       ? "text-yellow-400 border-yellow-400"
                       : j.type === "FREELANCE"
@@ -56,7 +56,7 @@ export default async function AdminJobsPage() {
                 📩 {j._count.applications} candidature(s)
               </span>
               <span
-                className={`font-mono text-xs ${j.isActive ? "text-[#00c896]" : "text-[#ff4060]"}`}
+                className={`font-mono text-xs ${j.isActive ? "text-[#00FF41]" : "text-[#FF3333]"}`}
               >
                 {j.isActive ? "Active" : "Inactive"}
               </span>

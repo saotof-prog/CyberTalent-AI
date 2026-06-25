@@ -57,14 +57,14 @@ export default function AdminCertVerifyActions({
           <button
             onClick={handleApprove}
             disabled={loading !== null}
-            className="font-mono text-xs px-6 py-2 rounded-lg bg-[#00c896]/15 border border-[#00c896]/40 text-[#00c896] hover:bg-[#00c896]/25 disabled:opacity-50 transition"
+            className="font-mono text-xs px-6 py-2 rounded-lg bg-[#00FF41]/15 border border-[#00FF41]/40 text-[#00FF41] hover:bg-[#00FF41]/25 disabled:opacity-50 transition"
           >
             {loading === "approve" ? "..." : "✅ Approuver"}
           </button>
           <button
             onClick={() => setShowRejectForm(true)}
             disabled={loading !== null}
-            className="font-mono text-xs px-6 py-2 rounded-lg bg-[#ff4060]/15 border border-[#ff4060]/40 text-[#ff4060] hover:bg-[#ff4060]/25 disabled:opacity-50 transition"
+            className="font-mono text-xs px-6 py-2 rounded-lg bg-[#FF3333]/15 border border-[#FF3333]/40 text-[#FF3333] hover:bg-[#FF3333]/25 disabled:opacity-50 transition"
           >
             {"❌ Rejeter"}
           </button>
@@ -87,7 +87,7 @@ export default function AdminCertVerifyActions({
             <button
               onClick={handleReject}
               disabled={loading !== null}
-              className="font-mono text-xs px-6 py-2 rounded-lg bg-[#ff4060]/15 border border-[#ff4060]/40 text-[#ff4060] hover:bg-[#ff4060]/25 disabled:opacity-50 transition"
+              className="font-mono text-xs px-6 py-2 rounded-lg bg-[#FF3333]/15 border border-[#FF3333]/40 text-[#FF3333] hover:bg-[#FF3333]/25 disabled:opacity-50 transition"
             >
               {loading === "reject" ? "..." : "Confirmer le rejet"}
             </button>

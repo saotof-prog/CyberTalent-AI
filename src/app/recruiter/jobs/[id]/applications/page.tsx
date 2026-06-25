@@ -37,12 +37,12 @@ export default async function JobApplicationsPage({ params }: { params: Promise<
         <div className="mb-8">
           <Link
             href="/recruiter/jobs"
-            className="font-mono text-xs text-[#ff4060] hover:underline mb-4 inline-block"
+            className="font-mono text-xs text-[#FF3333] hover:underline mb-4 inline-block"
           >
             ← Retour aux offres
           </Link>
           <h1 className="font-mono text-2xl font-bold text-white mb-1">
-            Candidatures — <span className="text-[#ff4060]">{job.title}</span>
+            Candidatures — <span className="text-[#FF3333]">{job.title}</span>
           </h1>
           <p className="font-mono text-xs text-gray-400">
             {job.applications.length} candidature{job.applications.length > 1 ? "s" : ""}
@@ -51,7 +51,7 @@ export default async function JobApplicationsPage({ params }: { params: Promise<
         </div>
 
         {job.applications.length === 0 ? (
-          <div className="text-center py-16 bg-[#0d1520] border border-[#ff4060]/20 rounded-xl">
+          <div className="text-center py-16 bg-[#0d1520] border border-[#FF3333]/20 rounded-xl">
             <p className="font-mono text-sm text-gray-500">Aucune candidature pour cette offre.</p>
           </div>
         ) : (
@@ -62,11 +62,11 @@ export default async function JobApplicationsPage({ params }: { params: Promise<
                 <Link
                   key={app.id}
                   href={`/recruiter/candidate/${c.id}`}
-                  className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5 hover:border-[#ff4060] transition block"
+                  className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-5 hover:border-[#FF3333] transition block"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="flex flex-col items-center justify-center w-16 h-16 bg-[#111d2e] border border-[#ff4060]/30 rounded-lg shrink-0">
-                      <div className="font-mono text-xl font-bold text-[#ff4060]">
+                    <div className="flex flex-col items-center justify-center w-16 h-16 bg-[#111d2e] border border-[#FF3333]/30 rounded-lg shrink-0">
+                      <div className="font-mono text-xl font-bold text-[#FF3333]">
                         {c.cyberScore}
                       </div>
                       <div className="font-mono text-[10px] text-gray-500">score</div>
@@ -78,7 +78,7 @@ export default async function JobApplicationsPage({ params }: { params: Promise<
                           {c.firstName} {c.lastName}
                         </h3>
                         {c.isAvailable && (
-                          <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#00c896]/10 border border-[#00c896]/30 text-[#00c896]">
+                          <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#00FF41]/10 border border-[#00FF41]/30 text-[#00FF41]">
                             Disponible
                           </span>
                         )}

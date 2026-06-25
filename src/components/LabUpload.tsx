@@ -56,7 +56,7 @@ export default function LabUpload() {
   }
 
   return (
-    <div className="bg-[#0d1520] border border-[#00c896]/20 rounded-xl p-6">
+    <div className="bg-[#0d1520] border border-[#00FF41]/20 rounded-xl p-6">
       <div className="flex items-center gap-2 mb-6">
         <div className="w-1 h-4 bg-[#0084ff] rounded" />
         <span className="font-mono text-sm text-[#0084ff]">AJOUTER UN LAB COMPLÉTÉ</span>
@@ -67,7 +67,7 @@ export default function LabUpload() {
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Plateforme *</label>
             <select
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
               value={form.platform}
               onChange={(e) => setForm({ ...form, platform: e.target.value })}
             >
@@ -81,7 +81,7 @@ export default function LabUpload() {
           <div>
             <label className="font-mono text-xs text-gray-400 mb-1 block">Difficulté *</label>
             <select
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
               value={form.difficulty}
               onChange={(e) => setForm({ ...form, difficulty: e.target.value })}
             >
@@ -99,7 +99,7 @@ export default function LabUpload() {
             Nom du lab * (ex: Lame, Blue, Inject)
           </label>
           <input
-            className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+            className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
             value={form.labName}
             onChange={(e) => setForm({ ...form, labName: e.target.value })}
             placeholder="Lame"
@@ -111,7 +111,7 @@ export default function LabUpload() {
             Catégorie (ex: Linux, Web, Windows)
           </label>
           <input
-            className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+            className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
             value={form.category}
             onChange={(e) => setForm({ ...form, category: e.target.value })}
             placeholder="Linux"
@@ -125,7 +125,7 @@ export default function LabUpload() {
             </label>
             <input
               type="date"
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
               value={form.completedAt}
               onChange={(e) => setForm({ ...form, completedAt: e.target.value })}
             />
@@ -135,7 +135,7 @@ export default function LabUpload() {
               Lien preuve (screenshot/writeup)
             </label>
             <input
-              className="w-full bg-[#111d2e] border border-[#00c896]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00c896]"
+              className="w-full bg-[#0A0A0A] border border-[#00FF41]/20 rounded-lg px-3 py-2 font-mono text-sm text-white focus:outline-none focus:border-[#00FF41]"
               value={form.proofUrl}
               onChange={(e) => setForm({ ...form, proofUrl: e.target.value })}
               placeholder="https://..."

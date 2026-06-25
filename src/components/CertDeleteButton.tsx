@@ -25,7 +25,7 @@ export default function CertDeleteButton({ certId }: { certId: string }) {
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="font-mono text-xs text-gray-500 hover:text-[#ff4060] transition disabled:opacity-50"
+      className="font-mono text-xs text-gray-500 hover:text-[#FF3333] transition disabled:opacity-50"
       title="Supprimer"
     >
       {loading ? "..." : "✕"}

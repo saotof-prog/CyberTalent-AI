@@ -58,7 +58,7 @@ export default async function JobsPage() {
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <h3 className="font-mono text-base font-bold text-white">{job.title}</h3>
                       {job.isUrgent && (
-                        <span className="font-mono text-xs px-2 py-0.5 rounded bg-[#ff4060]/10 border border-[#ff4060]/30 text-[#ff4060]">
+                        <span className="font-mono text-xs px-2 py-0.5 rounded bg-[#FF3333]/10 border border-[#FF3333]/30 text-[#FF3333]">
                           URGENT
                         </span>
                       )}
@@ -79,14 +79,14 @@ export default async function JobsPage() {
                         </span>
                       )}
                       {job.salaryMin && (
-                        <span className="font-mono text-xs text-[#00c896]">
+                        <span className="font-mono text-xs text-[#00FF41]">
                           ${job.salaryMin.toLocaleString()} — $
                           {job.salaryMax?.toLocaleString() ?? "?"}/mois
                         </span>
                       )}
                       {job.minScore && (
                         <span
-                          className={`font-mono text-xs ${scoreTooLow ? "text-[#ff4060]" : "text-gray-500"}`}
+                          className={`font-mono text-xs ${scoreTooLow ? "text-[#FF3333]" : "text-gray-500"}`}
                         >
                           Score min: {job.minScore}{" "}
                           {scoreTooLow ? "⚠ ton score est insuffisant" : "✓"}

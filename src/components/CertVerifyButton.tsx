@@ -31,7 +31,7 @@ export default function CertVerifyButton({ certId }: { certId: string }) {
     <button
       onClick={handleVerify}
       disabled={loading}
-      className="font-mono text-xs px-3 py-1.5 rounded-lg border border-[#00c896]/30 text-[#00c896] hover:bg-[#00c896]/10 transition disabled:opacity-50"
+      className="font-mono text-xs px-3 py-1.5 rounded-lg border border-[#00FF41]/30 text-[#00FF41] hover:bg-[#00FF41]/10 transition disabled:opacity-50"
     >
       {loading ? "⏳" : "🔍 Vérifier"}
     </button>

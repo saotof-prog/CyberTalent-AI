@@ -28,17 +28,17 @@ export default async function RecruiterJobsPage() {
       <div className="p-6 max-w-4xl mx-auto">
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4">
+          <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-4">
             <div className="font-mono text-xs text-gray-400 mb-1">TOTAL OFFRES</div>
             <div className="font-mono text-3xl font-bold text-white">{jobs.length}</div>
           </div>
-          <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4">
+          <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-4">
             <div className="font-mono text-xs text-gray-400 mb-1">ACTIVES</div>
-            <div className="font-mono text-3xl font-bold text-[#00c896]">{activeCount}</div>
+            <div className="font-mono text-3xl font-bold text-[#00FF41]">{activeCount}</div>
           </div>
-          <div className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-4">
+          <div className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-4">
             <div className="font-mono text-xs text-gray-400 mb-1">CANDIDATURES</div>
-            <div className="font-mono text-3xl font-bold text-[#ff4060]">
+            <div className="font-mono text-3xl font-bold text-[#FF3333]">
               {jobs.reduce((acc, j) => acc + j._count.applications, 0)}
             </div>
           </div>
@@ -52,7 +52,7 @@ export default async function RecruiterJobsPage() {
             </p>
             <Link
               href="/recruiter/jobs/create"
-              className="font-mono text-xs px-6 py-3 bg-[#ff4060] hover:bg-[#ff4060]/80 text-white rounded-lg transition"
+              className="font-mono text-xs px-6 py-3 bg-[#FF3333] hover:bg-[#FF3333]/80 text-white rounded-lg transition"
             >
               🚀 Publier ma première offre
             </Link>
@@ -60,14 +60,14 @@ export default async function RecruiterJobsPage() {
         ) : (
           <div className="flex flex-col gap-3">
             {jobs.map((job) => (
-              <div key={job.id} className="bg-[#0d1520] border border-[#ff4060]/20 rounded-xl p-5">
+              <div key={job.id} className="bg-[#0d1520] border border-[#FF3333]/20 rounded-xl p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     {/* Titre + badges */}
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <h3 className="font-mono text-base font-bold text-white">{job.title}</h3>
                       {job.isUrgent && (
-                        <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#ff4060]/10 border border-[#ff4060]/30 text-[#ff4060]">
+                        <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#FF3333]/10 border border-[#FF3333]/30 text-[#FF3333]">
                           URGENT
                         </span>
                       )}
@@ -75,7 +75,7 @@ export default async function RecruiterJobsPage() {
                         className={
                           "font-mono text-[10px] px-2 py-0.5 rounded border " +
                           (job.isActive
-                            ? "bg-[#00c896]/10 border-[#00c896]/30 text-[#00c896]"
+                            ? "bg-[#00FF41]/10 border-[#00FF41]/30 text-[#00FF41]"
                             : "bg-gray-800 border-gray-700 text-gray-500")
                         }
                       >
@@ -95,7 +95,7 @@ export default async function RecruiterJobsPage() {
                         </span>
                       )}
                       {job.salaryMin && (
-                        <span className="font-mono text-xs text-[#00c896]">
+                        <span className="font-mono text-xs text-[#00FF41]">
                           ${job.salaryMin.toLocaleString()} — $
                           {job.salaryMax?.toLocaleString() ?? "?"}/mois
                         </span>
@@ -125,7 +125,7 @@ export default async function RecruiterJobsPage() {
                     <div className="flex items-center gap-4">
                       <Link
                         href={`/recruiter/jobs/${job.id}/applications`}
-                        className="font-mono text-xs text-[#ff4060] hover:underline"
+                        className="font-mono text-xs text-[#FF3333] hover:underline"
                       >
                         👥 {job._count.applications} candidature
                         {job._count.applications > 1 ? "s" : ""}
