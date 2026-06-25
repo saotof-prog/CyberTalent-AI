@@ -5,7 +5,10 @@ vi.mock('@clerk/nextjs/server', () => ({
   auth: () => mockAuth(),
 }));
 
-// Mock Prisma client
+const eps = vi.hoisted(() => ({
+  mockTransaction: vi.fn(),
+}));
+
 vi.mock('@/lib/prisma', () => ({
   prisma: {
     user: {
@@ -20,7 +23,12 @@ vi.mock('@/lib/prisma', () => ({
       findUnique: vi.fn(),
       create: vi.fn(),
     },
-    $transaction: async (cb: (tx: any) => any) => await cb(prisma),
+    rateLimit: {
+      findUnique: vi.fn(),
+      upsert: vi.fn(),
+      update: vi.fn(),
+    },
+    $transaction: eps.mockTransaction,
   },
 }));
 
@@ -35,334 +43,92 @@ async function callPATCH(body: unknown) {
   }));
 }
 
-describe('PATCH /api/admin/users (role change)', () => {
+describe('PATCH /api/admin/users', () => {
   const adminId = 'admin-1';
   const targetId = 'user-2';
+
+  function mockTxForRole(role: string) {
+    const tx = {
+      user: {
+        findUnique: vi.fn().mockResolvedValue({ role }),
+        update: vi.fn().mockResolvedValue({}),
+      },
+      candidateProfile: {
+        findUnique: vi.fn().mockResolvedValue(role === 'CANDIDATE' ? null : { id: 'cand-1' }),
+        create: vi.fn().mockResolvedValue({ id: 'cand-1' }),
+        delete: vi.fn().mockResolvedValue({}),
+      },
+      recruiterProfile: {
+        findUnique: vi.fn().mockResolvedValue(role === 'RECRUITER' ? null : { id: 'rec-1' }),
+        create: vi.fn().mockResolvedValue({ id: 'rec-1' }),
+        delete: vi.fn().mockResolvedValue({}),
+      },
+    };
+    eps.mockTransaction.mockImplementation(async (cb: (tx: typeof tx) => any) => cb(tx));
+    return tx;
+  }
 
   beforeEach(() => {
     vi.clearAllMocks();
     mockAuth.mockResolvedValue({ userId: adminId });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
+    (prisma.rateLimit.findUnique as any).mockResolvedValue(null);
+    (prisma.rateLimit.upsert as any).mockResolvedValue({ count: 1 });
   });
 
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
+  it('returns 401 when not authenticated', async () => {
+    mockAuth.mockResolvedValue({ userId: null });
+    const res = await callPATCH({ userId: targetId, isBanned: false });
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 403 when user is not admin', async () => {
     (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
+      if (args.where.clerkId === adminId) return { role: 'CANDIDATE' };
       return null;
     });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
     const res = await callPATCH({ userId: targetId, isBanned: false });
+    expect(res.status).toBe(403);
+  });
+
+  it('bannit un utilisateur', async () => {
+    (prisma.user.findUnique as any).mockImplementation((args: any) => {
+      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
+      return null;
+    });
+    const tx = mockTxForRole('CANDIDATE');
+    tx.candidateProfile.findUnique.mockResolvedValue({ id: 'cand-1' });
+
+    const res = await callPATCH({ userId: targetId, isBanned: true });
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.success).toBe(true);
   });
 
-  it('creates recruiterProfile when role changes to RECRUITER', async () => {
-    // Admin check returns ADMIN role
+  it('crée un profil recruteur lors du changement de rôle', async () => {
     (prisma.user.findUnique as any).mockImplementation((args: any) => {
       if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'RECRUITER' };
       return null;
     });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
-
-    // No existing recruiterProfile
-    (prisma.recruiterProfile.findUnique as any).mockResolvedValue(null);
-    (prisma.recruiterProfile.create as any).mockResolvedValue({ id: 'rec-1' });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
-    (prisma.user.update as any).mockResolvedValue({});
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
+    mockTxForRole('RECRUITER');
 
     const res = await callPATCH({ userId: targetId, role: 'RECRUITER' });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.success).toBe(true);
+    expect(json.createdProfile).toBe('recruiter');
   });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-    expect(prisma.recruiterProfile.create).toHaveBeenCalledWith({
-      data: {
-        userId: targetId,
-        firstName: 'John',
-        lastName: 'Doe',
-      },
-    });
 
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
+  it('crée un profil candidat lors du changement de rôle', async () => {
     (prisma.user.findUnique as any).mockImplementation((args: any) => {
       if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
       return null;
     });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
-  });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
-
-  it('creates candidateProfile when role changes to CANDIDATE', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE' };
-      return null;
-    });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
-
-    // No existing candidateProfile
-    (prisma.candidateProfile.findUnique as any).mockResolvedValue(null);
-    (prisma.candidateProfile.create as any).mockResolvedValue({ id: 'cand-1' });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
-    (prisma.user.update as any).mockResolvedValue({});
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
+    mockTxForRole('CANDIDATE');
 
     const res = await callPATCH({ userId: targetId, role: 'CANDIDATE' });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.success).toBe(true);
-  });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-    expect(prisma.candidateProfile.create).toHaveBeenCalledWith({
-      data: {
-        userId: targetId,
-        firstName: 'John',
-        lastName: 'Doe',
-      },
-    });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });
-  });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
+    expect(json.createdProfile).toBe('candidate');
   });
 });
-
-  it('bannit et débannit un utilisateur', async () => {
-    // Admin check returns ADMIN role
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      if (args.where.id === targetId) return { role: 'CANDIDATE', isBanned: true };
-      return null;
-    });
-
-    // Mock update – no specific return needed
-    (prisma.user.update as any).mockResolvedValue({});
-
-    // Unban request (isBanned: false)
-    const res = await callPATCH({ userId: targetId, isBanned: false });
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.success).toBe(true);
-  });

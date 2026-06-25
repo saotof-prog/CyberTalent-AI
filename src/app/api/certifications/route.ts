@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return unauthorized();
 
-  const rl = checkRateLimit(rateLimitKey(req, `:certs:${userId}`), 10);
+  const rl = await checkRateLimit(rateLimitKey(req, `:certs:${userId}`), 10);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });
   }
@@ -54,12 +54,16 @@ export async function POST(req: Request) {
       aiResult = await verifyCertificationWithAI(validBody.name, validBody.issuer, url);
     }
 
+    const sanitizedName = validBody.name.replace(/[<>]/g, "");
+    const sanitizedFullName = (validBody.fullName ?? "").replace(/[<>]/g, "");
+    const sanitizedIssuer = validBody.issuer.replace(/[<>]/g, "");
+
     const cert = await prisma.certification.create({
       data: {
         candidateId: user.candidateProfile.id,
-        name: validBody.name,
-        fullName: validBody.fullName ?? "",
-        issuer: validBody.issuer,
+        name: sanitizedName,
+        fullName: sanitizedFullName,
+        issuer: sanitizedIssuer,
         issuedAt: new Date(validBody.issuedAt),
         expiresAt: validBody.expiresAt ? new Date(validBody.expiresAt) : null,
         hasExpiry: !!validBody.expiresAt,

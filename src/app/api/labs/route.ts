@@ -26,14 +26,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Profil introuvable" }, { status: 404 });
     }
 
-    // Créer le lab
+    const sanitizedLabName = String(body.labName ?? "").replace(/[<>]/g, "");
+    const sanitizedCategory = body.category ? String(body.category).replace(/[<>]/g, "") : null;
+
     const lab = await prisma.labCompletion.create({
       data: {
         candidateId: user.candidateProfile.id,
         platform: body.platform,
-        labName: body.labName,
+        labName: sanitizedLabName,
         difficulty: body.difficulty,
-        category: body.category ?? null,
+        category: sanitizedCategory,
         completedAt: new Date(body.completedAt),
         proofUrl: body.proofUrl ?? null,
         isVerified: false,

@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   // Rate limiting (10 req/min per user)
-  const rl = checkRateLimit(rateLimitKey(req, `:onboarding:${userId}`), 10);
+  const rl = await checkRateLimit(rateLimitKey(req, `:onboarding:${userId}`), 10);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });
   }

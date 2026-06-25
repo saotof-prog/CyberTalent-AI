@@ -7,16 +7,26 @@ vi.mock("@clerk/nextjs/server", () => ({
 
 vi.mock("@/lib/prisma", () => ({
   prisma: {
+    user: {
+      findUnique: vi.fn(),
+    },
     recruiterProfile: { findFirst: vi.fn() },
     job: { create: vi.fn() },
+    rateLimit: {
+      findUnique: vi.fn(),
+      upsert: vi.fn(),
+      update: vi.fn(),
+    },
   },
 }));
 
 import { prisma } from "@/lib/prisma";
 
+import { NextRequest } from "next/server";
+
 async function callPOST(body: unknown) {
   const { POST } = await import("@/app/api/jobs/route");
-  return POST(new Request("http://localhost/api/jobs", {
+  return POST(new NextRequest("http://localhost/api/jobs", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -27,6 +37,8 @@ describe("POST /api/jobs", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockAuth.mockResolvedValue({ userId: "user-recruiter-1" });
+    (prisma.rateLimit.findUnique as any).mockResolvedValue(null);
+    (prisma.rateLimit.upsert as any).mockResolvedValue({ count: 1 });
   });
 
   it("returns 401 when not authenticated", async () => {

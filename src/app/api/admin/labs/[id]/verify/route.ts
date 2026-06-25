@@ -2,10 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { recalculateAndTrack } from "@/lib/score-tracker";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+
+  const rl = await checkRateLimit(rateLimitKey(req, `:admin:labVerify`), 30);
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "Trop de requêtes" }, { status: 429 });
+  }
 
   const user = await prisma.user.findUnique({ where: { clerkId: userId }, select: { role: true } });
   if (!user || user.role !== "ADMIN") {
@@ -31,6 +37,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       return NextResponse.json({ error: "Lab introuvable" }, { status: 404 });
     }
 
+    const sanitizedLabName = lab.labName.replace(/[<>]/g, "");
+    const safeReason = reason ? reason.replace(/[<>]/g, "") : "";
     if (action === "APPROVE") {
       await prisma.labCompletion.update({
         where: { id },
@@ -46,7 +54,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         data: {
           userId: lab.candidate.user.id,
           title: "Lab approuvé",
-          body: `Votre lab « ${lab.labName} » (${lab.platform}) a été approuvé par l'administrateur.`,
+          body: `Votre lab « ${sanitizedLabName} » (${lab.platform}) a été approuvé par l'administrateur.`,
           type: "LAB_VERIFIED",
           link: "/dashboard/labs",
         },
@@ -68,7 +76,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         data: {
           userId: lab.candidate.user.id,
           title: "Lab rejeté",
-          body: `Votre lab « ${lab.labName} » a été rejeté. ${reason ? `Raison : ${reason}` : ""}`,
+          body: `Votre lab « ${sanitizedLabName} » a été rejeté.${safeReason ? ` Raison : ${safeReason}` : ""}`,
           type: "LAB_REJECTED",
           link: "/dashboard/labs",
         },

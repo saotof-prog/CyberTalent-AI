@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { rejectIfBanned } from "@/lib/auth-utils";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
+import { badRequest } from "@/lib/api-error";
+
+const ALLOWED_ADMIN_ROLES = ["CANDIDATE", "RECRUITER", "ADMIN"] as const;
 
 export async function PATCH(req: Request) {
   const { userId } = await auth();
@@ -9,14 +13,25 @@ export async function PATCH(req: Request) {
   const bannedResp = await rejectIfBanned(userId);
   if (bannedResp) return bannedResp;
 
+  const rl = await checkRateLimit(rateLimitKey(req, `:admin:users`), 30);
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "Trop de requêtes" }, { status: 429 });
+  }
+
   const user = await prisma.user.findUnique({ where: { clerkId: userId }, select: { role: true } });
   if (!user || user.role !== "ADMIN") {
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
 
   const { userId: targetId, isBanned, role } = await req.json();
-  if (!targetId) {
-    return NextResponse.json({ error: "userId manquant" }, { status: 400 });
+  if (!targetId || typeof targetId !== "string") {
+    return badRequest("userId valide manquant");
+  }
+  if (role !== undefined && !ALLOWED_ADMIN_ROLES.includes(role as typeof ALLOWED_ADMIN_ROLES[number])) {
+    return badRequest("Rôle invalide");
+  }
+  if (isBanned !== undefined && typeof isBanned !== "boolean") {
+    return badRequest("isBanned doit être un booléen");
   }
 
   try {

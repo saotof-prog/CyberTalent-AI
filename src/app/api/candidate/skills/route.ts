@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const bannedResp = await rejectIfBanned(userId);
   if (bannedResp) return bannedResp;
 
-  const rl = checkRateLimit(rateLimitKey(req, `:skill:${userId}`), 10);
+  const rl = await checkRateLimit(rateLimitKey(req, `:skill:${userId}`), 10);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });
   }
@@ -33,11 +33,11 @@ export async function POST(req: NextRequest) {
 
     if (!candidate) return NextResponse.json({ error: "Profil introuvable" }, { status: 404 });
 
-    // Create skill if it doesn't exist
-    const slug = skillName.toLowerCase().replace(/\s+/g, "-");
+    const sanitizedSkillName = skillName.replace(/[<>]/g, "");
+    const slug = sanitizedSkillName.toLowerCase().replace(/\s+/g, "-");
     let skill = await prisma.skill.findUnique({ where: { slug } });
     if (!skill) {
-      skill = await prisma.skill.create({ data: { name: skillName, slug, category: category ?? "Autre" } });
+      skill = await prisma.skill.create({ data: { name: sanitizedSkillName, slug, category: category ?? "Autre" } });
     }
 
     // Add or update candidate skill
@@ -74,7 +74,7 @@ export async function GET(req: Request) {
   const bannedResp = await rejectIfBanned(userId);
   if (bannedResp) return bannedResp;
 
-  const rl = checkRateLimit(rateLimitKey(req, `:skill:${userId}`), 10);
+  const rl = await checkRateLimit(rateLimitKey(req, `:skill:${userId}`), 10);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });
   }

@@ -2,10 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { recalculateAndTrack } from "@/lib/score-tracker";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+
+  const rl = await checkRateLimit(rateLimitKey(req, `:admin:certVerify`), 30);
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "Trop de requêtes" }, { status: 429 });
+  }
 
   const user = await prisma.user.findUnique({ where: { clerkId: userId }, select: { role: true } });
   if (!user || user.role !== "ADMIN") {
@@ -31,6 +37,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       return NextResponse.json({ error: "Certification introuvable" }, { status: 404 });
     }
 
+    const sanitizedCertName = cert.name.replace(/[<>]/g, "");
     if (action === "APPROVE") {
       await prisma.certification.update({
         where: { id },
@@ -48,7 +55,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         data: {
           userId: cert.candidate.user.id,
           title: "Certification approuvée",
-          body: `Votre certification « ${cert.name} » a été approuvée par l'administrateur.`,
+          body: `Votre certification « ${sanitizedCertName} » a été approuvée par l'administrateur.`,
           type: "CERT_VERIFIED",
           link: "/dashboard/certifications",
         },
@@ -67,11 +74,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
       await recalculateAndTrack(cert.candidate.id, `CERT_ADMIN_REJECTED: ${cert.name}`);
 
+      const safeReason = reason ? reason.replace(/[<>]/g, "") : "";
       await prisma.notification.create({
         data: {
           userId: cert.candidate.user.id,
           title: "Certification rejetée",
-          body: `Votre certification « ${cert.name} » a été rejetée. ${reason ? `Raison : ${reason}` : ""}`,
+          body: `Votre certification « ${sanitizedCertName} » a été rejetée.${safeReason ? ` Raison : ${safeReason}` : ""}`,
           type: "CERT_REJECTED",
           link: "/dashboard/certifications",
         },

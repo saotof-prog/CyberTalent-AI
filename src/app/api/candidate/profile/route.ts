@@ -72,7 +72,13 @@ export async function PATCH(req: Request) {
 
     const data: Record<string, unknown> = {};
     for (const key of ALLOWED_FIELDS) {
-      if (body[key] !== undefined) data[key] = body[key];
+      if (body[key] !== undefined) {
+        if (typeof body[key] === "string") {
+          data[key] = body[key].replace(/[<>]/g, "");
+        } else {
+          data[key] = body[key];
+        }
+      }
     }
 
     await prisma.candidateProfile.update({

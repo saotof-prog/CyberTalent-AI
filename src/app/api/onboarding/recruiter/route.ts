@@ -1,14 +1,27 @@
 import { auth, currentUser, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { onboardingRecruiterSchema } from "@/lib/validation/onboardingRecruiter";
+import { badRequest } from "@/lib/api-error";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
+  const rl = await checkRateLimit(rateLimitKey(req, `:onboardingRecruiter:${userId}`), 10);
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });
+  }
+
   const clerkUser = await currentUser();
   const email = clerkUser?.emailAddresses[0]?.emailAddress ?? "";
   const body = await req.json();
+  const parseResult = onboardingRecruiterSchema.safeParse(body);
+  if (!parseResult.success) {
+    return badRequest(parseResult.error.message);
+  }
+  const validBody = parseResult.data;
 
   try {
     // Créer ou mettre à jour le user
@@ -26,46 +39,44 @@ export async function POST(req: Request) {
         data: {
           clerkId: userId,
           email,
-          username: (body.firstName + body.lastName).toLowerCase() + Date.now(),
+          username: (validBody.firstName + validBody.lastName).toLowerCase() + Date.now(),
           role: "RECRUITER",
         },
       });
     }
 
-    // Créer ou trouver l'entreprise
-    const companySlug = body.companyName.toLowerCase().replace(/\s+/g, "-");
+    const companySlug = validBody.companyName.toLowerCase().replace(/\s+/g, "-");
     const company = await prisma.company.upsert({
       where: { slug: companySlug },
       update: {
-        size: body.companySize ?? null,
-        industry: body.companyIndustry ?? null,
+        size: validBody.companySize ?? null,
+        industry: validBody.companyIndustry ?? null,
       },
       create: {
-        name: body.companyName,
+        name: validBody.companyName,
         slug: companySlug,
-        size: body.companySize ?? null,
-        industry: body.companyIndustry ?? null,
+        size: validBody.companySize ?? null,
+        industry: validBody.companyIndustry ?? null,
       },
     });
 
-    // Créer le profil recruteur
     await prisma.recruiterProfile.upsert({
       where: { userId: user.id },
       update: {
-        firstName: body.firstName,
-        lastName: body.lastName,
-        jobTitle: body.jobTitle ?? null,
-        phoneNumber: body.phoneNumber ?? null,
-        linkedinUrl: body.linkedinUrl ?? null,
+        firstName: validBody.firstName,
+        lastName: validBody.lastName,
+        jobTitle: validBody.jobTitle ?? null,
+        phoneNumber: validBody.phoneNumber ?? null,
+        linkedinUrl: validBody.linkedinUrl ?? null,
         companyId: company.id,
       },
       create: {
         userId: user.id,
-        firstName: body.firstName,
-        lastName: body.lastName,
-        jobTitle: body.jobTitle ?? null,
-        phoneNumber: body.phoneNumber ?? null,
-        linkedinUrl: body.linkedinUrl ?? null,
+        firstName: validBody.firstName,
+        lastName: validBody.lastName,
+        jobTitle: validBody.jobTitle ?? null,
+        phoneNumber: validBody.phoneNumber ?? null,
+        linkedinUrl: validBody.linkedinUrl ?? null,
         companyId: company.id,
       },
     });

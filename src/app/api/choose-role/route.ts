@@ -5,19 +5,23 @@ import { rejectIfBanned } from "@/lib/auth-utils";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 import { badRequest } from "@/lib/api-error";
 
+const ALLOWED_ROLES = ["CANDIDATE", "RECRUITER"] as const;
+
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   const bannedResp = await rejectIfBanned(userId);
   if (bannedResp) return bannedResp;
 
-  // Rate limiting (5 req/min per user)
-  const rl = checkRateLimit(rateLimitKey(req, `:chooseRole:${userId}`), 5);
+  const rl = await checkRateLimit(rateLimitKey(req, `:chooseRole:${userId}`), 5);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Trop de requêtes, réessayez dans une minute" }, { status: 429 });
   }
 
   const { role } = await req.json();
+  if (!role || !ALLOWED_ROLES.includes(role)) {
+    return badRequest("Rôle invalide. Choisissez CANDIDATE ou RECRUITER");
+  }
 
   try {
     // 1. Sauvegarder en base

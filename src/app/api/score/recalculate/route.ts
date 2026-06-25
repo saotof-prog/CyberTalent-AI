@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   const bannedResp = await rejectIfBanned(userId);
   if (bannedResp) return bannedResp;
 
-  const rl = checkRateLimit(rateLimitKey(req, `:score:${userId}`), 5);
+  const rl = await checkRateLimit(rateLimitKey(req, `:score:${userId}`), 5);
   if (!rl.allowed) {
     return Response.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
   }

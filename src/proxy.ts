@@ -9,19 +9,43 @@ const isPublicRoute = createRouteMatcher([
   "/",
 ]);
 
+const CSP_HEADER = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://clerk.accounts.dev https://*.clerk.com https://www.googletagmanager.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://*.clerk.com https://img.clerk.com https://avatars.githubusercontent.com",
+  "font-src 'self' data:",
+  "connect-src 'self' https://*.clerk.com https://*.clerk.accounts.dev https://api.github.com https://generativelanguage.googleapis.com",
+  "frame-src 'self' https://*.clerk.com https://accounts.dev",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join("; ");
+
 export default clerkMiddleware(async (auth, request) => {
   const { userId } = await auth();
 
-  // Routes publiques
-  if (isPublicRoute(request)) return NextResponse.next();
+  if (isPublicRoute(request)) {
+    const response = NextResponse.next();
+    response.headers.set("X-Content-Type-Options", "nosniff");
+    response.headers.set("X-Frame-Options", "DENY");
+    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    response.headers.set("X-XSS-Protection", "0");
+    response.headers.set("Content-Security-Policy", CSP_HEADER);
+    return response;
+  }
 
-  // Non connecté
   if (!userId) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  // La vérification du rôle admin est gérée dans admin/layout.tsx côté DB
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("X-XSS-Protection", "0");
+  response.headers.set("Content-Security-Policy", CSP_HEADER);
+  return response;
 });
 
 export const config = {

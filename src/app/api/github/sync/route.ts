@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
-  const rl = checkRateLimit(rateLimitKey(req, `:github:${userId}`), 5);
+  const rl = await checkRateLimit(rateLimitKey(req, `:github:${userId}`), 5);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
   }

@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
   const bannedResp = await rejectIfBanned(userId);
   if (bannedResp) return bannedResp;
 
-  const rl = checkRateLimit(rateLimitKey(req, `:search:${userId}`), 20);
+  const rl = await checkRateLimit(rateLimitKey(req, `:search:${userId}`), 20);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Trop de requêtes, réessaye dans une minute" }, { status: 429 });
   }

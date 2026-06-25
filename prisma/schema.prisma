@@ -733,3 +733,14 @@ model UserSession {
   @@index([userId])
   @@map("user_sessions")
 }
+
+model RateLimit {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  count     Int      @default(1)
+  resetAt   DateTime
+  createdAt DateTime @default(now())
+
+  @@index([resetAt])
+  @@map("rate_limits")
+}

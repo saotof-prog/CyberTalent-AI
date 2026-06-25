@@ -11,14 +11,17 @@
 [![Gemini](https://img.shields.io/badge/Gemini_AI-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
 [![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.dev/)
 [![Neon](https://img.shields.io/badge/Neon-00E599?style=for-the-badge&logo=neon&logoColor=white)](https://neon.tech/)
+[![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
 
 <br/>
 
-> **CyberTalent AI** is a dual-portal platform that connects cybersecurity talents with recruiters — powered by AI scoring, intelligent matching, and real-time analytics.
+> **CyberTalent AI** connects cybersecurity talents with recruiters — powered by AI scoring, intelligent matching, real-time analytics, and enterprise-grade security.
 
 <br/>
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-ff4060?style=for-the-badge)](https://cybertalent.ai)
+[![Tests](https://img.shields.io/badge/✅_60_tests_passing-22c55e?style=for-the-badge)](https://github.com/saotof-prog/cybertalent-ai)
+[![TypeScript](https://img.shields.io/badge/✅_TypeScript_strict-3178C6?style=for-the-badge)](https://www.typescriptlang.org/tsconfig/#strict)
+[![Security](https://img.shields.io/badge/🛡️_CSP%20|%20Rate%20Limit%20|%20XSS%20protected-7c3aed?style=for-the-badge)](SECURITY.md)
 [![MIT License](https://img.shields.io/badge/License-MIT-00c896?style=for-the-badge)](LICENSE)
 
 </div>
@@ -27,58 +30,46 @@
 
 ## ✨ Features
 
-### 🎮 CyberMenu — Immersive Profile Hub
-- ⬡ **CyberScore Ring** — animated SVG ring with counter animation and level colors (Débutant → Expert)
-- 🎯 **Daily Missions** — role-specific quests (candidate: sync GitHub, add cert; recruiter: publish job, search)
-- 📊 **Quick Stats** — certs, labs, score / jobs, searches, score at a glance
-- ⚡ **Quick Actions** — one-click access to profile, dashboard, certifications, skills
-- 🔊 **Ambient Sound** — cyber drone, rain, lofi generated via Web Audio API (0 files needed)
+### 🧠 CyberScore™ — AI-Powered Scoring
+- **Dynamic 0-100 score** computed from verifiable evidence: certifications, labs, skills, GitHub activity
+- **Hybrid AI analysis**: Gemini 2.0 Flash for deep profiling + intelligent local fallback (no API key required)
+- **Domain-specific interview questions** generated from detected skill areas (7 domains)
+- **Score history tracking** with delta and breakdown per update
 
 ### 👨‍💻 Candidate Portal (`/dashboard`)
-- 🧠 **CyberScore™** — dynamic 0-100 score computed from certifications, labs, skills, and GitHub activity
-- 📜 **Certification Management** — upload with auto platform detection (Credly, Coursera, GitHub, .edu) and auto-verification
-- 🧪 **Lab & CTF Tracking** — HackTheBox, TryHackMe, VulnHub, etc. with difficulty levels
+- 📜 **Certification Management** — upload with auto platform detection (Credly, Coursera, GitHub, .edu) + AI verification
+- 🧪 **Lab & CTF Tracking** — HackTheBox, TryHackMe, VulnHub, PwnedLabs with difficulty levels
 - 🛠️ **Skills Manager** — add/remove skills with proficiency levels, years of experience, and autocomplete
-- 🐙 **GitHub Sync** — automatic repo and contribution analysis
-- 🤖 **AI Profile Analysis** — summary, strengths, improvements, and interview questions from Gemini + local fallback
-- 🎯 **Job Recommendations** — personalized matching with compatibility score
-- 📊 **Detailed AI Score** — score history, intelligent local analysis (even without Gemini)
+- 🐙 **GitHub Sync** — automatic repo import with language detection, stars, forks, topics
+- 🎯 **Job Recommendations** — personalized matching via semantic algorithm (skills, location, contract, score)
 - 📝 **Profile Editor** — bio, headline, social links, salary expectations, availability
 
 ### 🔴 Recruiter Portal (`/recruiter/dashboard`)
-- 🔍 **Smart Search** — filters by keywords, score, certifications, country + semantic AI matching
-- 👁️ **Detailed Candidate Profiles** — verified certifications, completed labs, skills
-- 📋 **Job Management** — create, activate/deactivate, track applications
-- 💾 **Saved Candidates** — bookmark promising profiles
-- 📈 **Stats** — candidate count, pages, scores
+- 🔍 **Smart Search** — filter by score, country, skills, certifications + semantic keyword matching
+- 👁️ **Detailed Candidate Profiles** — verified certifications, completed labs, skill levels, GitHub repos
+- 📋 **Job Management** — create/activate/deactivate postings with skill requirements and min score
+- 💾 **Saved Candidates** — bookmark promising profiles with notes
+- 📈 **Analytics Dashboard** — job stats, application funnel, candidate pool trends, top skills
 
 ### 🛡️ Admin Panel (`/admin`)
-- 📊 **Dashboard** — platform-wide stats (users, candidates, recruiters, jobs)
-- 👥 **User Management**
-- 🏢 **Company Management**
-- 📋 **Job Management**
-- 🎓 **Certification Management**
+- 📊 **Platform-wide dashboard** — users, candidates, recruiters, active jobs
+- 👥 **User Management** — ban/unban, role change (CANDIDATE ↔ RECRUITER), profile auto-migration
+- 🏢 **Company Management** — verify/unverify companies
+- 🎓 **Certification & Lab Moderation** — approve/reject with notifications and score recalculation
+
+### 🎮 CyberMenu — Immersive Profile Hub
+- ⬡ **CyberScore Ring** — animated SVG ring with counter animation and level colors
+- 🎯 **Daily Missions** — role-specific quests (sync GitHub, add cert, publish job, search)
+- 🔊 **Ambient Sound** — cyber drone, rain, lofi via Web Audio API (zero audio files)
 
 ### 🧘 Focus Mode — "Cyber Chamber"
-- ◉ **Deep Work** — vignette, CRT scanlines, matrix rain background, navigation hidden
-- 💫 **Content Spotlight** — halo pulsé autour de la zone active
-- ⏱️ **Focus Timer** — `FOCUS 05:23 ⎋ EXIT` flottant en bas d'écran
-- 🔊 **Auto-ambiance** — le drone cyber se lance en entrant
-- ⌨️ **Shortcut** — `Ctrl+Shift+F` pour basculer, `Échap` pour sortir
+- ◉ Vignette overlay, CRT scanlines, matrix rain animated background
+- ⏱️ Floating focus timer (`Ctrl+Shift+F` toggle, `Esc` to exit)
+- 🔊 Auto-ambiance drone on enter
 
 ### 🌙 CyberScreensaver
-- 🌧️ **Matrix Rain** — canvas katakana en temps réel
-- 🎵 **3 Sound Modes** — CYBER_DRONE, NUMB_RAIN, LOFI_PAD (volume adjustable)
-- 💚 **Full-screen** — fond semi-transparent, logo CYBERTALENT_AI central
-- ⎋ **Any key or click** to exit
-
-### 🤖 AI Engine
-- **CyberScore™** — 4 weighted factors (certs 40%, labs 25%, skills 15%, GitHub 20%)
-- **Local Intelligent Analysis** — generates summary, strengths, improvements, and interview questions without Gemini
-- **Gemini AI Analysis** — deep profile analysis when API is available
-- **Semantic Matching** — skill-to-job matching with weighted scores
-- **Inconsistency Detection** — fake skills detection by cross-referencing certs/labs/skills
-- **Interview Question Generation** — domain-specific (network, web, pentest, cloud, SOC)
+- 🌧️ Full-screen Matrix rain canvas with katakana
+- 🎵 3 ambient modes: CYBER_DRONE, NUMB_RAIN, LOFI_PAD
 
 ---
 
@@ -87,16 +78,17 @@
 | Layer | Technology |
 |-------|-----------|
 | **Framework** | Next.js 16.2.6 (App Router + Turbopack) |
-| **Language** | TypeScript 5.x |
+| **Language** | TypeScript 5.x (strict mode) |
 | **Styling** | Tailwind CSS v4 |
-| **Auth** | Clerk (`@clerk/nextjs`) |
+| **Auth** | Clerk (`@clerk/nextjs`) — JWT, MFA, session management |
 | **ORM** | Prisma 6 (`@prisma/client` + `@prisma/adapter-neon`) |
-| **Database** | PostgreSQL (Neon.tech) |
+| **Database** | PostgreSQL on Neon.tech (serverless) |
 | **AI** | Google Gemini 2.0 Flash (`@google/generative-ai`) |
-| **Upload** | UploadThing |
-| **Real-time** | WebSockets (`ws`) |
-| **Testing** | Vitest |
-| **Deployment** | Vercel |
+| **Testing** | Vitest — 60 tests (unit + integration) |
+| **Rate Limiting** | PostgreSQL-backed (production), in-memory fallback (dev) |
+| **Validation** | Zod — all API inputs validated with max-length constraints |
+| **Security** | CSP headers, XSS sanitization, rate limiting, role guards |
+| **Deployment** | Vercel (serverless) |
 
 ---
 
@@ -105,9 +97,10 @@
 ### Prerequisites
 
 - Node.js `>= 18.x`
-- PostgreSQL (Neon.tech or local)
-- Clerk account
-- Google Gemini API key (free at aistudio.google.com)
+- PostgreSQL database ([Neon.tech](https://neon.tech) recommended)
+- [Clerk](https://dashboard.clerk.com) account (free tier)
+- [Google Gemini API key](https://aistudio.google.com/apikey) (free)
+- [GitHub token](https://github.com/settings/tokens) (for GitHub Sync)
 
 ### Installation
 
@@ -119,10 +112,16 @@ npm install
 
 ### Environment Variables
 
+Copy `.env.example` to `.env.local` and fill in your secrets:
+
+```bash
+cp .env.example .env.local
+```
+
 ```env
 # PostgreSQL Database (Neon)
-DATABASE_URL="postgresql://..."
-DIRECT_URL="postgresql://..."
+DATABASE_URL="postgresql://user:password@host/db?sslmode=require"
+DIRECT_URL="postgresql://user:password@host/db?sslmode=require"
 
 # Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_...
@@ -135,21 +134,26 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/choose-role
 # Google Gemini AI (free: https://aistudio.google.com/)
 GEMINI_API_KEY=AIza...
 
-# GitHub (pour GitHub Sync — https://github.com/settings/tokens)
+# GitHub (for GitHub Sync — https://github.com/settings/tokens)
 GITHUB_TOKEN=github_pat_...
-
-# UploadThing
-UPLOADTHING_TOKEN=...
 
 # App
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_APP_NAME=CyberTalent AI
 ```
 
-### Run in development
+> ⚠️ **Security:** Never commit `.env.local`. Rotate compromised keys immediately — see [SECURITY.md](SECURITY.md).
+
+### Database setup
 
 ```bash
 npx prisma db push
+npx prisma generate
+```
+
+### Run in development
+
+```bash
 npm run dev
 ```
 
@@ -163,18 +167,41 @@ Dynamic 0-100 score based on **verifiable evidence**:
 
 | Factor | Weight | Detail |
 |--------|--------|--------|
-| 🏆 **Certifications** | 40% | TOP (OSCP, CISSP, etc.) = 15pts, MID (CEH, SECURITY+) = 10pts, Other = 5pts |
-| 🧪 **Labs & CTF** | 25% | 3pts per lab, max 25pts |
-| 🛠️ **Skills** | 15% | 2pts per skill, max 15pts |
-| 🐙 **GitHub** | 20% | Username 5pts + (>5 repos) 5pts + (>15 repos) 5pts + (>10 followers) 5pts |
+| 🏆 **Certifications** | 40% | TOP (OSCP, CISSP, CISM, GREM, GXPN, GWAPT) = 15pts, MID (CEH, SECURITY+, CYSA+, EJPT, CCNA) = 10pts, Other = 5pts |
+| 🧪 **Labs & CTF** | 25% | 3pts per lab (max 25pts) |
+| 🛠️ **Skills** | 15% | 2pts per skill (max 15pts) |
+| 🐙 **GitHub** | 20% | Username 5pts + >5 repos 5pts + >15 repos 5pts + >10 followers 5pts |
 
 ### Smart Local Analysis
 
-Even without Gemini API access, the system automatically generates:
-- **Summary** adapted to the level (beginner / intermediate / expert)
-- **Strengths** — verified certs, hard labs, advanced skills
-- **Improvements** — missing certs, lab diversification, GitHub connection
-- **Interview questions** by detected domain (7 domains supported)
+Even without Gemini API, the system generates:
+- **Summary** adapted to the profile level (beginner / intermediate / expert)
+- **Strengths** — verified certs, hard labs, advanced skills, GitHub presence
+- **Improvements** — missing certs, lab diversification, GitHub connection, skill breadth
+- **Interview questions** by detected domain (7 domains: network, web, pentest, cloud, SOC, RE, crypto)
+
+---
+
+## 🔐 Security
+
+| Protection | Implementation |
+|-----------|---------------|
+| **Authentication** | Clerk JWT with session management, MFA support |
+| **Authorization** | 3-tier roles (CANDIDATE / RECRUITER / ADMIN) with server-side guards |
+| **Route Protection** | Clerk middleware — public routes whitelisted, all others require auth |
+| **Admin Guard** | DB-level role check in `admin/layout.tsx` — server-side redirect |
+| **Ban System** | `rejectIfBanned()` utility — 403 response for banned accounts |
+| **Rate Limiting** | PostgreSQL-backed sliding window (production) / in-memory (dev) — per-route configurable |
+| **Input Validation** | Zod schemas on all API inputs — type checks, max-length constraints, enum validation |
+| **XSS Prevention** | Strip `<>` characters from all user-controlled text before storage |
+| **CSP Headers** | Content-Security-Policy with restricted script/style/connect sources |
+| **Security Headers** | `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin` |
+| **Certificate Validation** | URL shortener blocking, platform detection (Credly, Coursera, GitHub, .edu), AI verification |
+| **Inconsistency Detection** | AI cross-referencing of certs, labs, and skills — flags fake skills |
+| **Audit Trail** | `AuditLog` model — tracks all critical actions with IP and user agent |
+| **Secrets Management** | `.env*` in `.gitignore`, `.env.example` with placeholders, [rotation guide](SECURITY.md) |
+
+> 📖 Full security documentation: [SECURITY.md](SECURITY.md)
 
 ---
 
@@ -183,61 +210,48 @@ Even without Gemini API access, the system automatically generates:
 ```
 cybertalent-ai/
 ├── prisma/
-│   └── schema.prisma          # 27 modèles, 11 enums
+│   └── schema.prisma          # 28 models, 11 enums (incl. RateLimit)
 ├── scripts/
-│   ├── set-admin.ts           # Promouvoir un utilisateur en ADMIN
-│   └── list-users.ts          # Lister les utilisateurs
+│   ├── set-admin.ts           # Promote user to ADMIN
+│   └── list-users.ts          # List users
 ├── src/
-│   ├── proxy.ts               # Middleware Clerk
+│   ├── proxy.ts               # Clerk middleware + security headers + CSP
 │   ├── app/
-│   │   ├── page.tsx           # Landing page avec fond cyber animé
-│   │   ├── layout.tsx         # Root layout (ClerkProvider)
-│   │   ├── sign-in/           # Connexion Clerk (catch-all)
-│   │   ├── sign-up/           # Inscription Clerk (catch-all)
-│   │   ├── choose-role/       # Choix CANDIDATE / RECRUITER
-│   │   ├── onboarding/        # Onboarding candidat
-│   │   ├── onboarding/recruiter/ # Onboarding recruteur
-│   │   ├── dashboard/         # PORTAL CANDIDAT
-│   │   │   ├── page.tsx       # Accueil stats
-│   │   │   ├── edit/          # Éditer profil
-│   │   │   ├── score/         # CyberScore + analyse IA
-│   │   │   ├── jobs/          # Offres d'emploi
+│   │   ├── layout.tsx         # Root: ClerkProvider, BannedGuard, FocusTimer, Toast
+│   │   ├── page.tsx           # Landing page with animated cyber background
+│   │   ├── sign-in/           # Clerk sign-in (catch-all [[...rest]])
+│   │   ├── sign-up/           # Clerk sign-up (catch-all [[...rest]])
+│   │   ├── choose-role/       # Role selection (CANDIDATE / RECRUITER)
+│   │   ├── onboarding/        # Candidate & Recruiter onboarding
+│   │   ├── dashboard/         # CANDIDATE PORTAL
+│   │   │   ├── edit/          # Profile editor
+│   │   │   ├── score/         # CyberScore + AI analysis
+│   │   │   ├── jobs/          # Job listings + recommendations
 │   │   │   ├── certifications/
 │   │   │   ├── labs/
 │   │   │   └── skills/
-│   │   ├── recruiter/         # PORTAL RECRUTEUR
-│   │   │   ├── dashboard/     # Recherche talents + filtres
-│   │   │   ├── jobs/          # Gestion des offres
-│   │   │   ├── candidate/[id]/ # Détail candidat
-│   │   │   ├── saved/         # Candidats sauvegardés
-│   │   │   └── search/        # Recherche avancée
-│   │   ├── admin/             # PANEL ADMIN
-│   │   └── api/               # Routes API REST
-│   ├── components/
-│   │   ├── CyberMenu.tsx          # Immersive profile dropdown (missions, score ring, focus, sound)
-│   │   ├── CyberScreensaver.tsx   # Matrix rain fullscreen with ambient sound
-│   │   ├── FocusTimer.tsx         # Global focus mode timer with keyboard shortcuts
-│   │   ├── cyber-background.tsx   # Canvas animé (particules, data streams)
-│   │   ├── Navbar.tsx             # Candidate navbar (uses CyberMenu)
-│   │   ├── RecruiterNavbar.tsx    # Recruiter navbar (uses CyberMenu)
-│   │   ├── admin-shell.tsx        # Admin shell (uses CyberMenu)
-│   │   ├── CertificationUpload.tsx
-│   │   ├── LabUpload.tsx
-│   │   ├── SkillsManager.tsx
-│   │   ├── JobRecommendations.tsx
-│   │   ├── GithubSync.tsx
-│   │   └── NotificationsBell.tsx
-│   └── lib/
-│       ├── ambient-sound.ts    # Web Audio API ambient generator (drone, rain, lofi)
-│       ├── prisma.ts           # Prisma client singleton
-│       ├── score.ts            # CyberScore + AI analysis (Gemini + local fallback)
-│       ├── matching.ts         # Job/candidate matching algorithm
-│       ├── api-error.ts        # Unified API error handler
+│   │   ├── recruiter/         # RECRUITER PORTAL
+│   │   │   ├── dashboard/     # Analytics + talent search
+│   │   │   ├── jobs/          # Job management
+│   │   │   ├── candidate/[id]/
+│   │   │   ├── saved/
+│   │   │   └── search/
+│   │   ├── admin/             # ADMIN PANEL
+│   │   │   ├── users/
+│   │   │   ├── companies/
+│   │   │   ├── jobs/
+│   │   │   ├── certifications/
+│   │   │   └── labs/
+│   │   └── api/               # 27 REST API route files
+│   ├── components/            # 20 React components
+│   └── lib/                   # Shared libraries
+│       ├── rate-limit.ts      # DB-backed rate limiter (production) / in-memory (dev)
+│       ├── score.ts           # CyberScore + AI analysis (Gemini + local fallback)
+│       ├── matching.ts        # Job/candidate semantic matching
+│       ├── api-error.ts       # Unified API error handling
+│       ├── validation/        # Zod schemas (6 files)
 │       └── certificate-validation/
-│           └── platform-detector.ts
 ```
-
-> 🇫🇷 Une version française est disponible dans [LISEZMOI.md](LISEZMOI.md)
 
 ---
 
@@ -251,10 +265,85 @@ npm test
 npm run test:watch
 ```
 
-**38 unit tests** covering:
-- `score.test.ts` — 14 tests: CyberScore calculation (certs, labs, skills, GitHub)
-- `matching.test.ts` — 16 tests: matching algorithm (score, skills, mode, contract, country)
-- `local-analysis.test.ts` — 8 tests: local analysis (strengths, improvements, questions)
+**60 tests — all passing** across 9 test files:
+
+| File | Tests | Coverage |
+|------|-------|----------|
+| `matching.test.ts` | 16 | Semantic matching algorithm (score, skills, mode, country) |
+| `score.test.ts` | 14 | CyberScore calculation (certs, labs, skills, GitHub, caps) |
+| `local-analysis.test.ts` | 8 | Profile analysis (strengths, improvements, questions) |
+| `api-error.test.ts` | 6 | Unified error handler |
+| `score-tracker.test.ts` | 2 | Score recalculation + history |
+| `api-me.test.ts` | 2 | User ban status endpoint |
+| `api-admin-users.test.ts` | 5 | Admin user management (ban, role change) |
+| `api-jobs.test.ts` | 4 | Job creation (auth, validation, business logic) |
+| `api-certifications.test.ts` | 3 | Certification creation (auth, validation, score impact) |
+
+---
+
+## 📊 API Routes
+
+### Authentication & Onboarding
+| Method | Route | Description |
+|--------|-------|-------------|
+| POST | `/api/choose-role` | Set user role (CANDIDATE / RECRUITER only — admin elevation blocked) |
+| POST | `/api/onboarding` | Create candidate profile (Zod validated) |
+| POST | `/api/onboarding/recruiter` | Create recruiter profile (Zod validated, rate limited) |
+
+### Certifications
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET/POST | `/api/certifications` | List/add certifications (auto platform detection + AI verify) |
+| DELETE | `/api/certifications/[id]` | Delete a certification |
+| POST | `/api/certifications/[id]/verify` | Request AI verification |
+
+### Candidate
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET/PATCH | `/api/candidate/profile` | Read/update profile (sanitized, allowed-fields whitelist) |
+| POST | `/api/candidate/skills` | Add/update a skill (Zod validated) |
+| GET | `/api/candidate/skills` | List skills |
+| DELETE | `/api/candidate/skills/[skillId]` | Remove a skill |
+| GET | `/api/candidate/recommendations` | AI job recommendations |
+| POST | `/api/candidate/search` | Semantic candidate search (recruiter) |
+
+### Jobs & Applications
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET/POST | `/api/jobs` | List/create jobs (Zod validated, rate limited) |
+| GET/PATCH/DELETE | `/api/jobs/[id]` | Manage a job (ownership check) |
+| POST | `/api/applications` | Apply to a job |
+| PATCH | `/api/applications/[id]` | Update application status (ownership check) |
+
+### AI & Scoring
+| Method | Route | Description |
+|--------|-------|-------------|
+| POST | `/api/score/recalculate` | Recalculate CyberScore + AI analysis (rate limited: 5/min) |
+
+### GitHub
+| Method | Route | Description |
+|--------|-------|-------------|
+| POST | `/api/github/sync` | Sync GitHub repos (rate limited: 5/min) |
+
+### Notifications
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/api/notifications` | User notifications |
+| PATCH | `/api/notifications` | Mark notification as read |
+
+### Recruiter
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/api/recruiter/analytics` | Recruiter analytics dashboard |
+
+### Admin (all rate limited: 30/min)
+| Method | Route | Description |
+|--------|-------|-------------|
+| PATCH | `/api/admin/users` | Update user (ban, role change — Zod validated) |
+| PATCH | `/api/admin/companies` | Verify/unverify company |
+| PATCH | `/api/admin/jobs` | Activate/deactivate job |
+| POST | `/api/admin/certifications/[id]/verify` | Approve/reject certification |
+| POST | `/api/admin/labs/[id]/verify` | Approve/reject lab completion |
 
 ---
 
@@ -272,54 +361,20 @@ npm run test:watch
 - [x] GitHub sync
 - [x] Real-time notifications
 - [x] Admin panel
-- [x] Unit tests (38 tests)
-- [x] CyberMenu with gamified daily missions (role-specific)
-- [x] Focus Mode "Cyber Chamber" (CRT scanlines, matrix rain, timer)
-- [x] CyberScreensaver (canvas matrix rain + 3 ambient sound modes)
-- [x] Web Audio API ambient sound engine (drone, rain, lofi)
+- [x] Unit tests (60 tests)
+- [x] CyberMenu with gamified daily missions
+- [x] Focus Mode "Cyber Chamber" + CyberScreensaver
+- [x] Web Audio API ambient sound engine
+- [x] **Enterprise security**: CSP headers, rate limiting, input sanitization, Zod validation
 - [ ] Advanced full-text search (Elasticsearch / pg_search)
 - [ ] Automatic CV parsing
 - [ ] Public candidate profiles
-- [ ] Recruiter analytics dashboard
+- [ ] Recruiter analytics dashboard (advanced)
 - [ ] Mobile app (React Native)
 
 ---
 
-## 📊 API Routes
-
-| Method | Route | Description |
-|--------|-------|-------------|
-| POST | `/api/choose-role` | Set user role |
-| POST | `/api/onboarding` | Create candidate profile |
-| POST | `/api/onboarding/recruiter` | Create recruiter profile |
-| GET/POST | `/api/certifications` | List/add certifications |
-| GET/PATCH/DELETE | `/api/certifications/[id]` | Manage a certification |
-| POST | `/api/labs` | Add a lab completion |
-| POST | `/api/candidate/skills` | Add/update a skill |
-| GET | `/api/candidate/profile` | Read candidate profile |
-| PATCH | `/api/candidate/profile` | Update candidate profile |
-| GET | `/api/candidate/recommendations` | AI job recommendations |
-| POST | `/api/candidate/search` | Semantic candidate search |
-| POST | `/api/score/recalculate` | Recalculate CyberScore + AI analysis |
-| POST | `/api/applications` | Apply to a job |
-| PATCH | `/api/applications/[id]` | Update application status |
-| POST | `/api/github/sync` | Sync GitHub repos |
-| GET | `/api/notifications` | User notifications |
-
----
-
-## 🔐 Security
-
-- Authentication via Clerk (JWT, MFA supported)
-- Route protection middleware
-- Roles (CANDIDATE / RECRUITER / ADMIN) with guards
-- Certification URL validation (shortener detection)
-- Auto-verification of valid links
-- AI-powered profile inconsistency detection
-
----
-
-## 👤 Auteur
+## 👤 Author
 
 <div align="center">
 
@@ -341,5 +396,7 @@ npm run test:watch
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:24243e,50:302b63,100:0f0c29&height=120&section=footer&animation=fadeIn" width="100%"/>
 
 *Built with ❤️ from Dakar — CyberTalent AI © 2026*
+
+[🇫🇷 LISEZMOI.md](LISEZMOI.md) · [📖 SECURITY.md](SECURITY.md) · [📧 Contact](mailto:mouhamedabdallah.dia@uadb.edu.sn)
 
 </div>
