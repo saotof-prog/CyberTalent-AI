@@ -11,12 +11,12 @@ const isPublicRoute = createRouteMatcher([
 
 const CSP_HEADER = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://clerk.accounts.dev https://*.clerk.com https://www.googletagmanager.com",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.clerk.com https://img.clerk.com https://avatars.githubusercontent.com",
+  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.clerk.accounts.dev https://*.clerk.com https://www.googletagmanager.com",
+  "style-src 'self' 'unsafe-inline' https://*.clerk.accounts.dev",
+  "img-src 'self' data: blob: https://*.clerk.com https://*.clerk.accounts.dev https://img.clerk.com https://avatars.githubusercontent.com",
   "font-src 'self' data:",
   "connect-src 'self' https://*.clerk.com https://*.clerk.accounts.dev https://api.github.com https://generativelanguage.googleapis.com",
-  "frame-src 'self' https://*.clerk.com https://accounts.dev",
+  "frame-src 'self' https://*.clerk.com https://*.clerk.accounts.dev https://accounts.dev",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
