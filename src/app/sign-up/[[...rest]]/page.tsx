@@ -5,6 +5,8 @@ export default function SignUpPage() {
   return (
     <AuthLayout>
       <SignUp
+        afterSignUpUrl="/choose-role"
+        signInUrl="/sign-in"
         appearance={{
           variables: {
             colorPrimary: "#00FF41",

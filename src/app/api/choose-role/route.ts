@@ -24,20 +24,25 @@ export async function POST(req: Request) {
   }
 
   try {
-    // 1. Sauvegarder en base
+    // 1. Récupérer l'email depuis Clerk
+    const client = await clerkClient();
+    const clerkUser = await client.users.getUser(userId);
+    const email = clerkUser.emailAddresses?.[0]?.emailAddress ?? userId + "@placeholder.com";
+    const username = clerkUser.username ?? userId;
+
+    // 2. Sauvegarder en base
     await prisma.user.upsert({
       where: { clerkId: userId },
-      update: { role },
+      update: { role, email, username },
       create: {
         clerkId: userId,
-        email: "",
-        username: userId + Date.now(),
+        email,
+        username,
         role,
       },
     });
 
-    // 2. Sauvegarder le rôle dans les metadata Clerk
-    const client = await clerkClient();
+    // 3. Sauvegarder le rôle dans les metadata Clerk
     await client.users.updateUserMetadata(userId, {
       publicMetadata: { role },
     });
