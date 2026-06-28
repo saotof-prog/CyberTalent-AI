@@ -1,23 +1,35 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { logSecurityEvent } from "@/lib/security-log";
 
-/**
- * Checks if the user identified by its Clerk ID is banned.
- * Returns a 403 JSON response when banned, otherwise null.
- */
-export async function rejectIfBanned(userId: string) {
-  // In unit tests the Prisma client may be mocked without a `user` model.
-  // Guard against missing `prisma.user` to avoid runtime errors.
+export async function rejectIfBanned(userId: string, req?: Request) {
   if (!prisma?.user?.findUnique) {
     return null;
   }
 
   const user = await prisma.user.findUnique({
     where: { clerkId: userId },
-    select: { isBanned: true },
+    select: { isBanned: true, banExpiresAt: true },
   });
-  if (user?.isBanned) {
-    return NextResponse.json({ error: "Compte banni" }, { status: 403 });
+
+  if (!user?.isBanned) return null;
+
+  if (user.banExpiresAt && user.banExpiresAt < new Date()) {
+    await prisma.user.update({
+      where: { clerkId: userId },
+      data: { isBanned: false, banExpiresAt: null, banReason: null },
+    });
+    return null;
   }
-  return null;
+
+  await logSecurityEvent({
+    type: "BANNED_USER_ACCESS",
+    userId,
+    ip: req?.headers?.get("x-forwarded-for") ?? undefined,
+    path: req?.url ?? undefined,
+    method: req?.method ?? undefined,
+    details: "Utilisateur banni a tenté d'accéder à une ressource",
+  });
+
+  return NextResponse.json({ error: "Compte banni", code: "BANNED" }, { status: 403 });
 }

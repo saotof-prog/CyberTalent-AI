@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { rejectIfBanned } from "@/lib/auth-utils";
+import { sanitizeText } from "@/lib/sanitize";
 
 const ALLOWED_FIELDS = [
   "firstName",
@@ -74,7 +75,7 @@ export async function PATCH(req: Request) {
     for (const key of ALLOWED_FIELDS) {
       if (body[key] !== undefined) {
         if (typeof body[key] === "string") {
-          data[key] = body[key].replace(/[<>]/g, "");
+          data[key] = sanitizeText(body[key]);
         } else {
           data[key] = body[key];
         }

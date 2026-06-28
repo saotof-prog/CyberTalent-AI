@@ -1,20 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { rejectIfBanned } from "@/lib/auth-utils";
 import { recalculateAndTrack } from "@/lib/score-tracker";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
+import { badRequest } from "@/lib/api-error";
+import { logSecurityEvent } from "@/lib/security-log";
+import { sanitizeText } from "@/lib/sanitize";
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  const bannedResp = await rejectIfBanned(userId, req);
+  if (bannedResp) return bannedResp;
 
-  const rl = await checkRateLimit(rateLimitKey(req, `:admin:certVerify`), 30);
+  const rl = await checkRateLimit(rateLimitKey(req, `:admin:certVerify`), 30, 60000, 5);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Trop de requêtes" }, { status: 429 });
   }
 
   const user = await prisma.user.findUnique({ where: { clerkId: userId }, select: { role: true } });
   if (!user || user.role !== "ADMIN") {
+    await logSecurityEvent({
+      type: "UNAUTHORIZED_ACCESS",
+      userId,
+      path: "/api/admin/certifications/[id]/verify",
+      method: "POST",
+      details: "Tentative de vérification de certification sans droits admin",
+    });
     return NextResponse.json({ error: "Accès refusé" }, { status: 403 });
   }
 
@@ -24,7 +37,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const reason = body.reason as string | undefined;
 
   if (!action || !["APPROVE", "REJECT"].includes(action)) {
-    return NextResponse.json({ error: "Action invalide. Utilisez APPROVE ou REJECT" }, { status: 400 });
+    return badRequest("Action invalide. Utilisez APPROVE ou REJECT");
+  }
+
+  if (reason && typeof reason === "string" && reason.length > 1000) {
+    return badRequest("Raison trop longue (1000 caractères max)");
   }
 
   try {
@@ -37,7 +54,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       return NextResponse.json({ error: "Certification introuvable" }, { status: 404 });
     }
 
-    const sanitizedCertName = cert.name.replace(/[<>]/g, "");
+    const sanitizedCertName = sanitizeText(cert.name);
+    const safeReason = reason ? sanitizeText(reason) : undefined;
+
     if (action === "APPROVE") {
       await prisma.certification.update({
         where: { id },
@@ -45,7 +64,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
           status: "VERIFIED",
           scoreImpact: 10,
           aiVerifiedAt: new Date(),
-          aiNotes: reason ? `Approuvé par admin : ${reason}` : "Approuvé par l'administrateur",
+          aiNotes: safeReason ? `Approuvé par admin : ${safeReason}` : "Approuvé par l'administrateur",
         },
       });
 
@@ -61,20 +80,28 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
         },
       });
 
+      await logSecurityEvent({
+        type: "ADMIN_ACTION",
+        userId,
+        path: "/api/admin/certifications/[id]/verify",
+        method: "POST",
+        details: `Approbation de la certification ${cert.name} (${id})`,
+        metadata: { certificationId: id, action: "APPROVE", candidateId: cert.candidate.user.id },
+      });
+
       return NextResponse.json({ success: true, status: "VERIFIED" });
     } else {
       await prisma.certification.update({
         where: { id },
         data: {
           status: "REJECTED",
-          aiNotes: reason || "Rejeté par l'administrateur",
+          aiNotes: safeReason || "Rejeté par l'administrateur",
           scoreImpact: 0,
         },
       });
 
       await recalculateAndTrack(cert.candidate.id, `CERT_ADMIN_REJECTED: ${cert.name}`);
 
-      const safeReason = reason ? reason.replace(/[<>]/g, "") : "";
       await prisma.notification.create({
         data: {
           userId: cert.candidate.user.id,
@@ -83,6 +110,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
           type: "CERT_REJECTED",
           link: "/dashboard/certifications",
         },
+      });
+
+      await logSecurityEvent({
+        type: "ADMIN_ACTION",
+        userId,
+        path: "/api/admin/certifications/[id]/verify",
+        method: "POST",
+        details: `Rejet de la certification ${cert.name} (${id})`,
+        metadata: { certificationId: id, action: "REJECT", candidateId: cert.candidate.user.id, reason: safeReason },
       });
 
       return NextResponse.json({ success: true, status: "REJECTED" });

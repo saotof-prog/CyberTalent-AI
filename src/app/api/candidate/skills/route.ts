@@ -6,6 +6,7 @@ import { candidateSkillSchema } from "@/lib/validation/candidateSkill";
 import { rejectIfBanned } from "@/lib/auth-utils";
 import { badRequest } from "@/lib/api-error";
 import { recalculateAndTrack } from "@/lib/score-tracker";
+import { sanitizeText } from "@/lib/sanitize";
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     if (!candidate) return NextResponse.json({ error: "Profil introuvable" }, { status: 404 });
 
-    const sanitizedSkillName = skillName.replace(/[<>]/g, "");
+    const sanitizedSkillName = sanitizeText(skillName);
     const slug = sanitizedSkillName.toLowerCase().replace(/\s+/g, "-");
     let skill = await prisma.skill.findUnique({ where: { slug } });
     if (!skill) {

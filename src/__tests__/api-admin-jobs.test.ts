@@ -5,17 +5,34 @@ vi.mock('@clerk/nextjs/server', () => ({
   auth: () => mockAuth(),
 }));
 
+vi.mock('@/lib/auth-utils', () => ({
+  rejectIfBanned: vi.fn().mockResolvedValue(null),
+}));
+
+vi.mock('@/lib/rate-limit', () => ({
+  checkRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 30 }),
+  rateLimitKey: vi.fn().mockReturnValue('test-key'),
+}));
+
+vi.mock('@/lib/security-log', () => ({
+  logSecurityEvent: vi.fn(),
+}));
+
 vi.mock('@/lib/prisma', () => ({
   prisma: {
     user: {
       findUnique: vi.fn(),
     },
     job: {
+      findUnique: vi.fn(),
       update: vi.fn(),
     },
     rateLimit: {
-      findUnique: vi.fn(),
-      upsert: vi.fn(),
+      findUnique: vi.fn().mockResolvedValue(null),
+      upsert: vi.fn().mockResolvedValue({ count: 1 }),
+    },
+    auditLog: {
+      create: vi.fn(),
     },
   },
 }));
@@ -37,8 +54,6 @@ describe('PATCH /api/admin/jobs', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockAuth.mockResolvedValue({ userId: adminId });
-    (prisma.rateLimit.findUnique as any).mockResolvedValue(null);
-    (prisma.rateLimit.upsert as any).mockResolvedValue({ count: 1 });
   });
 
   it('returns 401 when not authenticated', async () => {
@@ -67,6 +82,7 @@ describe('PATCH /api/admin/jobs', () => {
 
   it('activates a job successfully', async () => {
     (prisma.user.findUnique as any).mockResolvedValue({ role: 'ADMIN' });
+    (prisma.job.findUnique as any).mockResolvedValue({ id: 'j1', title: 'Pentester' });
     (prisma.job.update as any).mockResolvedValue({ id: 'j1', isActive: true });
 
     const res = await callPATCH({ jobId: 'j1', isActive: true });
@@ -77,6 +93,7 @@ describe('PATCH /api/admin/jobs', () => {
 
   it('deactivates a job successfully', async () => {
     (prisma.user.findUnique as any).mockResolvedValue({ role: 'ADMIN' });
+    (prisma.job.findUnique as any).mockResolvedValue({ id: 'j1', title: 'Pentester' });
     (prisma.job.update as any).mockResolvedValue({ id: 'j1', isActive: false });
 
     const res = await callPATCH({ jobId: 'j1', isActive: false });
@@ -85,9 +102,17 @@ describe('PATCH /api/admin/jobs', () => {
     expect(json.success).toBe(true);
   });
 
+  it('returns 404 when job not found', async () => {
+    (prisma.user.findUnique as any).mockResolvedValue({ role: 'ADMIN' });
+    (prisma.job.findUnique as any).mockResolvedValue(null);
+
+    const res = await callPATCH({ jobId: 'j1', isActive: true });
+    expect(res.status).toBe(404);
+  });
+
   it('returns 500 on database error', async () => {
     (prisma.user.findUnique as any).mockResolvedValue({ role: 'ADMIN' });
-    (prisma.job.update as any).mockRejectedValue(new Error('DB error'));
+    (prisma.job.findUnique as any).mockRejectedValue(new Error('DB error'));
 
     const res = await callPATCH({ jobId: 'j1', isActive: true });
     expect(res.status).toBe(500);

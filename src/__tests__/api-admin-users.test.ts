@@ -9,6 +9,15 @@ const eps = vi.hoisted(() => ({
   mockTransaction: vi.fn(),
 }));
 
+vi.mock('@/lib/rate-limit', () => ({
+  checkRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 30 }),
+  rateLimitKey: vi.fn().mockReturnValue('test-key'),
+}));
+
+vi.mock('@/lib/security-log', () => ({
+  logSecurityEvent: vi.fn(),
+}));
+
 vi.mock('@/lib/prisma', () => ({
   prisma: {
     user: {
@@ -27,6 +36,9 @@ vi.mock('@/lib/prisma', () => ({
       findUnique: vi.fn(),
       upsert: vi.fn(),
       update: vi.fn(),
+    },
+    auditLog: {
+      create: vi.fn(),
     },
     $transaction: eps.mockTransaction,
   },
@@ -64,15 +76,13 @@ describe('PATCH /api/admin/users', () => {
         delete: vi.fn().mockResolvedValue({}),
       },
     };
-    eps.mockTransaction.mockImplementation(async (cb: (tx: typeof tx) => any) => cb(tx));
+    eps.mockTransaction.mockImplementation(async (cb: (tx: Record<string, unknown>) => any) => cb(tx));
     return tx;
   }
 
   beforeEach(() => {
     vi.clearAllMocks();
     mockAuth.mockResolvedValue({ userId: adminId });
-    (prisma.rateLimit.findUnique as any).mockResolvedValue(null);
-    (prisma.rateLimit.upsert as any).mockResolvedValue({ count: 1 });
   });
 
   it('returns 401 when not authenticated', async () => {

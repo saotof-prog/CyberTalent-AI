@@ -6,6 +6,7 @@ import { verifyCertificationWithAI } from "@/lib/certificate-validation/ai-verif
 import { handleApiError, unauthorized, notFound, success, badRequest } from "@/lib/api-error";
 import { certificationSchema } from "@/lib/validation/certification";
 import { sanitizeUrl } from "@/lib/url";
+import { sanitizeText } from "@/lib/sanitize";
 import { recalculateAndTrack } from "@/lib/score-tracker";
 import { NextResponse } from "next/server";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
@@ -54,9 +55,9 @@ export async function POST(req: Request) {
       aiResult = await verifyCertificationWithAI(validBody.name, validBody.issuer, url);
     }
 
-    const sanitizedName = validBody.name.replace(/[<>]/g, "");
-    const sanitizedFullName = (validBody.fullName ?? "").replace(/[<>]/g, "");
-    const sanitizedIssuer = validBody.issuer.replace(/[<>]/g, "");
+    const sanitizedName = sanitizeText(validBody.name);
+    const sanitizedFullName = sanitizeText(validBody.fullName ?? "");
+    const sanitizedIssuer = sanitizeText(validBody.issuer);
 
     const cert = await prisma.certification.create({
       data: {

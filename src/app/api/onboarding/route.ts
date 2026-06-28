@@ -3,11 +3,15 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 import { onboardingSchema } from "@/lib/validation/onboarding";
+import { rejectIfBanned } from "@/lib/auth-utils";
 import { badRequest } from "@/lib/api-error";
+import { sanitizeText } from "@/lib/sanitize";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  const bannedResp = await rejectIfBanned(userId, req);
+  if (bannedResp) return bannedResp;
 
   // Rate limiting (10 req/min per user)
   const rl = await checkRateLimit(rateLimitKey(req, `:onboarding:${userId}`), 10);
@@ -52,27 +56,29 @@ export async function POST(req: Request) {
       }
 
       // Upsert candidate profile
+      const sanitize = (v: string | null | undefined) => (v ? sanitizeText(v) : v);
+
       await tx.candidateProfile.upsert({
         where: { userId: user.id },
         update: {
-          firstName: validBody.firstName,
-          lastName: validBody.lastName,
-          headline: validBody.headline ?? "",
-          location: validBody.location ?? "",
-          country: validBody.country ?? "",
-          githubUsername: validBody.githubUsername ?? "",
-          bio: validBody.bio ?? "",
+          firstName: sanitizeText(validBody.firstName),
+          lastName: sanitizeText(validBody.lastName),
+          headline: sanitize(validBody.headline) ?? "",
+          location: sanitize(validBody.location) ?? "",
+          country: sanitize(validBody.country) ?? "",
+          githubUsername: sanitize(validBody.githubUsername) ?? "",
+          bio: sanitize(validBody.bio) ?? "",
           profileComplete: 30,
         },
         create: {
           userId: user.id,
-          firstName: validBody.firstName,
-          lastName: validBody.lastName,
-          headline: validBody.headline ?? "",
-          location: validBody.location ?? "",
-          country: validBody.country ?? "",
-          githubUsername: validBody.githubUsername ?? "",
-          bio: validBody.bio ?? "",
+          firstName: sanitizeText(validBody.firstName),
+          lastName: sanitizeText(validBody.lastName),
+          headline: sanitize(validBody.headline) ?? "",
+          location: sanitize(validBody.location) ?? "",
+          country: sanitize(validBody.country) ?? "",
+          githubUsername: sanitize(validBody.githubUsername) ?? "",
+          bio: sanitize(validBody.bio) ?? "",
           profileComplete: 30,
         },
       });

@@ -13,6 +13,19 @@ vi.mock('@/lib/score-tracker', () => ({
   recalculateAndTrack: eps.recalculateAndTrack,
 }));
 
+vi.mock('@/lib/rate-limit', () => ({
+  checkRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 30 }),
+  rateLimitKey: vi.fn().mockReturnValue('test-key'),
+}));
+
+vi.mock('@/lib/auth-utils', () => ({
+  rejectIfBanned: vi.fn().mockResolvedValue(null),
+}));
+
+vi.mock('@/lib/security-log', () => ({
+  logSecurityEvent: vi.fn(),
+}));
+
 vi.mock('@/lib/prisma', () => ({
   prisma: {
     user: {
@@ -29,15 +42,19 @@ vi.mock('@/lib/prisma', () => ({
       findUnique: vi.fn(),
       upsert: vi.fn(),
     },
+    auditLog: {
+      create: vi.fn(),
+    },
   },
 }));
 
 import { prisma } from '@/lib/prisma';
+import { NextRequest } from 'next/server';
 
 async function callPOST(id: string, body: unknown) {
   const { POST } = await import('@/app/api/admin/certifications/[id]/verify/route');
   return POST(
-    new Request(`http://localhost/api/admin/certifications/${id}/verify`, {
+    new NextRequest(`http://localhost/api/admin/certifications/${id}/verify`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -53,8 +70,6 @@ describe('POST /api/admin/certifications/[id]/verify', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockAuth.mockResolvedValue({ userId: adminId });
-    (prisma.rateLimit.findUnique as any).mockResolvedValue(null);
-    (prisma.rateLimit.upsert as any).mockResolvedValue({ count: 1 });
   });
 
   it('returns 401 when not authenticated', async () => {

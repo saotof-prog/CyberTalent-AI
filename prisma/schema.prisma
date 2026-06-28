@@ -95,6 +95,11 @@ enum AuditAction {
   JOB_POSTED
   LOGIN
   FAKE_SKILL_FLAGGED
+  ADMIN_BANNED_USER
+  ADMIN_CHANGED_ROLE
+  SUSPICIOUS_ACCESS_DETECTED
+  RATE_LIMIT_EXCEEDED
+  SECURITY_EVENT
 }
 
 // ============================================================
@@ -113,6 +118,11 @@ model User {
   lastLoginAt   DateTime?
   isActive      Boolean  @default(true)
   isBanned      Boolean  @default(false)
+  banReason     String?
+  bannedAt      DateTime?
+  banExpiresAt  DateTime?
+  failedLoginAttempts Int     @default(0)
+  lockedUntil   DateTime?
 
   // Relations
   candidateProfile  CandidateProfile?
