@@ -5,7 +5,7 @@ export default function SignInPage() {
   return (
     <AuthLayout>
       <SignIn
-        afterSignInUrl="/dashboard"
+        fallbackRedirectUrl="/dashboard"
         signUpUrl="/sign-up"
         appearance={{
           variables: {
