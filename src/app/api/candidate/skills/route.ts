@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 import { candidateSkillSchema } from "@/lib/validation/candidateSkill";
@@ -27,12 +27,35 @@ export async function POST(req: NextRequest) {
   const { skillName, category, level, yearsExp } = parseResult.data;
 
   try {
-    const candidate = await prisma.candidateProfile.findFirst({
+    let candidate = await prisma.candidateProfile.findFirst({
       where: { user: { clerkId: userId } },
       include: { certifications: true, labs: true, skills: true },
     });
 
-    if (!candidate) return NextResponse.json({ error: "Profil introuvable" }, { status: 404 });
+    if (!candidate) {
+      const clerkUser = await currentUser();
+      const email = clerkUser?.emailAddresses[0]?.emailAddress ?? "";
+      let user = await prisma.user.findFirst({ where: { clerkId: userId } });
+      if (!user) {
+        user = await prisma.user.create({
+          data: { clerkId: userId, email, username: userId, role: "CANDIDATE" },
+        });
+      }
+      candidate = await prisma.candidateProfile.create({
+        data: {
+          userId: user.id,
+          firstName: email.split("@")[0] || "User",
+          lastName: "",
+          headline: "",
+          location: "",
+          country: "",
+          githubUsername: "",
+          bio: "",
+          profileComplete: 30,
+        },
+        include: { certifications: true, labs: true, skills: true },
+      });
+    }
 
     const sanitizedSkillName = sanitizeText(skillName);
     const slug = sanitizedSkillName.toLowerCase().replace(/\s+/g, "-");

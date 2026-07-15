@@ -46,6 +46,7 @@ export default function SkillsManager() {
   const [selectedLevel, setSelectedLevel] = useState("BEGINNER");
   const [yearsExp, setYearsExp] = useState("");
   const [adding, setAdding] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -73,21 +74,21 @@ export default function SkillsManager() {
 
   async function addSkill(skillName: string, category = "Autre") {
     setAdding(true);
+    setErrorMsg("");
     try {
+      const body: Record<string, unknown> = { skillName, category, level: selectedLevel };
+      const y = yearsExp ? parseFloat(yearsExp) : null;
+      if (y !== null && !isNaN(y) && y >= 0 && y <= 100) body.yearsExp = y;
       const res = await fetch("/api/candidate/skills", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          skillName,
-          category,
-          level: selectedLevel,
-          yearsExp: yearsExp ? parseFloat(yearsExp) : null,
-        }),
+        body: JSON.stringify(body),
       });
 
       const data = await res.json();
 
       if (!data.skill) {
+        setErrorMsg(data.error ?? "Erreur lors de l'ajout du skill");
         setAdding(false);
         return;
       }
@@ -106,6 +107,7 @@ export default function SkillsManager() {
       setResults([]);
     } catch (e) {
       console.error(e);
+      setErrorMsg("Erreur réseau, réessayez");
     }
     setAdding(false);
   }
@@ -165,7 +167,8 @@ export default function SkillsManager() {
                   <button
                     key={skill.id}
                     onClick={() => addSkill(skill.name, skill.category)}
-                    className="w-full text-left px-3 py-2 font-mono text-sm text-white hover:bg-[#00FF41]/10 transition"
+                    disabled={adding}
+                    className="w-full text-left px-3 py-2 font-mono text-sm text-white hover:bg-[#00FF41]/10 transition disabled:opacity-30"
                   >
                     {skill.name}
                     <span className="text-xs text-gray-500 ml-2">{skill.category}</span>
@@ -208,6 +211,10 @@ export default function SkillsManager() {
           </div>
         </div>
 
+        {errorMsg && (
+          <p className="font-mono text-xs text-red-400 mb-2">{errorMsg}</p>
+        )}
+
         {/* SUGGESTIONS */}
         <div>
           <p className="font-mono text-xs text-gray-600 mb-2">Suggestions cyber :</p>
@@ -218,7 +225,8 @@ export default function SkillsManager() {
                 <button
                   key={s.name}
                   onClick={() => addSkill(s.name, s.category)}
-                  className="font-mono text-xs px-3 py-1 rounded-full border border-gray-700 text-gray-400 hover:border-[#00FF41]/40 hover:text-[#00FF41] transition"
+                  disabled={adding}
+                  className="font-mono text-xs px-3 py-1 rounded-full border border-gray-700 text-gray-400 hover:border-[#00FF41]/40 hover:text-[#00FF41] transition disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   + {s.name}
                 </button>
