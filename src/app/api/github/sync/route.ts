@@ -71,12 +71,11 @@ export async function POST(req: Request) {
       languages,
     };
 
-await prisma.$transaction(async (tx) => {
     // Supprimer les anciens repos
-    await tx.githubRepo.deleteMany({ where: { candidateId: candidate.id } });
+    await prisma.githubRepo.deleteMany({ where: { candidateId: candidate.id } });
 
     // Insérer les nouveaux repos
-    await tx.githubRepo.createMany({
+    await prisma.githubRepo.createMany({
       data: reposData.map((repo) => ({
         candidateId: candidate.id,
         repoId: repo.id,
@@ -94,14 +93,13 @@ await prisma.$transaction(async (tx) => {
     });
 
     // Mettre à jour les stats du profil
-    await tx.candidateProfile.update({
+    await prisma.candidateProfile.update({
       where: { id: candidate.id },
       data: {
         githubStats: stats,
         githubSyncedAt: new Date(),
       },
     });
-  });
 
     return NextResponse.json({ success: true, stats, reposCount: reposData.length });
   } catch (error) {

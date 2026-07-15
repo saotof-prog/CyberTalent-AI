@@ -30,58 +30,54 @@ export async function POST(req: Request) {
   const email = clerkUser?.emailAddresses[0]?.emailAddress ?? "";
 
   try {
-    await prisma.$transaction(async (tx) => {
-      // Find existing user or create new one
-      let user = await tx.user.findFirst({
-        where: {
-          OR: [{ clerkId: userId }, { email }],
+    // Find existing user or create new one
+    let user = await prisma.user.findFirst({
+      where: {
+        OR: [{ clerkId: userId }, { email }],
+      },
+    });
+
+    if (user) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { clerkId: userId, email },
+      });
+    } else {
+      const username = (validBody.firstName + validBody.lastName).toLowerCase().replace(/\s/g, "") + Date.now();
+      user = await prisma.user.create({
+        data: {
+          clerkId: userId,
+          email,
+          username,
+          role: "CANDIDATE",
         },
       });
+    }
 
-      if (user) {
-        user = await tx.user.update({
-          where: { id: user.id },
-          data: { clerkId: userId, email },
-        });
-      } else {
-        const username = (validBody.firstName + validBody.lastName).toLowerCase().replace(/\s/g, "") + Date.now();
-        user = await tx.user.create({
-          data: {
-            clerkId: userId,
-            email,
-            username,
-            role: "CANDIDATE",
-          },
-        });
-      }
-
-      // Upsert candidate profile
-      const sanitize = (v: string | null | undefined) => (v ? sanitizeText(v) : v);
-
-      await tx.candidateProfile.upsert({
-        where: { userId: user.id },
-        update: {
-          firstName: sanitizeText(validBody.firstName),
-          lastName: sanitizeText(validBody.lastName),
-          headline: sanitize(validBody.headline) ?? "",
-          location: sanitize(validBody.location) ?? "",
-          country: sanitize(validBody.country) ?? "",
-          githubUsername: sanitize(validBody.githubUsername) ?? "",
-          bio: sanitize(validBody.bio) ?? "",
-          profileComplete: 30,
-        },
-        create: {
-          userId: user.id,
-          firstName: sanitizeText(validBody.firstName),
-          lastName: sanitizeText(validBody.lastName),
-          headline: sanitize(validBody.headline) ?? "",
-          location: sanitize(validBody.location) ?? "",
-          country: sanitize(validBody.country) ?? "",
-          githubUsername: sanitize(validBody.githubUsername) ?? "",
-          bio: sanitize(validBody.bio) ?? "",
-          profileComplete: 30,
-        },
-      });
+    // Upsert candidate profile
+    await prisma.candidateProfile.upsert({
+      where: { userId: user.id },
+      update: {
+        firstName: sanitizeText(validBody.firstName),
+        lastName: sanitizeText(validBody.lastName),
+        headline: validBody.headline ?? "",
+        location: validBody.location ?? "",
+        country: validBody.country ?? "",
+        githubUsername: validBody.githubUsername ?? "",
+        bio: validBody.bio ?? "",
+        profileComplete: 30,
+      },
+      create: {
+        userId: user.id,
+        firstName: sanitizeText(validBody.firstName),
+        lastName: sanitizeText(validBody.lastName),
+        headline: validBody.headline ?? "",
+        location: validBody.location ?? "",
+        country: validBody.country ?? "",
+        githubUsername: validBody.githubUsername ?? "",
+        bio: validBody.bio ?? "",
+        profileComplete: 30,
+      },
     });
 
     return NextResponse.json({ success: true });

@@ -77,40 +77,39 @@ export async function PATCH(req: Request) {
     let createdProfile: string | null = null;
     let deletedProfile: string | null = null;
 
-    await prisma.$transaction(async (tx) => {
-      await tx.user.update({ where: { id: targetId }, data });
+    await prisma.user.update({ where: { id: targetId }, data });
 
-      const updatedUser = await tx.user.findUnique({ where: { id: targetId }, select: { role: true, isBanned: true } });
-      if (!updatedUser) return;
+    const updatedUser = await prisma.user.findUnique({ where: { id: targetId }, select: { role: true, isBanned: true } });
 
+    if (updatedUser) {
       if (updatedUser.role === "CANDIDATE") {
-        const cand = await tx.candidateProfile.findUnique({ where: { userId: targetId } });
+        const cand = await prisma.candidateProfile.findUnique({ where: { userId: targetId } });
         if (!cand) {
-          await tx.candidateProfile.create({
+          await prisma.candidateProfile.create({
             data: { userId: targetId, firstName: "John", lastName: "Doe" },
           });
           createdProfile = "candidate";
         }
-        const rec = await tx.recruiterProfile.findUnique({ where: { userId: targetId } });
+        const rec = await prisma.recruiterProfile.findUnique({ where: { userId: targetId } });
         if (rec) {
-          await tx.recruiterProfile.delete({ where: { userId: targetId } });
+          await prisma.recruiterProfile.delete({ where: { userId: targetId } });
           deletedProfile = "recruiter";
         }
       } else if (updatedUser.role === "RECRUITER") {
-        const rec = await tx.recruiterProfile.findUnique({ where: { userId: targetId } });
+        const rec = await prisma.recruiterProfile.findUnique({ where: { userId: targetId } });
         if (!rec) {
-          await tx.recruiterProfile.create({
+          await prisma.recruiterProfile.create({
             data: { userId: targetId, firstName: "John", lastName: "Doe" },
           });
           createdProfile = "recruiter";
         }
-        const cand = await tx.candidateProfile.findUnique({ where: { userId: targetId } });
+        const cand = await prisma.candidateProfile.findUnique({ where: { userId: targetId } });
         if (cand) {
-          await tx.candidateProfile.delete({ where: { userId: targetId } });
+          await prisma.candidateProfile.delete({ where: { userId: targetId } });
           deletedProfile = "candidate";
         }
       }
-    });
+    }
 
     const action = isBanned !== undefined ? (isBanned ? "BAN" : "UNBAN") : "ROLE_CHANGE";
     await logSecurityEvent({

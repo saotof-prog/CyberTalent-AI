@@ -5,10 +5,6 @@ vi.mock('@clerk/nextjs/server', () => ({
   auth: () => mockAuth(),
 }));
 
-const eps = vi.hoisted(() => ({
-  mockTransaction: vi.fn(),
-}));
-
 vi.mock('@/lib/rate-limit', () => ({
   checkRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 30 }),
   rateLimitKey: vi.fn().mockReturnValue('test-key'),
@@ -27,10 +23,12 @@ vi.mock('@/lib/prisma', () => ({
     candidateProfile: {
       findUnique: vi.fn(),
       create: vi.fn(),
+      delete: vi.fn(),
     },
     recruiterProfile: {
       findUnique: vi.fn(),
       create: vi.fn(),
+      delete: vi.fn(),
     },
     rateLimit: {
       findUnique: vi.fn(),
@@ -40,7 +38,6 @@ vi.mock('@/lib/prisma', () => ({
     auditLog: {
       create: vi.fn(),
     },
-    $transaction: eps.mockTransaction,
   },
 }));
 
@@ -59,31 +56,18 @@ describe('PATCH /api/admin/users', () => {
   const adminId = 'admin-1';
   const targetId = 'user-2';
 
-  function mockTxForRole(role: string) {
-    const tx = {
-      user: {
-        findUnique: vi.fn().mockResolvedValue({ role }),
-        update: vi.fn().mockResolvedValue({}),
-      },
-      candidateProfile: {
-        findUnique: vi.fn().mockResolvedValue(role === 'CANDIDATE' ? null : { id: 'cand-1' }),
-        create: vi.fn().mockResolvedValue({ id: 'cand-1' }),
-        delete: vi.fn().mockResolvedValue({}),
-      },
-      recruiterProfile: {
-        findUnique: vi.fn().mockResolvedValue(role === 'RECRUITER' ? null : { id: 'rec-1' }),
-        create: vi.fn().mockResolvedValue({ id: 'rec-1' }),
-        delete: vi.fn().mockResolvedValue({}),
-      },
-    };
-    eps.mockTransaction.mockImplementation(async (cb: (tx: Record<string, unknown>) => any) => cb(tx));
-    return tx;
-  }
-
   beforeEach(() => {
     vi.clearAllMocks();
     mockAuth.mockResolvedValue({ userId: adminId });
   });
+
+  function setupAdminAndUser(role: string) {
+    (prisma.user.findUnique as any).mockImplementation((args: any) => {
+      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
+      if (args.where.id === targetId) return { role, isBanned: false };
+      return null;
+    });
+  }
 
   it('returns 401 when not authenticated', async () => {
     mockAuth.mockResolvedValue({ userId: null });
@@ -101,12 +85,8 @@ describe('PATCH /api/admin/users', () => {
   });
 
   it('bannit un utilisateur', async () => {
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      return null;
-    });
-    const tx = mockTxForRole('CANDIDATE');
-    tx.candidateProfile.findUnique.mockResolvedValue({ id: 'cand-1' });
+    setupAdminAndUser('CANDIDATE');
+    (prisma.candidateProfile.findUnique as any).mockResolvedValue({ id: 'cand-1' });
 
     const res = await callPATCH({ userId: targetId, isBanned: true });
     expect(res.status).toBe(200);
@@ -115,11 +95,9 @@ describe('PATCH /api/admin/users', () => {
   });
 
   it('crée un profil recruteur lors du changement de rôle', async () => {
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      return null;
-    });
-    mockTxForRole('RECRUITER');
+    setupAdminAndUser('RECRUITER');
+    (prisma.recruiterProfile.findUnique as any).mockResolvedValue(null);
+    (prisma.candidateProfile.findUnique as any).mockResolvedValue({ id: 'cand-1' });
 
     const res = await callPATCH({ userId: targetId, role: 'RECRUITER' });
     expect(res.status).toBe(200);
@@ -129,11 +107,9 @@ describe('PATCH /api/admin/users', () => {
   });
 
   it('crée un profil candidat lors du changement de rôle', async () => {
-    (prisma.user.findUnique as any).mockImplementation((args: any) => {
-      if (args.where.clerkId === adminId) return { role: 'ADMIN' };
-      return null;
-    });
-    mockTxForRole('CANDIDATE');
+    setupAdminAndUser('CANDIDATE');
+    (prisma.candidateProfile.findUnique as any).mockResolvedValue(null);
+    (prisma.recruiterProfile.findUnique as any).mockResolvedValue({ id: 'rec-1' });
 
     const res = await callPATCH({ userId: targetId, role: 'CANDIDATE' });
     expect(res.status).toBe(200);
