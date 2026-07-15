@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeonHttp } from "@prisma/adapter-neon";
+import { clerkClient } from "@clerk/nextjs/server";
 import { config } from "dotenv";
 
 config({ path: ".env.local" });
@@ -19,6 +20,17 @@ async function main() {
     where: { email },
     data: { role: "ADMIN" },
   });
+
+  // Sync role to Clerk public metadata
+  try {
+    const client = await clerkClient();
+    await client.users.updateUserMetadata(user.clerkId, {
+      publicMetadata: { role: "ADMIN" },
+    });
+    console.log(`✅ Metadata Clerk synchronisée`);
+  } catch (e) {
+    console.warn(`⚠️  Impossible de synchroniser Clerk:`, e);
+  }
 
   console.log(`✅ ${user.email} est maintenant ADMIN`);
 }

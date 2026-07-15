@@ -89,9 +89,14 @@ export default async function LandingPage() {
       select: { role: true },
     });
 
-    if (user?.role === "RECRUITER") {
+    if (!user) {
+      redirect("/choose-role");
+    }
+
+    if (user.role === "RECRUITER") {
       redirect("/recruiter/dashboard");
     }
+
     redirect("/dashboard");
   }
 
