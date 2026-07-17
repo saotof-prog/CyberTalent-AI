@@ -35,5 +35,4 @@ async function main() {
   console.log(`✅ ${user.email} est maintenant ADMIN`);
 }
 
-
 main().catch(console.error).finally(() => prisma.$disconnect());
