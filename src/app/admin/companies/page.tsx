@@ -19,7 +19,7 @@ export default async function AdminCompaniesPage() {
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold text-white mb-1">
-          🏢 Gestion des <span className="text-[#0084ff]">Entreprises</span>
+           Gestion des <span className="text-[#0084ff]">Entreprises</span>
         </h1>
         <p className="font-mono text-xs text-gray-400">{companies.length} entreprise(s)</p>
       </div>

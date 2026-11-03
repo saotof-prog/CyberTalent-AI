@@ -65,7 +65,7 @@ export default async function CandidateProfilePage({
               <div className="flex flex-wrap items-center gap-3 text-gray-400 font-mono text-xs">
                 {candidate.location && (
                   <span>
-                    📍 {candidate.location}, {candidate.country}
+                     {candidate.location}, {candidate.country}
                   </span>
                 )}
                 {candidate.githubUsername && (

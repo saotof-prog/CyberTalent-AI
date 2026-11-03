@@ -54,7 +54,7 @@ export default async function RecruiterJobsPage() {
               href="/recruiter/jobs/create"
               className="font-mono text-xs px-6 py-3 bg-[#FF3333] hover:bg-[#FF3333]/80 text-white rounded-lg transition"
             >
-              🚀 Publier ma première offre
+               Publier ma première offre
             </Link>
           </div>
         ) : (

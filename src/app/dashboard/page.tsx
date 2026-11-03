@@ -38,7 +38,7 @@ export default async function DashboardPage() {
         {/* HEADER */}
         <div className="mb-6 md:mb-8">
           <h1 className="font-mono text-2xl md:text-3xl font-bold text-white mb-2">
-            Bonjour, <span className="text-[#00FF41]">{profile.firstName}</span> 👋
+            Bonjour, <span className="text-[#00FF41]">{profile.firstName}</span> 
           </h1>
           <p className="text-gray-400 font-mono text-xs md:text-sm">
             {profile.headline || "// Tableau de bord CyberTalent AI"}
@@ -82,7 +82,7 @@ export default async function DashboardPage() {
                           : "border-[#ffaa00] text-[#ffaa00]")
                       }
                     >
-                      {cert.status === "VERIFIED" ? "✓" : "⏳"}
+                      {cert.status === "VERIFIED" ? "✓"}
                     </span>
                   </div>
                 ))}

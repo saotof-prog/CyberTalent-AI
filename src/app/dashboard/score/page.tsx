@@ -54,7 +54,7 @@ export default async function ScorePage() {
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold text-white mb-1">
-          Mon <span className="text-[#00FF41]">Score IA</span> 📊
+          Mon <span className="text-[#00FF41]">Score IA</span> 
         </h1>
         <p className="font-mono text-xs text-gray-400">Calculé par Google Gemini AI</p>
       </div>

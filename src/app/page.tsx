@@ -8,17 +8,17 @@ import AnimatedCounter from "@/components/animated-counter";
 
 const CANDIDATE_FEATURES = [
   {
-    icon: "🏆",
+    
     title: "Certifications vérifiées",
     desc: "Upload tes certifications OSCP, CEH, CISSP — l'IA vérifie leur authenticité automatiquement.",
   },
   {
-    icon: "🧪",
+   
     title: "Labs & CTF",
     desc: "Ajoute tes machines HackTheBox, TryHackMe et résultats CTF pour prouver ton niveau pratique.",
   },
   {
-    icon: "📊",
+    
     title: "Score IA 0-100",
     desc: "Reçois un score basé sur tes vraies preuves. Plus de CV bidon — que des compétences réelles.",
   },
@@ -28,12 +28,12 @@ const CANDIDATE_FEATURES = [
     desc: "Connecte ton GitHub pour que l'IA analyse tes repos, contributions et qualité de code.",
   },
   {
-    icon: "🎯",
+    
     title: "Questions d'interview",
     desc: "L'IA génère des questions techniques personnalisées pour te préparer aux entretiens.",
   },
   {
-    icon: "🔍",
+    
     title: "Visibilité recruteurs",
     desc: "Ton profil est visible des meilleurs recruteurs cyber du monde entier.",
   },
@@ -41,22 +41,22 @@ const CANDIDATE_FEATURES = [
 
 const RECRUITER_FEATURES = [
   {
-    icon: "⚡",
+    
     title: "Recherche IA naturelle",
     desc: "Tape ce que tu cherches en langage naturel et l'IA trouve les candidats qui matchent vraiment.",
   },
   {
-    icon: "📈",
+    
     title: "Ranking par score réel",
     desc: "Les candidats sont classés par leur score IA basé sur des preuves concrètes, pas des mots-clés.",
   },
   {
-    icon: "🛡️",
+    
     title: "Zéro fake skills",
     desc: "L'IA détecte automatiquement les incohérences entre certifications, labs et compétences déclarées.",
   },
   {
-    icon: "✉️",
+   
     title: "Contact direct",
     desc: "Contacte directement les candidats qui t'intéressent sans intermédiaire.",
   },
@@ -114,7 +114,7 @@ export default async function LandingPage() {
 
       <section className="relative z-10 flex flex-col items-center justify-center text-center px-4 md:px-6 py-20 md:py-32">
         <div className="font-mono text-xs text-[#00FF41] border border-[#00FF41]/30 px-4 py-2 rounded-full mb-8 bg-[#00FF41]/5 animate-glow-pulse">
-          ⚡ Propulsé par Google Gemini AI
+           Propulsé par Google Gemini AI
         </div>
         <h1 className="font-mono text-4xl md:text-7xl font-bold text-white mb-6 leading-tight">
           Le recrutement
@@ -132,13 +132,13 @@ export default async function LandingPage() {
             href="/sign-up"
             className="font-mono text-sm px-8 py-4 bg-[#00FF41] text-black font-bold rounded-xl hover:bg-[#00FF41] transition w-full sm:w-auto text-center shadow-lg shadow-[#00FF41]/20"
           >
-            Créer mon profil 👨‍💻
+            Créer mon profil 
           </Link>
           <Link
             href="/sign-up"
             className="font-mono text-sm px-8 py-4 border border-[#FF3333]/30 text-[#FF3333] rounded-xl hover:bg-[#FF3333]/10 transition w-full sm:w-auto text-center"
           >
-            Espace recruteur 🎯
+            Espace recruteur 
           </Link>
         </div>
 
@@ -257,7 +257,7 @@ export default async function LandingPage() {
 
       <footer className="relative z-10 border-t border-[#00FF41]/10 px-4 md:px-8 py-8 text-center">
         <div className="font-mono text-xs text-gray-600">
-          © Mouhamed Dia 2026 CyberTalent AI · Propulsé par Google Gemini · Fait avec ❤️ pour la
+          © Mouhamed Dia 2026 CyberTalent AI · Propulsé par Google Gemini · Fait avec determination pour la
           communauté cyber africaine
         </div>
       </footer>

@@ -29,7 +29,7 @@ export default async function AdminCertificationsPage() {
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold text-white mb-1">
-          🏆 Gestion des <span className="text-[#0084ff]">Certifications</span>
+           Gestion des <span className="text-[#0084ff]">Certifications</span>
         </h1>
         <p className="font-mono text-xs text-gray-400">{total} certification(s)</p>
       </div>

@@ -86,13 +86,13 @@ export default async function SavedCandidatesPage() {
                     <p className="font-mono text-sm text-gray-400 mb-2">{candidate.headline}</p>
                     <div className="flex items-center gap-4 flex-wrap">
                       <span className="font-mono text-xs text-gray-500">
-                        📜 {candidate.certifications.length} certs
+                         {candidate.certifications.length} certs
                       </span>
                       <span className="font-mono text-xs text-gray-500">
-                        🧪 {candidate.labs.length} labs
+                         {candidate.labs.length} labs
                       </span>
                       <span className="font-mono text-xs text-gray-500">
-                        ⚡ {candidate.skills.length} skills
+                         {candidate.skills.length} skills
                       </span>
                       {candidate.githubUsername && (
                         <span className="font-mono text-xs text-[#00FF41]">

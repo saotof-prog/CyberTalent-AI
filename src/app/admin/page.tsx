@@ -51,7 +51,7 @@ export default async function AdminDashboard() {
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold text-white mb-1">
-          🛡️ Panneau d&apos;<span className="text-[#0084ff]">Administration</span>
+           Panneau d&apos;<span className="text-[#0084ff]">Administration</span>
         </h1>
         <p className="font-mono text-xs text-gray-400">
           Gérez l&apos;ensemble de la plateforme CyberTalent AI
@@ -99,28 +99,28 @@ export default async function AdminDashboard() {
           href="/admin/companies"
           className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
         >
-          <div className="font-mono text-2xl mb-1">🏢</div>
+          <div className="font-mono text-2xl mb-1"></div>
           <div className="font-mono text-xs text-gray-400">Gérer les entreprises</div>
         </Link>
         <Link
           href="/admin/jobs"
           className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
         >
-          <div className="font-mono text-2xl mb-1">💼</div>
+          <div className="font-mono text-2xl mb-1"></div>
           <div className="font-mono text-xs text-gray-400">Gérer les offres</div>
         </Link>
         <Link
           href="/admin/certifications"
           className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
         >
-          <div className="font-mono text-2xl mb-1">🏆</div>
+          <div className="font-mono text-2xl mb-1"></div>
           <div className="font-mono text-xs text-gray-400">Gérer les certifications</div>
         </Link>
         <Link
           href="/admin/labs"
           className="bg-[#0d1520] border border-[#0084ff]/20 rounded-xl p-4 hover:border-[#0084ff] transition text-center"
         >
-          <div className="font-mono text-2xl mb-1">🧪</div>
+          <div className="font-mono text-2xl mb-1"></div>
           <div className="font-mono text-xs text-gray-400">Gérer les labs</div>
         </Link>
       </div>

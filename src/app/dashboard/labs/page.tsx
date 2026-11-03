@@ -26,7 +26,7 @@ export default async function LabsPage() {
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
         <h1 className="font-mono text-2xl font-bold text-white mb-1">
-          Mes <span className="text-[#0084ff]">Labs</span> 🧪
+          Mes <span className="text-[#0084ff]">Labs</span> 
         </h1>
         <p className="font-mono text-xs text-gray-400">{labs.length} lab(s) complété(s)</p>
       </div>
