@@ -60,7 +60,8 @@ export async function POST(req: Request) {
     const sanitizedIssuer = sanitizeText(validBody.issuer);
 
     const cert = await prisma.certification.create({
-      data: {
+      data: 
+      {
         candidateId: user.candidateProfile.id,
         name: sanitizedName,
         fullName: sanitizedFullName,
@@ -96,6 +97,7 @@ export async function GET() {
   if (!userId) return unauthorized();
 
   try {
+
     const user = await prisma.user.findUnique({
       where: { clerkId: userId },
       include: {
@@ -106,7 +108,8 @@ export async function GET() {
     });
 
     return success(user?.candidateProfile?.certifications ?? []);
-  } catch (error) {
+  } 
+    catch (error) {
     return handleApiError(error);
   }
 }

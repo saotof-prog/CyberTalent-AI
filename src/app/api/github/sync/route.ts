@@ -28,10 +28,12 @@ export async function POST(req: Request) {
     const headers: HeadersInit = {};
     if (token) headers.Authorization = `Bearer ${token}`;
 
-    const [userRes, reposRes] = await Promise.all([
+    const [userRes, reposRes] = await Promise.all(
+      [
       fetch(`https://api.github.com/users/${username}`, { headers }),
       fetch(`https://api.github.com/users/${username}/repos?per_page=50&sort=updated`, { headers }),
-    ]);
+    ]
+  );
 
     if (!userRes.ok || !reposRes.ok) {
       const status = !userRes.ok ? userRes.status : reposRes.status;
@@ -89,7 +91,9 @@ export async function POST(req: Request) {
         language: repo.language,
         topics: repo.topics ?? [],
         pushedAt: repo.pushed_at ? new Date(repo.pushed_at) : null,
+
       })),
+      
     });
 
     // Mettre à jour les stats du profil
